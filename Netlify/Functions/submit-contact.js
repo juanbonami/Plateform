@@ -2,20 +2,29 @@
 // Proxies form submissions to Brevo — keeps API key server-side only
 
 exports.handler = async (event) => {
-  // Only allow POST
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ message: 'Method not allowed' }),
-    };
-  }
-
-  // CORS headers — update origin to your real domain when live
+  // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json',
   };
+
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
+
+  // Only allow POST
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers, body: JSON.stringify({ message: 'Method not allowed' }) };
+  }
+
+  // Check env variable is loaded
+  if (!process.env.BREVO_API_KEY) {
+    console.error('BREVO_API_KEY is not set');
+    return { statusCode: 500, headers, body: JSON.stringify({ message: 'Server config error — contact site owner' }) };
+  }
 
   let body;
   try {
