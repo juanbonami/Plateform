@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Plateform — Websites for Local Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+<style>
+:root {
+  --cream: #FDF6ED;
+  --ink: #2C1A0E;
+  --ink-mid: #7A5C44;
+  --ink-faint: #B8906E;
+  --ink-ghost: rgba(44,26,14,0.08);
+  --accent: #A85428;
+  --accent-light: #FBF0E2;
+  --accent-gold: #E8A44A;
+  --border: rgba(44,26,14,0.12);
+  --border-med: rgba(44,26,14,0.22);
+  --serif: 'Syne', sans-serif;
+  --sans: 'Epilogue', system-ui, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:16px;line-height:1.6;font-weight:400;overflow-x:hidden;}
+
+/* ── CURSOR ── */
+.cursor{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,background 0.2s;mix-blend-mode:multiply;}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s,border-color 0.3s;opacity:0.5;}
+.cursor.hovering{transform:translate(-50%,-50%) scale(2.5);background:var(--accent-gold);}
+.cursor-ring.hovering{width:50px;height:50px;border-color:var(--accent-gold);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(253,246,237,0.85);backdrop-filter:blur(16px);border-bottom:0.5px solid var(--border);transition:background 0.3s;}
+.nav-logo{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:0.5px;background:var(--accent);transition:width 0.3s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{background:var(--ink);color:var(--cream);font-family:var(--sans);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 24px;border:none;cursor:pointer;text-decoration:none;border-radius:2px;transition:background 0.2s,transform 0.15s;}
+.nav-cta:hover{background:var(--accent);transform:translateY(-1px);}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:64px;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 80px;border-right:0.5px solid var(--border);}
+.hero-eyebrow{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:28px;display:flex;align-items:center;gap:10px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
+.hero-eyebrow::before{content:'';display:block;width:0;height:0.5px;background:var(--accent);animation:lineGrow 0.6s 0.5s forwards;}
+@keyframes lineGrow{to{width:28px;}}
+.hero-h1{font-family:var(--serif);font-size:clamp(44px,5vw,68px);font-weight:300;line-height:1.08;margin-bottom:28px;letter-spacing:-0.01em;opacity:0;animation:fadeUp 0.8s 0.4s forwards;}
+.hero-h1 em{font-style:normal;color:var(--accent);font-weight:600;}
+.hero-h1 .word{display:inline-block;overflow:hidden;}
+.hero-sub{font-size:15px;color:var(--ink-mid);line-height:1.75;max-width:400px;margin-bottom:44px;font-weight:300;opacity:0;animation:fadeUp 0.8s 0.6s forwards;}
+.hero-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s 0.8s forwards;}
+.btn-primary{background:var(--ink);color:var(--cream);font-family:var(--sans);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;padding:14px 32px;border:none;cursor:pointer;text-decoration:none;border-radius:2px;transition:background 0.2s,transform 0.15s;display:inline-block;position:relative;overflow:hidden;}
+.btn-primary::after{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform 0.3s;}
+.btn-primary:hover::after{transform:translateX(0);}
+.btn-primary span{position:relative;z-index:1;}
+.btn-ghost{background:none;border:0.5px solid var(--border-med);color:var(--ink);font-family:var(--sans);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;padding:14px 32px;cursor:pointer;text-decoration:none;border-radius:2px;transition:border-color 0.2s,transform 0.15s,background 0.2s;display:inline-block;}
+.btn-ghost:hover{border-color:var(--ink);background:var(--ink-ghost);transform:translateY(-1px);}
+.hero-stat{margin-top:64px;display:flex;gap:40px;padding-top:32px;border-top:0.5px solid var(--border);opacity:0;animation:fadeUp 0.8s 1s forwards;}
+.stat-num{font-family:var(--serif);font-size:32px;font-weight:600;color:var(--ink);display:block;letter-spacing:-0.02em;}
+.stat-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);}
+
+/* ── HERO RIGHT / DEVICE ── */
+.hero-right{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px;background:rgba(44,26,14,0.02);opacity:0;animation:fadeIn 1s 0.6s forwards;}
+@keyframes fadeIn{to{opacity:1;}}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+.hero-h1,.hero-sub,.hero-eyebrow,.hero-actions,.hero-stat{transform:translateY(20px);}
+
+.device-toggle{display:flex;margin-bottom:20px;border:0.5px solid var(--border-med);border-radius:4px;overflow:hidden;}
+.device-toggle button{background:none;border:none;font-family:var(--sans);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 20px;cursor:pointer;color:var(--ink-mid);border-right:0.5px solid var(--border-med);transition:background 0.15s,color 0.15s;}
+.device-toggle button:last-child{border-right:none;}
+.device-toggle button.active{background:var(--ink);color:var(--cream);}
+.laptop-wrap{width:100%;max-width:500px;transition:opacity 0.3s,transform 0.3s;}
+.laptop-shell{background:#E8E2D8;border-radius:10px 10px 0 0;border:1px solid #C8C0B0;padding:10px 10px 0;}
+.laptop-bar{display:flex;align-items:center;gap:5px;margin-bottom:8px;}
+.ldot{width:7px;height:7px;border-radius:50%;}
+.ldot-r{background:#E8513A;}.ldot-y{background:#F0A030;}.ldot-g{background:#4CAF50;}
+.laptop-addr{flex:1;background:rgba(255,255,255,0.5);border-radius:3px;height:18px;display:flex;align-items:center;padding:0 8px;}
+.laptop-addr span{font-size:9px;color:#888;letter-spacing:0.03em;}
+.laptop-screen{background:var(--cream);border-radius:3px 3px 0 0;overflow:hidden;height:320px;overflow-y:auto;border:1px solid #C8C0B0;border-bottom:none;scroll-behavior:smooth;}
+.laptop-screen::-webkit-scrollbar{width:3px;}.laptop-screen::-webkit-scrollbar-thumb{background:var(--border-med);}
+.laptop-base{background:#D0C8BC;height:10px;border-radius:0 0 8px 8px;border:1px solid #B8B0A4;}
+.laptop-foot{background:#C0B8AC;height:5px;width:50%;margin:0 auto;border-radius:0 0 6px 6px;}
+.phone-wrap{display:none;transition:opacity 0.3s;}
+.phone-shell{width:200px;background:#E8E2D8;border-radius:28px;padding:14px 8px;border:1px solid #C8C0B0;margin:0 auto;}
+.phone-notch{width:56px;height:8px;background:#C8C0B0;border-radius:4px;margin:0 auto 8px;}
+.phone-screen{background:var(--cream);border-radius:10px;overflow:hidden;height:380px;overflow-y:auto;border:1px solid #C8C0B0;}
+.phone-home{width:32px;height:3px;background:#C8C0B0;border-radius:2px;margin:8px auto 0;}
+
+/* Mini preview content */
+.preview-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:0.5px solid var(--border);background:var(--cream);position:sticky;top:0;z-index:10;}
+.preview-logo{font-family:var(--serif);font-size:13px;font-weight:400;}
+.preview-navlinks{display:flex;gap:10px;font-size:7.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mid);}
+.preview-hero{padding:20px 12px 16px;border-bottom:0.5px solid var(--border);}
+.preview-eyebrow{font-size:7px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;}
+.preview-h1{font-family:var(--serif);font-size:20px;font-weight:300;line-height:1.15;margin-bottom:6px;font-style:italic;}
+.preview-sub{font-size:8px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px;}
+.preview-btns{display:flex;gap:6px;}
+.pbtn-p{background:var(--ink);color:var(--cream);font-size:7px;padding:5px 10px;border:none;border-radius:1px;letter-spacing:0.08em;text-transform:uppercase;}
+.pbtn-s{background:none;border:0.5px solid var(--border-med);color:var(--ink);font-size:7px;padding:5px 10px;border-radius:1px;letter-spacing:0.08em;text-transform:uppercase;}
+.preview-section{padding:12px;border-bottom:0.5px solid var(--border);}
+.preview-sec-label{font-size:7px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);}
+.preview-item{background:var(--cream);padding:8px;}
+.preview-item-name{font-size:9px;font-weight:500;margin-bottom:2px;}
+.preview-item-desc{font-size:7px;color:var(--ink-mid);line-height:1.4;margin-bottom:3px;}
+.preview-item-price{font-size:8px;color:var(--ink);}
+.preview-info{padding:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.preview-info-card{background:var(--accent-light);border-radius:3px;padding:7px;}
+.preview-info-title{font-size:6.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;}
+.preview-info-val{font-size:7.5px;line-height:1.5;color:var(--ink);}
+.preview-footer{padding:10px 12px;display:flex;justify-content:space-between;border-top:0.5px solid var(--border);}
+.preview-footer span{font-size:7px;color:var(--ink-faint);}
+
+/* ── MARQUEE ── */
+.marquee-wrap{border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:14px 0;overflow:hidden;background:var(--accent-light);}
+.marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite;}
+.marquee-track:hover{animation-play-state:paused;}
+.marquee-item{font-family:var(--serif);font-size:18px;font-weight:300;font-style:italic;color:var(--ink-mid);padding:0 32px;border-right:0.5px solid var(--border);}
+.marquee-item span{color:var(--accent);margin-right:8px;}
+
+/* ── SECTIONS ── */
+section{padding:100px 80px;border-top:0.5px solid var(--border);}
+.section-eyebrow{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:'';display:block;width:20px;height:0.5px;background:var(--accent);}
+.section-title{font-family:var(--serif);font-size:clamp(30px,3.5vw,48px);font-weight:500;line-height:1.05;margin-bottom:16px;letter-spacing:-0.02em;}
+.section-title em{font-style:normal;color:var(--accent);}
+.section-sub{font-size:15px;color:var(--ink-mid);line-height:1.75;max-width:520px;font-weight:300;}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-32px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(32px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+
+/* ── SOCIAL PROOF ── */
+.proof-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);margin-top:60px;}
+.proof-card{background:var(--cream);padding:36px 32px;transition:background 0.3s,transform 0.3s;cursor:default;position:relative;overflow:hidden;}
+.proof-card::before{content:'';position:absolute;inset:0;background:var(--accent-light);transform:translateY(101%);transition:transform 0.4s;}
+.proof-card:hover::before{transform:translateY(0);}
+.proof-card:hover{transform:translateY(-2px);}
+.proof-quote{font-family:var(--sans);font-size:16px;font-weight:300;font-style:normal;line-height:1.65;color:var(--ink);margin-bottom:24px;position:relative;z-index:1;}
+.proof-author{display:flex;flex-direction:column;gap:2px;position:relative;z-index:1;}
+.proof-name{font-size:13px;font-weight:500;color:var(--ink);}
+.proof-place{font-size:11px;letter-spacing:0.08em;color:var(--ink-mid);text-transform:uppercase;}
+
+/* ── HOW IT WORKS ── */
+.steps-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;align-items:start;}
+.steps-list{display:flex;flex-direction:column;}
+.step{display:flex;gap:24px;padding:28px 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:padding-left 0.3s;}
+.step:first-child{border-top:0.5px solid var(--border);}
+.step:hover,.step.active{padding-left:8px;}
+.step-num{font-family:var(--serif);font-size:13px;color:var(--ink-faint);min-width:28px;padding-top:3px;transition:color 0.3s;}
+.step.active .step-num{color:var(--accent);}
+.step-title{font-size:16px;font-weight:500;margin-bottom:6px;transition:color 0.3s;}
+.step.active .step-title{color:var(--accent);}
+.step-desc{font-size:14px;color:var(--ink-mid);line-height:1.7;font-weight:300;max-height:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.3s;opacity:0;}
+.step.active .step-desc{max-height:100px;opacity:1;}
+.steps-visual{position:sticky;top:100px;}
+.step-vis{display:none;background:var(--accent-light);border:0.5px solid var(--border);border-radius:8px;padding:40px 32px;text-align:center;animation:fadeVis 0.4s ease;}
+@keyframes fadeVis{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.step-vis.active{display:block;}
+.step-vis-icon{font-family:var(--serif);font-size:64px;font-weight:600;color:var(--accent);line-height:1;margin-bottom:16px;}
+.step-vis-title{font-size:15px;font-weight:500;margin-bottom:8px;}
+.step-vis-desc{font-size:13px;color:var(--ink-mid);line-height:1.7;}
+.step-timeline{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-top:20px;}
+
+/* ── PRICING ── */
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px;max-width:760px;}
+.pricing-card{border:0.5px solid var(--border-med);padding:40px 36px;border-radius:4px;position:relative;transition:transform 0.3s,box-shadow 0.3s;}
+.pricing-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(44,26,14,0.1);}
+.pricing-card.featured{border-color:var(--accent);background:var(--ink);color:var(--cream);}
+.pricing-badge{position:absolute;top:-1px;right:24px;background:var(--accent);color:var(--cream);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 12px;border-radius:0 0 4px 4px;}
+.pricing-tier{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:20px;}
+.pricing-card.featured .pricing-tier{color:rgba(253,246,237,0.6);}
+.pricing-price{font-family:var(--serif);font-size:52px;font-weight:600;line-height:1;margin-bottom:4px;letter-spacing:-0.03em;}
+.pricing-period,.pricing-setup{font-size:13px;color:var(--ink-mid);margin-bottom:8px;}
+.pricing-card.featured .pricing-period,.pricing-card.featured .pricing-setup{color:rgba(253,246,237,0.6);}
+.pricing-setup{margin-bottom:32px;}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.pricing-features li{font-size:14px;display:flex;gap:10px;align-items:flex-start;color:var(--ink);font-weight:300;}
+.pricing-card.featured .pricing-features li{color:rgba(253,246,237,0.85);}
+.pricing-features li::before{content:'—';color:var(--accent);font-size:12px;flex-shrink:0;padding-top:2px;}
+.pricing-cta{display:block;text-align:center;text-decoration:none;font-family:var(--sans);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;padding:14px;border:0.5px solid var(--border-med);color:var(--ink);border-radius:2px;transition:background 0.2s,color 0.2s,transform 0.15s;position:relative;overflow:hidden;}
+.pricing-cta::after{content:'';position:absolute;inset:0;background:var(--ink);transform:translateY(101%);transition:transform 0.3s;}
+.pricing-cta:hover::after{transform:translateY(0);}
+.pricing-cta span{position:relative;z-index:1;}
+.pricing-cta:hover span{color:var(--cream);}
+.pricing-card.featured .pricing-cta{background:var(--accent);color:var(--cream);border-color:var(--accent);}
+.pricing-card.featured .pricing-cta::after{background:rgba(255,255,255,0.1);}
+.pricing-note{margin-top:32px;font-size:13px;color:var(--ink-mid);font-weight:300;}
+
+/* ── COUNTER ANIMATION ── */
+.counter{display:inline-block;}
+
+/* ── FORM SECTION ── */
+#preview{background:rgba(44,26,14,0.02);}
+.form-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;}
+.form-promise{margin-top:40px;display:flex;flex-direction:column;gap:20px;}
+.promise-item{display:flex;gap:16px;align-items:flex-start;transition:transform 0.2s;}
+.promise-item:hover{transform:translateX(4px);}
+.promise-num{font-family:var(--serif);font-size:20px;color:var(--accent);min-width:28px;font-weight:300;}
+.promise-title{font-size:14px;font-weight:500;margin-bottom:3px;}
+.promise-desc{font-size:13px;color:var(--ink-mid);font-weight:300;line-height:1.6;}
+.form-card{background:var(--cream);border:0.5px solid var(--border-med);border-radius:6px;padding:40px;box-shadow:0 4px 32px rgba(44,26,14,0.06);}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:7px;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(44,26,14,0.03);border:0.5px solid var(--border-med);border-radius:3px;padding:11px 14px;font-family:var(--sans);font-size:14px;color:var(--ink);outline:none;font-weight:300;transition:border-color 0.2s,background 0.2s,transform 0.15s;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent);background:rgba(168,84,40,0.03);transform:translateY(-1px);}
+.form-group textarea{resize:vertical;min-height:90px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.vibe-options{display:flex;flex-wrap:wrap;gap:8px;}
+.vibe-btn{font-family:var(--sans);font-size:12px;padding:7px 14px;border:0.5px solid var(--border-med);border-radius:20px;background:none;cursor:pointer;color:var(--ink-mid);transition:all 0.2s;letter-spacing:0.04em;}
+.vibe-btn:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-1px);}
+.vibe-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+.form-note{font-size:12px;color:var(--ink-faint);line-height:1.6;margin-top:16px;margin-bottom:20px;font-weight:300;}
+.form-submit{width:100%;background:var(--ink);color:var(--cream);border:none;font-family:var(--sans);font-size:13px;letter-spacing:0.12em;text-transform:uppercase;padding:16px;cursor:pointer;border-radius:2px;transition:background 0.2s,transform 0.15s;position:relative;overflow:hidden;}
+.form-submit::after{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform 0.3s;}
+.form-submit:hover::after{transform:translateX(0);}
+.form-submit span{position:relative;z-index:1;}
+.form-success{display:none;text-align:center;padding:40px 20px;}
+.form-success-icon{font-family:var(--serif);font-size:56px;color:var(--accent);margin-bottom:16px;display:block;animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.form-success-title{font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:10px;}
+.form-success-sub{font-size:14px;color:var(--ink-mid);line-height:1.7;font-weight:300;}
+
+/* ── PROGRESS BAR ── */
+.scroll-progress{position:fixed;top:64px;left:0;right:0;height:2px;background:var(--border);z-index:99;}
+.scroll-progress-bar{height:100%;background:var(--accent);width:0%;transition:width 0.1s;}
+
+/* ── FOOTER ── */
+footer{border-top:0.5px solid var(--border);padding:40px 80px;display:flex;align-items:center;justify-content:space-between;}
+.footer-logo{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);}
+.footer-logo span{color:var(--accent);}
+.footer-links{display:flex;gap:28px;}
+.footer-links a{font-size:12px;letter-spacing:0.08em;color:var(--ink-mid);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.footer-links a:hover{color:var(--accent);}
+.footer-copy{font-size:12px;color:var(--ink-faint);}
+
+
+
+/* ── GSAP TEXT ANIMATION STYLES ── */
+.char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+/* Scramble cursor blink */
+@keyframes cursorBlink {
+  0%,100%{opacity:1;} 50%{opacity:0;}
+}
+.scramble-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: cursorBlink 0.7s infinite;
+}
+
+/* Highlight sweep under text */
+.text-highlight {
+  position: relative;
+  display: inline-block;
+}
+.text-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: var(--accent);
+  transition: none;
+}
+.text-highlight.highlighted::after {
+  animation: highlightSweep 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes highlightSweep {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Typewriter for nav logo */
+.typewriter-cursor {
+  border-right: 2px solid var(--accent);
+  animation: cursorBlink 0.7s infinite;
+  padding-right: 2px;
+}
+
+/* Number odometer style */
+.odometer-digit {
+  display: inline-block;
+  overflow: hidden;
+  height: 1em;
+  vertical-align: bottom;
+}
+.odometer-column {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* ── STORYTELLING SCROLL ── */
+
+/* Pin container for story sections */
+.story-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Chapter labels that appear on scroll */
+.chapter-label {
+  position: fixed;
+  top: 80px;
+  left: 48px;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  z-index: 50;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chapter-label::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0.5px;
+  background: var(--accent);
+  transition: width 0.4s;
+}
+.chapter-label.visible::before { width: 20px; }
+
+/* Horizontal scroll story strip */
+.story-strip {
+  display: flex;
+  width: 500vw;
+  height: 100vh;
+}
+.story-panel {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+  flex-shrink: 0;
+  position: relative;
+  border-right: 0.5px solid var(--border);
+}
+.story-panel-num {
+  font-family: var(--serif);
+  font-size: 120px;
+  font-weight: 300;
+  color: rgba(44,26,14,0.06);
+  position: absolute;
+  right: 60px;
+  bottom: 40px;
+  line-height: 1;
+  user-select: none;
+}
+.story-panel-tag {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.story-panel-tag::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 0.5px;
+  background: var(--accent);
+}
+.story-panel-title {
+  font-family: var(--serif);
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 300;
+  line-height: 1.08;
+  margin-bottom: 24px;
+  max-width: 600px;
+}
+.story-panel-title em { font-style: normal; color: var(--accent); font-weight: 600; }
+.story-panel-body {
+  font-size: 16px;
+  color: var(--ink-mid);
+  line-height: 1.75;
+  max-width: 500px;
+  font-weight: 300;
+}
+.story-panel-stat {
+  margin-top: 40px;
+  display: flex;
+  gap: 48px;
+}
+.story-stat-val {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1;
+  display: block;
+}
+.story-stat-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 6px;
+  display: block;
+}
+
+/* Panel accent colors */
+.story-panel:nth-child(1) { background: var(--cream); }
+.story-panel:nth-child(2) { background: var(--accent-light); }
+.story-panel:nth-child(3) { background: var(--ink); color: var(--cream); }
+.story-panel:nth-child(3) .story-panel-title { color: var(--cream); }
+.story-panel:nth-child(3) .story-panel-title em { color: var(--accent-gold); }
+.story-panel:nth-child(3) .story-panel-body { color: rgba(253,246,237,0.6); }
+.story-panel:nth-child(3) .story-panel-tag { color: var(--accent-gold); }
+.story-panel:nth-child(3) .story-panel-tag::before { background: var(--accent-gold); }
+.story-panel:nth-child(3) .story-panel-num { color: rgba(253,246,237,0.06); }
+.story-panel:nth-child(3) .story-stat-val { color: var(--cream); }
+.story-panel:nth-child(3) .story-stat-label { color: rgba(253,246,237,0.4); }
+.story-panel:nth-child(4) { background: var(--cream); }
+.story-panel:nth-child(5) { background: var(--accent); color: var(--cream); }
+.story-panel:nth-child(5) .story-panel-title { color: var(--cream); }
+.story-panel:nth-child(5) .story-panel-title em { color: var(--accent-gold); }
+.story-panel:nth-child(5) .story-panel-body { color: rgba(253,246,237,0.7); }
+.story-panel:nth-child(5) .story-panel-tag { color: var(--accent-gold); }
+.story-panel:nth-child(5) .story-panel-tag::before { background: var(--accent-gold); }
+.story-panel:nth-child(5) .story-panel-num { color: rgba(253,246,237,0.1); }
+
+/* Progress dots for story strip */
+.story-progress {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.story-progress.visible { opacity: 1; }
+.story-pdot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-med);
+  transition: background 0.3s, transform 0.3s;
+}
+.story-pdot.active {
+  background: var(--accent);
+  transform: scale(1.5);
+}
+
+/* Scroll hint arrow */
+.scroll-hint {
+  position: absolute;
+  bottom: 48px;
+  right: 80px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  animation: hintBounce 2s ease-in-out infinite;
+}
+@keyframes hintBounce {
+  0%,100%{transform:translateX(0);}
+  50%{transform:translateX(8px);}
+}
+.scroll-hint-arrow {
+  font-size: 18px;
+  color: var(--accent);
+}
+
+/* Word-by-word split text lines */
+.split-line {
+  overflow: hidden;
+  display: block;
+}
+
+/* Parallax image placeholders in panels */
+.story-visual {
+  position: absolute;
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 320px;
+  height: 380px;
+  border: 0.5px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(44,26,14,0.04);
+}
+.story-visual-inner {
+  font-family: var(--serif);
+  font-size: 80px;
+  font-weight: 300;
+  color: var(--accent);
+  opacity: 0.3;
+  line-height: 1;
+}
+.story-panel:nth-child(3) .story-visual {
+  border-color: rgba(253,246,237,0.1);
+  background: rgba(253,246,237,0.04);
+}
+.story-panel:nth-child(3) .story-visual-inner { color: var(--accent-gold); }
+
+/* Existing reveal override — GSAP handles these now */
+.reveal, .reveal-left, .reveal-right {
+  opacity: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav{padding:0 24px;}.nav-links{display:none;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-left{padding:60px 32px;border-right:none;border-bottom:0.5px solid var(--border);}
+  .hero-right{padding:40px 24px;}
+  section{padding:70px 32px;}
+  .proof-grid{grid-template-columns:1fr;}
+  .steps-layout{grid-template-columns:1fr;gap:40px;}
+  .steps-visual{display:none;}
+  .pricing-grid{grid-template-columns:1fr;max-width:400px;}
+  .form-layout{grid-template-columns:1fr;gap:40px;}
+  footer{flex-direction:column;gap:20px;padding:32px;text-align:center;}
+  .footer-links{flex-wrap:wrap;justify-content:center;}
+  .cursor,.cursor-ring{display:none;}
+}
+
+/* ── INTRO OVERLAY ── */
+#intro{position:fixed;inset:0;z-index:10000;background:var(--ink);overflow:hidden;display:flex;flex-direction:column;}
+body.intro-active{overflow:hidden;}
+
+.intro-progress{position:absolute;bottom:0;left:0;height:2px;background:var(--accent);width:0%;transition:width 0.05s linear;z-index:2;}
+
+.intro-slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:80px;opacity:0;pointer-events:none;}
+.intro-slide.active{pointer-events:auto;}
+
+/* slide bg tints */
+.intro-slide:nth-child(1){background:var(--ink);}
+.intro-slide:nth-child(2){background:#1e1008;}
+.intro-slide:nth-child(3){background:#160c04;}
+.intro-slide:nth-child(4){background:#0e0802;}
+.intro-slide:nth-child(5){background:#8B3E18;}
+
+/* subtle veil crossfade between slides */
+#intro-flash{position:absolute;inset:0;background:var(--ink);pointer-events:none;z-index:5;opacity:0;}
+@keyframes veilFade{0%{opacity:0;}35%{opacity:0.85;}65%{opacity:0.85;}100%{opacity:0;}}
+#intro-flash.flashing{animation:veilFade 0.6s cubic-bezier(0.4,0,0.2,1) forwards;}
+
+/* subtle left accent line */
+.intro-slide::after{content:'';position:absolute;left:0;top:10%;bottom:10%;width:1px;background:rgba(232,164,74,0.2);}
+
+/* slide enter/exit — subtle fade + micro scale */
+@keyframes slideEnter{from{opacity:0;transform:scale(1.012);}to{opacity:1;transform:scale(1);}}
+@keyframes slideExit{from{opacity:1;transform:scale(1);}to{opacity:0;transform:scale(0.988);}}
+.intro-slide.entering{animation:slideEnter 0.55s cubic-bezier(0.25,0.46,0.45,0.94) forwards 0.32s;}
+.intro-slide.exiting{animation:slideExit 0.28s cubic-bezier(0.55,0,1,0.45) forwards;}
+
+.intro-step-num{font-family:var(--serif);font-size:13px;color:rgba(253,246,237,0.3);letter-spacing:0.2em;margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+.intro-step-num::before{content:'';display:block;width:32px;height:0.5px;background:rgba(253,246,237,0.25);}
+.intro-step-dots{display:flex;gap:8px;margin-bottom:48px;}
+.intro-dot{width:6px;height:6px;border-radius:50%;background:rgba(253,246,237,0.2);transition:background 0.3s,transform 0.3s;}
+.intro-dot.active{background:var(--accent-gold);transform:scale(1.4);}
+.intro-dot.done{background:rgba(253,246,237,0.4);}
+
+.intro-label{font-size:11px;letter-spacing:0.24em;text-transform:uppercase;color:var(--accent-gold);margin-bottom:20px;opacity:0;transform:translateY(8px);transition:opacity 0.4s 0.42s,transform 0.4s 0.42s cubic-bezier(0.25,0.46,0.45,0.94);}
+.intro-slide.entering .intro-label{opacity:1;transform:translateY(0);}
+
+.intro-headline{font-family:var(--serif);font-size:clamp(40px,6vw,84px);font-weight:500;line-height:1.0;color:var(--cream);max-width:720px;opacity:0;letter-spacing:-0.02em;transform:translateY(20px);transition:opacity 0.5s 0.52s,transform 0.55s 0.52s cubic-bezier(0.25,0.46,0.45,0.94);}
+.intro-slide.entering .intro-headline{opacity:1;transform:translateY(0);}
+.intro-headline em{font-style:normal;color:var(--accent-gold);font-weight:600;}
+
+.intro-sub{font-size:16px;color:rgba(253,246,237,0.55);font-weight:300;line-height:1.7;max-width:480px;margin-top:24px;opacity:0;transform:translateY(12px);transition:opacity 0.45s 0.66s,transform 0.45s 0.66s cubic-bezier(0.25,0.46,0.45,0.94);}
+.intro-slide.entering .intro-sub{opacity:1;transform:translateY(0);}
+
+.intro-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(253,246,237,0.08);border:0.5px solid rgba(253,246,237,0.15);border-radius:2px;padding:8px 16px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(253,246,237,0.6);margin-top:36px;opacity:0;transform:translateY(8px);transition:opacity 0.4s 0.78s,transform 0.4s 0.78s cubic-bezier(0.25,0.46,0.45,0.94);}
+.intro-slide.entering .intro-tag{opacity:1;transform:translateY(0);}
+.intro-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-gold);}
+
+/* last slide CTA */
+.intro-cta-row{display:flex;gap:16px;align-items:center;margin-top:48px;opacity:0;transform:translateY(10px);transition:opacity 0.4s 0.78s,transform 0.4s 0.78s cubic-bezier(0.25,0.46,0.45,0.94);}
+.intro-slide.entering .intro-cta-row{opacity:1;transform:translateY(0);}
+.intro-btn-enter{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:13px;letter-spacing:0.12em;text-transform:uppercase;padding:16px 40px;border:none;cursor:pointer;border-radius:2px;transition:background 0.2s,transform 0.15s;}
+.intro-btn-enter:hover{background:var(--accent-gold);transform:translateY(-2px);}
+.intro-btn-skip-final{background:none;border:0.5px solid rgba(253,246,237,0.25);color:rgba(253,246,237,0.6);font-family:var(--sans);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;padding:16px 32px;cursor:pointer;border-radius:2px;transition:border-color 0.2s,color 0.2s;}
+.intro-btn-skip-final:hover{border-color:rgba(253,246,237,0.6);color:var(--cream);}
+
+/* skip button top right */
+.intro-skip{position:absolute;top:28px;right:40px;background:none;border:0.5px solid rgba(253,246,237,0.2);color:rgba(253,246,237,0.45);font-family:var(--sans);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 18px;cursor:pointer;border-radius:2px;z-index:10;transition:border-color 0.2s,color 0.2s;}
+.intro-skip:hover{border-color:rgba(253,246,237,0.5);color:rgba(253,246,237,0.8);}
+
+/* logo top left */
+.intro-logo{position:absolute;top:26px;left:48px;font-family:var(--serif);font-size:20px;font-weight:600;color:var(--cream);z-index:10;letter-spacing:-0.01em;}
+.intro-logo span{color:var(--accent-gold);}
+
+/* decorative line right side */
+.intro-deco{position:absolute;right:80px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;align-items:center;opacity:0.2;}
+.intro-deco-line{width:0.5px;height:80px;background:var(--cream);}
+.intro-deco-num{font-family:var(--serif);font-size:11px;color:var(--cream);letter-spacing:0.15em;writing-mode:vertical-rl;}
+
+/* exit animation for entire overlay */
+#intro.exiting{animation:overlayExit 0.6s cubic-bezier(0.4,0,0.2,1) forwards;}
+@keyframes overlayExit{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-16px);}}
+</style>
+</head>
+<body>
+
+<!-- ══ INTRO OVERLAY ══ -->
+<div id="intro">
+  <div class="intro-logo">Plate<span>form</span></div>
+  <button class="intro-skip" onclick="exitIntro()">Skip intro ↗</button>
+  <div class="intro-progress" id="intro-progress"></div>
+  <div id="intro-flash"></div>
+
+  <div class="intro-slide active entering" id="slide-0">
+    <div class="intro-step-dots" id="dots-0"></div>
+    <div class="intro-label">The problem</div>
+    <h1 class="intro-headline">Most local businesses have <em>no website.</em><br>Or one that hurts more than helps.</h1>
+    <p class="intro-sub">97% of consumers search online before visiting a local business. A bad website — or none at all — costs you tables every single night.</p>
+    <div class="intro-tag"><span class="intro-tag-dot"></span>Your competitors are already online</div>
+    <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">01 / 05</div><div class="intro-deco-line"></div></div>
+  </div>
+
+  <div class="intro-slide" id="slide-1">
+    <div class="intro-step-dots" id="dots-1"></div>
+    <div class="intro-label">The old way</div>
+    <h2 class="intro-headline">Hiring a developer<br>meant <em>$5,000 upfront</em><br>and months of waiting.</h2>
+    <p class="intro-sub">Then maintenance fees, hosting bills, and endless back-and-forth every time you needed to update your hours or swap a photo.</p>
+    <div class="intro-tag"><span class="intro-tag-dot"></span>Expensive, slow, frustrating</div>
+    <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">02 / 05</div><div class="intro-deco-line"></div></div>
+  </div>
+
+  <div class="intro-slide" id="slide-2">
+    <div class="intro-step-dots" id="dots-2"></div>
+    <div class="intro-label">The solution</div>
+    <h2 class="intro-headline">Plateform.<br>A beautiful website,<br><em>$79 a month.</em></h2>
+    <p class="intro-sub">We build it, host it, maintain it. You never touch a line of code or think about servers. It just works — like having a full web team on retainer.</p>
+    <div class="intro-tag"><span class="intro-tag-dot"></span>No setup stress. No surprise bills.</div>
+    <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">03 / 05</div><div class="intro-deco-line"></div></div>
+  </div>
+
+  <div class="intro-slide" id="slide-3">
+    <div class="intro-step-dots" id="dots-3"></div>
+    <div class="intro-label">How it works</div>
+    <h2 class="intro-headline">Submit → Preview<br>→ <em>Go live.</em><br>In two weeks.</h2>
+    <p class="intro-sub">Tell us about your business. We send you a free preview in 24 hours. You approve it, we launch it. Done.</p>
+    <div class="intro-tag"><span class="intro-tag-dot"></span>Free preview. No commitment required.</div>
+    <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">04 / 05</div><div class="intro-deco-line"></div></div>
+  </div>
+
+  <div class="intro-slide" id="slide-4">
+    <div class="intro-step-dots" id="dots-4"></div>
+    <div class="intro-label">Ready?</div>
+    <h2 class="intro-headline">Your business<br>deserves a website<br>as good as <em>your work.</em></h2>
+    <p class="intro-sub">See what your business site could look like — completely free, in 24 hours, no strings attached.</p>
+    <div class="intro-cta-row">
+      <button class="intro-btn-enter" onclick="exitIntro()">Enter the site →</button>
+      <button class="intro-btn-skip-final" onclick="exitIntroToForm()">Get my free preview</button>
+    </div>
+    <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">05 / 05</div><div class="intro-deco-line"></div></div>
+  </div>
+</div>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Scroll progress -->
+<div class="scroll-progress"><div class="scroll-progress-bar" id="progress-bar"></div></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" href="#">Plate<span>form</span></a>
+  <ul class="nav-links">
+    <li><a href="#testimonials">Work</a></li>
+    <li><a href="#how-it-works">Process</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a class="nav-cta" href="#preview">Get free preview</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;border:none;">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Beautiful websites for local businesses</div>
+    <h1 class="hero-h1">Your business deserves a website as good as <em>your work</em></h1>
+    <p class="hero-sub">We design, host, and maintain a beautiful website for your business — so you never have to think about it. See exactly what yours will look like, free, before committing to anything.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#preview"><span>See my free preview →</span></a>
+      <a class="btn-ghost" href="#how-it-works">How it works</a>
+    </div>
+    <div class="hero-stat">
+      <div>
+        <span class="stat-num">$79</span>
+        <span class="stat-label">Per month, all in</span>
+      </div>
+      <div>
+        <span class="stat-num">2wk</span>
+        <span class="stat-label">From preview to live</span>
+      </div>
+      <div>
+        <span class="stat-num">24h</span>
+        <span class="stat-label">Preview turnaround</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="device-toggle">
+      <button class="active" onclick="showDevice('laptop',this)">Laptop</button>
+      <button onclick="showDevice('mobile',this)">Mobile</button>
+    </div>
+    <div class="laptop-wrap" id="view-laptop">
+      <div class="laptop-shell">
+        <div class="laptop-bar">
+          <div class="ldot ldot-r"></div><div class="ldot ldot-y"></div><div class="ldot ldot-g"></div>
+          <div class="laptop-addr"><span>yourbusiness.com</span></div>
+        </div>
+        <div class="laptop-screen">
+          <div class="preview-nav">
+            <div class="preview-logo">Bloom</div>
+            <div class="preview-navlinks"><span>Services</span><span>About</span><span>Contact</span></div>
+          </div>
+          <div class="preview-hero">
+            <div class="preview-eyebrow">Est. 2018 — Hair & Beauty Studio</div>
+            <div class="preview-h1">Where style meets expertise</div>
+            <div class="preview-sub">Expert cuts, colours and treatments in a relaxed, welcoming studio in the heart of the city.</div>
+            <div class="preview-btns"><button class="pbtn-p">Our services</button><button class="pbtn-s">Book now</button></div>
+          </div>
+          <div class="preview-section">
+            <div class="preview-sec-label">Our services</div>
+            <div class="preview-grid">
+              <div class="preview-item"><div class="preview-item-name">Haircut & Style</div><div class="preview-item-desc">Cut, blow-dry and finish</div><div class="preview-item-price">$65</div></div>
+              <div class="preview-item"><div class="preview-item-name">Full Colour</div><div class="preview-item-desc">Roots to tips, toner included</div><div class="preview-item-price">$140</div></div>
+              <div class="preview-item"><div class="preview-item-name">Balayage</div><div class="preview-item-desc">Hand-painted highlights, glossed</div><div class="preview-item-price">$180</div></div>
+              <div class="preview-item"><div class="preview-item-name">Blowout</div><div class="preview-item-desc">Wash, blow-dry and style</div><div class="preview-item-price">$55</div></div>
+            </div>
+          </div>
+          <div class="preview-info">
+            <div class="preview-info-card"><div class="preview-info-title">Location</div><div class="preview-info-val">42 Oak Ave<br>Midtown</div></div>
+            <div class="preview-info-card"><div class="preview-info-title">Hours</div><div class="preview-info-val">Mon–Sat<br>9am–7pm</div></div>
+            <div class="preview-info-card"><div class="preview-info-title">Contact</div><div class="preview-info-val">(415) 555-0182</div></div>
+          </div>
+          <div class="preview-footer"><span>© 2026 Bloom Studio</span><span>Built by Plateform</span></div>
+        </div>
+      </div>
+      <div class="laptop-base"></div><div class="laptop-foot"></div>
+    </div>
+    <div class="phone-wrap" id="view-mobile">
+      <div class="phone-shell">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="preview-nav" style="padding:6px 10px;">
+            <div class="preview-logo" style="font-size:11px;">Bloom</div>
+            <div style="font-size:16px;color:var(--ink-mid);">☰</div>
+          </div>
+          <div class="preview-hero" style="padding:14px 10px 12px;">
+            <div class="preview-eyebrow">Est. 2018 — Hair &amp; Beauty Studio</div>
+            <div class="preview-h1" style="font-size:16px;">Where style meets expertise</div>
+            <div class="preview-sub">Seasonal ingredients, thoughtfully prepared.</div>
+            <div class="preview-btns" style="flex-direction:column;gap:5px;">
+              <button class="pbtn-p" style="width:100%;padding:7px;">Our services</button>
+              <button class="pbtn-s" style="width:100%;padding:7px;">Book now</button>
+            </div>
+          </div>
+          <div class="preview-section" style="padding:10px;">
+            <div class="preview-sec-label">Our services</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div class="preview-item" style="border:0.5px solid var(--border);border-radius:3px;"><div class="preview-item-name">Haircut & Style</div><div class="preview-item-desc">Cut, blow-dry, finish</div><div class="preview-item-price">$65</div></div>
+              <div class="preview-item" style="border:0.5px solid var(--border);border-radius:3px;"><div class="preview-item-name">Full Colour</div><div class="preview-item-desc">Roots to tips, toned</div><div class="preview-item-price">$140</div></div>
+              <div class="preview-item" style="border:0.5px solid var(--border);border-radius:3px;"><div class="preview-item-name">Balayage</div><div class="preview-item-desc">Hand-painted, glossed</div><div class="preview-item-price">$180</div></div>
+            </div>
+          </div>
+          <div class="preview-info" style="padding:10px;gap:5px;">
+            <div class="preview-info-card"><div class="preview-info-title">Location</div><div class="preview-info-val">142 Elm St</div></div>
+            <div class="preview-info-card"><div class="preview-info-title">Hours</div><div class="preview-info-val">Mon–Sat 9am</div></div>
+            <div class="preview-info-card"><div class="preview-info-title">Phone</div><div class="preview-info-val">(415) 555</div></div>
+          </div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee">
+    <div class="marquee-item"><span>✦</span> Beautiful websites for any business</div>
+    <div class="marquee-item"><span>✦</span> $79 per month, all included</div>
+    <div class="marquee-item"><span>✦</span> Live in two weeks</div>
+    <div class="marquee-item"><span>✦</span> Free preview in 24 hours</div>
+    <div class="marquee-item"><span>✦</span> Mobile-optimized design</div>
+    <div class="marquee-item"><span>✦</span> Hosting & maintenance included</div>
+    <div class="marquee-item"><span>✦</span> Beautiful websites for any business</div>
+    <div class="marquee-item"><span>✦</span> $79 per month, all included</div>
+    <div class="marquee-item"><span>✦</span> Live in two weeks</div>
+    <div class="marquee-item"><span>✦</span> Free preview in 24 hours</div>
+    <div class="marquee-item"><span>✦</span> Mobile-optimized design</div>
+    <div class="marquee-item"><span>✦</span> Hosting & maintenance included</div>
+  </div>
+</div>
+
+
+<!-- ══ STORYTELLING SCROLL STRIP ══ -->
+<div id="story-container" style="position:relative;">
+  <div id="story-sticky" style="position:relative;">
+    <div class="story-strip" id="story-strip">
+
+      <!-- Panel 1: Hook -->
+      <div class="story-panel">
+        <div class="story-panel-tag">The reality</div>
+        <h2 class="story-panel-title">
+          <span class="split-line">97% of people</span>
+          <span class="split-line">search online before</span>
+          <span class="split-line"><em>before they visit.</em></span>
+        </h2>
+        <p class="story-panel-body">If they can't find you — or worse, find something outdated and broken — they go somewhere else. Every day without a great website is revenue walking out the door.</p>
+        <div class="story-panel-stat">
+          <div>
+            <span class="story-stat-val" data-count="97">0</span>
+            <span class="story-stat-label">% search before visiting</span>
+          </div>
+          <div>
+            <span class="story-stat-val" data-count="67">0</span>
+            <span class="story-stat-label">% won't return to a bad site</span>
+          </div>
+        </div>
+        <div class="story-visual"><div class="story-visual-inner">86%</div></div>
+        <div class="story-panel-num">01</div>
+        <div class="scroll-hint"><span>Scroll</span><span class="scroll-hint-arrow">→</span></div>
+      </div>
+
+      <!-- Panel 2: Old way -->
+      <div class="story-panel">
+        <div class="story-panel-tag">The old way</div>
+        <h2 class="story-panel-title">
+          <span class="split-line">Hiring a developer</span>
+          <span class="split-line">used to mean</span>
+          <span class="split-line"><em>$5,000 upfront.</em></span>
+        </h2>
+        <p class="story-panel-body">Then months of waiting, ongoing maintenance fees, and a back-and-forth every time you needed a small update. Most small business owners gave up before they even started.</p>
+        <div class="story-panel-stat">
+          <div>
+            <span class="story-stat-val">$5k</span>
+            <span class="story-stat-label">Average upfront cost</span>
+          </div>
+          <div>
+            <span class="story-stat-val">3mo</span>
+            <span class="story-stat-label">Average build time</span>
+          </div>
+        </div>
+        <div class="story-visual"><div class="story-visual-inner">✕</div></div>
+        <div class="story-panel-num">02</div>
+      </div>
+
+      <!-- Panel 3: Solution (dark) -->
+      <div class="story-panel">
+        <div class="story-panel-tag">The new way</div>
+        <h2 class="story-panel-title">
+          <span class="split-line">Plateform.</span>
+          <span class="split-line">Beautiful. Maintained.</span>
+          <span class="split-line"><em>$79 a month.</em></span>
+        </h2>
+        <p class="story-panel-body">We design it, host it, maintain it. You get a professional website without touching a line of code or worrying about servers — ever.</p>
+        <div class="story-panel-stat">
+          <div>
+            <span class="story-stat-val">$79</span>
+            <span class="story-stat-label">Per month, all in</span>
+          </div>
+          <div>
+            <span class="story-stat-val">∞</span>
+            <span class="story-stat-label">Months of maintenance</span>
+          </div>
+        </div>
+        <div class="story-visual"><div class="story-visual-inner">✦</div></div>
+        <div class="story-panel-num">03</div>
+      </div>
+
+      <!-- Panel 4: Process -->
+      <div class="story-panel">
+        <div class="story-panel-tag">The process</div>
+        <h2 class="story-panel-title">
+          <span class="split-line">Submit. Preview.</span>
+          <span class="split-line"><em>Go live.</em></span>
+          <span class="split-line">In two weeks.</span>
+        </h2>
+        <p class="story-panel-body">Tell us about your business in five minutes. We send you a free live preview in 24 hours. You approve it, we launch it. From there, we handle everything.</p>
+        <div class="story-panel-stat">
+          <div>
+            <span class="story-stat-val">24h</span>
+            <span class="story-stat-label">Free preview turnaround</span>
+          </div>
+          <div>
+            <span class="story-stat-val">2wk</span>
+            <span class="story-stat-label">From signup to live</span>
+          </div>
+        </div>
+        <div class="story-visual"><div class="story-visual-inner">→</div></div>
+        <div class="story-panel-num">04</div>
+      </div>
+
+      <!-- Panel 5: CTA (accent) -->
+      <div class="story-panel">
+        <div class="story-panel-tag">Your turn</div>
+        <h2 class="story-panel-title">
+          <span class="split-line">Ready to see</span>
+          <span class="split-line">what your business</span>
+          <span class="split-line">could <em>look like?</em></span>
+        </h2>
+        <p class="story-panel-body">We'll build you a free, live preview using your business name, colors, and services — no payment, no commitment. Just see it first.</p>
+        <div style="margin-top:40px;display:flex;gap:16px;flex-wrap:wrap;">
+          <a class="btn-primary" href="#preview" style="background:var(--cream);color:var(--ink);"><span>Get my free preview →</span></a>
+          <a class="btn-ghost" href="#pricing" style="border-color:rgba(253,246,237,0.3);color:rgba(253,246,237,0.8);">See pricing</a>
+        </div>
+        <div class="story-visual"><div class="story-visual-inner">◎</div></div>
+        <div class="story-panel-num">05</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Story progress dots -->
+<div class="story-progress" id="story-progress">
+  <div class="story-pdot active"></div>
+  <div class="story-pdot"></div>
+  <div class="story-pdot"></div>
+  <div class="story-pdot"></div>
+  <div class="story-pdot"></div>
+</div>
+
+<!-- SOCIAL PROOF -->
+<section id="testimonials">
+  <div class="section-eyebrow reveal">What business owners say</div>
+  <h2 class="section-title reveal">Our clients <em>speak for us</em></h2>
+  <div class="proof-grid reveal">
+    <div class="proof-card">
+      <p class="proof-quote">"We'd been meaning to get a website for three years. Plateform had us live in two weeks — and it looks better than competitors with ten times our budget."</p>
+      <div class="proof-author"><span class="proof-name">Maria Conti</span><span class="proof-place">Hair Studio Conti, Austin TX</span></div>
+    </div>
+    <div class="proof-card">
+      <p class="proof-quote">"I was skeptical about paying monthly, but I haven't thought about the website since they launched it. It just works — like having a full-time web team for less than a daily coffee."</p>
+      <div class="proof-author"><span class="proof-name">James Okafor</span><span class="proof-place">Heron Fitness, Nashville TN</span></div>
+    </div>
+    <div class="proof-card">
+      <p class="proof-quote">"Clients tell us constantly that they found us because our website looked so professional. New enquiries have gone up since we launched."</p>
+      <div class="proof-author"><span class="proof-name">Sophie Lamarque</span><span class="proof-place">Lumière Law, Portland OR</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="section-eyebrow reveal">The process</div>
+  <h2 class="section-title reveal">From conversation to <em>live in two weeks</em></h2>
+  <p class="section-sub reveal">No tech knowledge needed. No big upfront cost. Three straightforward steps.</p>
+  <div class="steps-layout">
+    <div class="steps-list reveal-left">
+      <div class="step active" onclick="setStep(0,this)">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <div class="step-title">Submit your details</div>
+          <div class="step-desc">Fill out a short form with your business name, colors, logo, and key services. Takes about five minutes.</div>
+        </div>
+      </div>
+      <div class="step" onclick="setStep(1,this)">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <div class="step-title">Receive your free preview</div>
+          <div class="step-desc">Within 24 hours we send you a live link showing exactly what your website will look like — on desktop and mobile.</div>
+        </div>
+      </div>
+      <div class="step" onclick="setStep(2,this)">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <div class="step-title">Approve and go live</div>
+          <div class="step-desc">Love it? We connect your domain and launch. Your site is live within two weeks, and we handle everything from there.</div>
+        </div>
+      </div>
+      <div class="step" onclick="setStep(3,this)">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <div class="step-title">We maintain it forever</div>
+          <div class="step-desc">Hosting, backups, security updates, and small content changes — all included in your monthly subscription.</div>
+        </div>
+      </div>
+    </div>
+    <div class="steps-visual reveal-right">
+      <div class="step-vis active" id="vis-0">
+        <div class="step-vis-icon">✦</div>
+        <div class="step-vis-title">Just five minutes of your time</div>
+        <div class="step-vis-desc">A short form asking for your business name, colors, logo, and key services. That's all we need to get started.</div>
+        <div class="step-timeline">Five minutes → submitted</div>
+      </div>
+      <div class="step-vis" id="vis-1">
+        <div class="step-vis-icon">◎</div>
+        <div class="step-vis-title">A live preview in your inbox</div>
+        <div class="step-vis-desc">Not a mockup image — a real, scrollable website with your brand and services. Click through it before committing.</div>
+        <div class="step-timeline">Within 24 hours</div>
+      </div>
+      <div class="step-vis" id="vis-2">
+        <div class="step-vis-icon">→</div>
+        <div class="step-vis-title">Your domain, your site</div>
+        <div class="step-vis-desc">We connect your existing domain and push everything live. Your business is findable and impressive from day one.</div>
+        <div class="step-timeline">Within two weeks</div>
+      </div>
+      <div class="step-vis" id="vis-3">
+        <div class="step-vis-icon">∞</div>
+        <div class="step-vis-title">Hands-off from here</div>
+        <div class="step-vis-desc">We monitor uptime, handle updates, run backups, and make content changes when you need them. It just works.</div>
+        <div class="step-timeline">Every month, ongoing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-eyebrow reveal">Simple pricing</div>
+  <h2 class="section-title reveal">No surprises. <em>Ever.</em></h2>
+  <p class="section-sub reveal">One setup fee, one monthly subscription. Works for any type of local business.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal-left">
+      <div class="pricing-tier">Starter</div>
+      <div class="pricing-price">$79</div>
+      <div class="pricing-period">per month</div>
+      <div class="pricing-setup">+ $249 one-time setup fee</div>
+      <ul class="pricing-features">
+        <li>5-page website (Home, Services, About, Portfolio, Contact)</li>
+        <li>Custom domain connection</li>
+        <li>Fast, reliable hosting</li>
+        <li>Monthly backups & updates</li>
+        <li>1 content change per month</li>
+        <li>Mobile-optimized design</li>
+      </ul>
+      <a class="pricing-cta" href="#preview"><span>Get my free preview</span></a>
+    </div>
+    <div class="pricing-card featured reveal-right">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-tier">Pro</div>
+      <div class="pricing-price">$129</div>
+      <div class="pricing-period">per month</div>
+      <div class="pricing-setup">+ $299 one-time setup fee</div>
+      <ul class="pricing-features">
+        <li>Everything in Starter</li>
+        <li>Google Maps & contact form</li>
+        <li>Basic SEO setup (meta, sitemap)</li>
+        <li>Third-party booking or ordering link integration</li>
+        <li>3 content changes per month</li>
+        <li>Priority support</li>
+      </ul>
+      <a class="pricing-cta" href="#preview"><span>Get my free preview</span></a>
+    </div>
+  </div>
+  <p class="pricing-note reveal">Both plans require a 3-month minimum commitment, then month-to-month. Additional content changes billed at $50/hr.</p>
+</section>
+
+<!-- FORM -->
+<section id="preview">
+  <div class="form-layout">
+    <div class="form-left">
+      <div class="section-eyebrow reveal">Free preview</div>
+      <h2 class="section-title reveal">See your business website <em>before you commit</em></h2>
+      <p class="section-sub reveal">Fill in a short form and we'll send you a live, scrollable preview within 24 hours. No payment, no obligation.</p>
+      <div class="form-promise reveal">
+        <div class="promise-item">
+          <div class="promise-num">1.</div>
+          <div class="promise-text"><div class="promise-title">Free, no strings attached</div><div class="promise-desc">The preview costs nothing. We only ask for payment if you decide to go live.</div></div>
+        </div>
+        <div class="promise-item">
+          <div class="promise-num">2.</div>
+          <div class="promise-text"><div class="promise-title">A real website, not a screenshot</div><div class="promise-desc">A live link you can click through on any device — your actual site with your branding and menu.</div></div>
+        </div>
+        <div class="promise-item">
+          <div class="promise-num">3.</div>
+          <div class="promise-text"><div class="promise-title">In your inbox within 24 hours</div><div class="promise-desc">Most previews are delivered the same business day.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-right reveal-right">
+      <div class="form-card">
+        <div id="form-body">
+          <div class="form-row">
+            <div class="form-group"><label>Business name</label><input type="text" placeholder="e.g. Bloom Hair Studio"/></div>
+            <div class="form-group"><label>Cuisine type</label><input type="text" placeholder="e.g. Hair salon, law firm, gym…"/></div>
+          </div>
+          <div class="form-group"><label>Tagline <span style="color:var(--ink-faint);font-size:10px;">(optional)</span></label><input type="text" placeholder="e.g. Where style meets expertise"/></div>
+          <div class="form-row">
+            <div class="form-group"><label>City & neighborhood</label><input type="text" placeholder="e.g. Austin TX — Downtown"/></div>
+            <div class="form-group"><label>Phone <span style="color:var(--ink-faint);font-size:10px;">(optional)</span></label><input type="text" placeholder="(555) 000-0000"/></div>
+          </div>
+          <div class="form-group">
+            <label>Vibe</label>
+            <div class="vibe-options">
+              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Warm & cozy</button>
+              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Clean & modern</button>
+              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Rustic & earthy</button>
+              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Bold & vibrant</button>
+              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Upscale & refined</button>
+            </div>
+          </div>
+          <div class="form-group"><label>Key services or products <span style="color:var(--ink-faint);font-size:10px;">(optional)</span></label><textarea placeholder="e.g. Haircut $45, Colour $120, Blowout $55… (or your key services & prices)"></textarea></div>
+          <div class="form-row">
+            <div class="form-group"><label>Your name</label><input type="text" placeholder="Jane Smith"/></div>
+            <div class="form-group"><label>Email address</label><input type="email" placeholder="jane@yourbusiness.com"/></div>
+          </div>
+          <p class="form-note">By submitting you're not committing to anything. We'll email your free preview within 24 hours. Starting at $79/mo if you love it.</p>
+          <button class="form-submit" onclick="submitForm()"><span>Send me my free preview →</span></button>
+        </div>
+        <div class="form-success" id="form-success">
+          <span class="form-success-icon">✦</span>
+          <div class="form-success-title">Preview on its way.</div>
+          <p class="form-success-sub">Your custom website preview will be in your inbox within 24 hours. Keep an eye out for an email from us.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Plate<span>form</span></div>
+  <div class="footer-links">
+    <a href="#how-it-works">Process</a>
+    <a href="#pricing">Pricing</a>
+    <a href="mailto:hello@plateform.co">hello@plateform.co</a>
+    <a href="#">Instagram</a>
+  </div>
+  <div class="footer-copy">© 2026 Plateform. All rights reserved.</div>
+</footer>
+
+<script>
+// ── INTRO ──
+const TOTAL_SLIDES = 5;
+const SLIDE_DURATION = 2800;
+let currentSlide = 0;
+let introTimer = null;
+let progressTimer = null;
+let progressVal = 0;
+let introDone = false;
+
+document.body.classList.add('intro-active');
+
+for(let s=0;s<TOTAL_SLIDES;s++){
+  const container = document.getElementById('dots-'+s);
+  if(!container) continue;
+  for(let i=0;i<TOTAL_SLIDES;i++){
+    const d = document.createElement('div');
+    d.className = 'intro-dot'+(i<s?' done':i===s?' active':'');
+    container.appendChild(d);
+  }
+}
+
+function startProgress(){
+  clearInterval(progressTimer);
+  progressVal = 0;
+  const bar = document.getElementById('intro-progress');
+  const step = 100/(SLIDE_DURATION/50);
+  progressTimer = setInterval(()=>{
+    progressVal = Math.min(100,progressVal+step);
+    bar.style.width = progressVal+'%';
+    if(progressVal>=100) clearInterval(progressTimer);
+  },50);
+}
+
+function goToSlide(idx){
+  if(introDone) return;
+  const flash = document.getElementById('intro-flash');
+
+  // Set water color to the incoming slide's bg
+  const slideBgs = ['#2C1A0E','#1e1008','#160c04','#0e0802','#8B3E18'];
+  flash.style.background = slideBgs[idx] || '#2C1A0E';
+
+  flash.classList.remove('flashing');
+  void flash.offsetWidth;
+  flash.classList.add('flashing');
+
+  // Switch slides at the peak of the water fill (around 55% through = ~0.4s)
+  const prev = document.getElementById('slide-'+currentSlide);
+  if(prev){
+    prev.classList.remove('entering','active');
+    setTimeout(()=>{ prev.classList.add('exiting'); setTimeout(()=>prev.classList.remove('exiting'),300); }, 10);
+  }
+  setTimeout(()=>{
+    currentSlide = idx;
+    const next = document.getElementById('slide-'+idx);
+    if(next){ next.classList.add('active','entering'); }
+  }, 370);
+
+  startProgress();
+  clearTimeout(introTimer);
+  if(idx < TOTAL_SLIDES-1){
+    introTimer = setTimeout(()=>goToSlide(idx+1), SLIDE_DURATION);
+  }
+}
+
+function exitIntro(){
+  introDone = true;
+  clearTimeout(introTimer);
+  clearInterval(progressTimer);
+  const overlay = document.getElementById('intro');
+  overlay.classList.add('exiting');
+  document.body.classList.remove('intro-active');
+  setTimeout(()=>{ overlay.style.display='none'; },620);
+}
+
+function exitIntroToForm(){
+  exitIntro();
+  setTimeout(()=>{ document.getElementById('preview').scrollIntoView({behavior:'smooth'}); },900);
+}
+
+document.getElementById('intro').addEventListener('click',e=>{
+  if(e.target.tagName==='BUTTON') return;
+  if(currentSlide<TOTAL_SLIDES-1) goToSlide(currentSlide+1);
+});
+
+document.addEventListener('keydown',e=>{
+  if(introDone) return;
+  if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); if(currentSlide<TOTAL_SLIDES-1) goToSlide(currentSlide+1); }
+  if(e.key==='ArrowLeft'){ e.preventDefault(); if(currentSlide>0) goToSlide(currentSlide-1); }
+  if(e.key==='Escape') exitIntro();
+});
+
+introTimer = setTimeout(()=>goToSlide(1), SLIDE_DURATION);
+startProgress();
+
+// ── CUSTOM CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+function animateRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateRing);}
+animateRing();
+document.querySelectorAll('a,button,.step,.proof-card,.pricing-card,.vibe-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.classList.add('hovering');ring.classList.add('hovering');});
+  el.addEventListener('mouseleave',()=>{cursor.classList.remove('hovering');ring.classList.remove('hovering');});
+});
+
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll',()=>{
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  document.getElementById('progress-bar').style.width=pct+'%';
+});
+
+// ── GSAP SCROLLTRIGGER + TEXT ANIMATIONS ──
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+// ─── UTILITY: Manual character splitter ───
+function splitChars(el) {
+  const text = el.innerText;
+  el.innerHTML = '';
+  const chars = [];
+  text.split('').forEach(ch => {
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.style.display = 'inline-block';
+    span.innerHTML = ch === ' ' ? '\u00A0' : ch;
+    el.appendChild(span);
+    chars.push(span);
+  });
+  return chars;
+}
+
+function splitWords(el) {
+  const text = el.innerText;
+  el.innerHTML = '';
+  const words = [];
+  text.split(' ').forEach((w, i, arr) => {
+    const wrap = document.createElement('span');
+    wrap.className = 'word';
+    wrap.style.display = 'inline-block';
+    wrap.style.overflow = 'hidden';
+    wrap.style.verticalAlign = 'bottom';
+    const inner = document.createElement('span');
+    inner.className = 'char';
+    inner.style.display = 'inline-block';
+    inner.innerText = w;
+    wrap.appendChild(inner);
+    if(i < arr.length - 1) wrap.appendChild(document.createTextNode(' '));
+    el.appendChild(wrap);
+    words.push(inner);
+  });
+  return words;
+}
+
+function splitLines(el) {
+  // Wrap each em/text node line
+  const html = el.innerHTML;
+  const lines = html.split('<br>');
+  if(lines.length > 1) {
+    el.innerHTML = lines.map(l =>
+      `<span class="line" style="display:block;overflow:hidden"><span class="char" style="display:block">${l}</span></span>`
+    ).join('');
+    return el.querySelectorAll('.line .char');
+  }
+  return splitWords(el);
+}
+
+// ─── 1. HERO HEADLINE — Character stagger with wave ───
+(function() {
+  var h1 = document.querySelector('.hero-h1');
+  if(!h1) return;
+  var rawHTML = h1.innerHTML;
+  var tempDiv = document.createElement('div');
+  tempDiv.innerHTML = rawHTML;
+  h1.innerHTML = '';
+  h1.style.opacity = '1';
+  h1.style.transform = 'none';
+  h1.style.animation = 'none';
+  var allChars = [];
+  var NL = String.fromCharCode(10);
+  tempDiv.childNodes.forEach(function(node) {
+    if(node.nodeType === 3) {
+      node.textContent.split('').forEach(function(ch) {
+        if(ch === NL || ch === String.fromCharCode(13)) {
+          h1.appendChild(document.createElement('br'));
+          return;
+        }
+        var span = document.createElement('span');
+        span.className = 'char';
+        span.style.display = 'inline-block';
+        span.textContent = (ch === ' ') ? String.fromCharCode(160) : ch;
+        h1.appendChild(span);
+        allChars.push(span);
+      });
+    } else if(node.nodeName === 'EM') {
+      node.textContent.split('').forEach(function(ch) {
+        var span = document.createElement('span');
+        span.className = 'char';
+        span.style.fontStyle = 'italic';
+        span.style.color = 'var(--accent)';
+        span.style.display = 'inline-block';
+        span.textContent = (ch === ' ') ? String.fromCharCode(160) : ch;
+        h1.appendChild(span);
+        allChars.push(span);
+      });
+    } else if(node.nodeName === 'BR') {
+      h1.appendChild(document.createElement('br'));
+    }
+  });
+  gsap.fromTo(allChars,
+    { opacity: 0, y: 60, rotateX: -90 },
+    {
+      opacity: 1, y: 0, rotateX: 0,
+      duration: 0.6,
+      stagger: { each: 0.025, from: 'start' },
+      ease: 'back.out(1.4)',
+      delay: 0.5,
+      transformOrigin: '50% 100%',
+    }
+  );
+})();
+
+// ─── 2. HERO SUBTEXT — Word by word rise ───
+(function() {
+  const sub = document.querySelector('.hero-sub');
+  if(!sub) return;
+  sub.style.opacity = '1';
+  sub.style.transform = 'none';
+  sub.style.animation = 'none';
+  const words = splitWords(sub);
+  gsap.fromTo(words,
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.5, stagger: 0.04, ease: 'power2.out', delay: 1.2 }
+  );
+})();
+
+// ─── 3. HERO STATS — Number count-up odometer ───
+(function() {
+  const stats = [
+    { el: document.querySelectorAll('.stat-num')[0], from: 0, to: 79, prefix: '$', suffix: '' },
+    { el: document.querySelectorAll('.stat-num')[1], from: 0, to: 2, prefix: '', suffix: 'wk' },
+    { el: document.querySelectorAll('.stat-num')[2], from: 0, to: 24, prefix: '', suffix: 'h' },
+  ];
+  stats.forEach(({ el, from, to, prefix, suffix }, i) => {
+    if(!el) return;
+    gsap.fromTo({ val: from }, { val: to },
+      {
+        duration: 1.4, ease: 'power2.out', delay: 1.4 + i * 0.15,
+        onUpdate: function() { el.innerText = prefix + Math.round(this.targets()[0].val) + suffix; }
+      }
+    );
+  });
+})();
+
+// ─── 4. SECTION TITLES — Line reveal on scroll ───
+gsap.utils.toArray('.section-title').forEach(el => {
+  const lines = el.querySelectorAll('.split-line');
+  const targets = lines.length ? lines : [el];
+
+  // If no split-lines, wrap content
+  if(!lines.length) {
+    const inner = document.createElement('span');
+    inner.className = 'char';
+    inner.style.display = 'block';
+    inner.innerHTML = el.innerHTML;
+    el.innerHTML = '';
+    const wrapper = document.createElement('span');
+    wrapper.className = 'line';
+    wrapper.style.display = 'block';
+    wrapper.style.overflow = 'hidden';
+    wrapper.appendChild(inner);
+    el.appendChild(wrapper);
+
+    gsap.fromTo(inner,
+      { y: '100%', opacity: 0 },
+      { y: '0%', opacity: 1, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+      }
+    );
+  } else {
+    const innerChars = [];
+    lines.forEach(line => {
+      const span = document.createElement('span');
+      span.style.display = 'block';
+      span.innerHTML = line.innerHTML;
+      line.innerHTML = '';
+      line.appendChild(span);
+      innerChars.push(span);
+    });
+    gsap.fromTo(innerChars,
+      { y: '105%', opacity: 0, skewY: 4 },
+      { y: '0%', opacity: 1, skewY: 0, duration: 0.75, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+      }
+    );
+  }
+});
+
+// ─── 5. TESTIMONIAL QUOTES — Word scramble reveal ───
+gsap.utils.toArray('.proof-quote').forEach((el, idx) => {
+  const originalText = el.innerText;
+  const words = splitWords(el);
+
+  gsap.fromTo(words,
+    { opacity: 0, y: 15, filter: 'blur(4px)' },
+    {
+      opacity: 1, y: 0, filter: 'blur(0px)',
+      duration: 0.5, stagger: 0.03, ease: 'power2.out',
+      scrollTrigger: {
+        trigger: el, start: 'top 85%', toggleActions: 'play none none none'
+      },
+      delay: idx * 0.1
+    }
+  );
+});
+
+// ─── 6. EYEBROW LABELS — Letter stagger left to right ───
+gsap.utils.toArray('.section-eyebrow').forEach(el => {
+  const chars = splitChars(el);
+  gsap.fromTo(chars,
+    { opacity: 0, x: -10 },
+    {
+      opacity: 1, x: 0,
+      duration: 0.3, stagger: 0.03, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
+    }
+  );
+});
+
+// ─── 7. PRICING PRICE — Big number roll up ───
+gsap.utils.toArray('.pricing-price').forEach(el => {
+  const raw = el.innerText; // e.g. "$79"
+  const match = raw.match(/\d+/);
+  if(!match) return;
+  const num = parseInt(match[0]);
+  const prefix = raw.indexOf('$') > -1 ? '$' : '';
+
+  gsap.fromTo({ n: 0 }, { n: num },
+    {
+      duration: 1.2, ease: 'power2.out',
+      onUpdate: function() { el.innerText = prefix + Math.round(this.targets()[0].n); },
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    }
+  );
+});
+
+// ─── 8. STEP TITLES — Hover character wave ───
+gsap.utils.toArray('.step-title').forEach(el => {
+  const chars = splitChars(el);
+  el.addEventListener('mouseenter', () => {
+    gsap.fromTo(chars,
+      { y: 0 },
+      { y: -4, duration: 0.25, stagger: 0.03, ease: 'power2.out',
+        yoyo: true, repeat: 1 }
+    );
+  });
+});
+
+// ─── 9. NAV LOGO — Typewriter on load ───
+(function() {
+  const logo = document.querySelector('.nav-logo');
+  if(!logo) return;
+  const full = logo.innerHTML; // "Plate<span>form</span>"
+  logo.innerHTML = '';
+  logo.style.minWidth = '100px';
+
+  const textNode = document.createTextNode('');
+  logo.appendChild(textNode);
+
+  const spanEl = document.createElement('span');
+  spanEl.style.color = 'var(--accent)';
+  spanEl.innerText = '';
+  logo.appendChild(spanEl);
+
+  const cursor = document.createElement('span');
+  cursor.className = 'typewriter-cursor';
+  logo.appendChild(cursor);
+
+  const word1 = 'Plate';
+  const word2 = 'form';
+  let i = 0;
+
+  function typeNext() {
+    if(i < word1.length) {
+      textNode.textContent += word1[i];
+      i++; setTimeout(typeNext, 80);
+    } else if(i < word1.length + word2.length) {
+      spanEl.innerText += word2[i - word1.length];
+      i++; setTimeout(typeNext, 80);
+    } else {
+      setTimeout(() => cursor.style.animation = 'none', 1000);
+      setTimeout(() => cursor.style.display = 'none', 1500);
+    }
+  }
+  setTimeout(typeNext, 300);
+})();
+
+// ─── 10. STORY STRIP SPLIT LINES — Override with GSAP ───
+// (handled in horizontal scroll section below)
+
+// ── STORYTELLING HORIZONTAL SCROLL ──
+// ── STORYTELLING HORIZONTAL SCROLL ──
+const strip = document.getElementById('story-strip');
+const panels = gsap.utils.toArray('.story-panel');
+const totalPanels = panels.length;
+const progressDots = document.querySelectorAll('.story-pdot');
+const storyProgress = document.getElementById('story-progress');
+
+// Pin and horizontal scroll
+let ctx = gsap.context(() => {
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#story-container',
+      start: 'top top',
+      end: () => '+=' + (strip.scrollWidth - window.innerWidth),
+      scrub: 1.2,
+      pin: true,
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        const idx = Math.round(self.progress * (totalPanels - 1));
+        progressDots.forEach((d,i) => d.classList.toggle('active', i === idx));
+        storyProgress.classList.add('visible');
+      },
+      onLeave: () => storyProgress.classList.remove('visible'),
+      onEnterBack: () => storyProgress.classList.add('visible'),
+      onLeaveBack: () => storyProgress.classList.remove('visible'),
+    }
+  });
+
+  tl.to(strip, {
+    x: () => -(strip.scrollWidth - window.innerWidth),
+    ease: 'none',
+  });
+
+  // Animate each panel's content as it enters
+  panels.forEach((panel, i) => {
+    const tag = panel.querySelector('.story-panel-tag');
+    const lines = panel.querySelectorAll('.split-line');
+    const body = panel.querySelector('.story-panel-body');
+    const stats = panel.querySelectorAll('.story-panel-stat > div');
+    const visual = panel.querySelector('.story-visual');
+    const hint = panel.querySelector('.scroll-hint');
+
+    // Stagger lines in from below as panel scrolls into view
+    const panelStart = i / totalPanels;
+    const panelEnd = (i + 0.6) / totalPanels;
+
+    if(tag) gsap.fromTo(tag,
+      { opacity: 0, x: -20 },
+      { opacity: 1, x: 0, duration: 0.4,
+        scrollTrigger: { trigger: '#story-container', start: 'top top',
+          end: () => '+=' + (strip.scrollWidth - window.innerWidth),
+          scrub: 1.5, containerAnimation: tl,
+          trigger: panel, start: 'left 80%', end: 'left 20%',
+        }
+      }
+    );
+
+    if(lines.length) {
+      gsap.fromTo(lines,
+        { opacity: 0, y: 40, skewY: 3 },
+        { opacity: 1, y: 0, skewY: 0, duration: 0.5, stagger: 0.12,
+          scrollTrigger: { containerAnimation: tl, trigger: panel,
+            start: 'left 75%', end: 'left 30%', scrub: 1.2 }
+        }
+      );
+    }
+
+    if(body) gsap.fromTo(body,
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.5,
+        scrollTrigger: { containerAnimation: tl, trigger: panel,
+          start: 'left 60%', end: 'left 15%', scrub: 1.2 }
+      }
+    );
+
+    if(stats.length) {
+      gsap.fromTo(stats,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, stagger: 0.15, duration: 0.4,
+          scrollTrigger: { containerAnimation: tl, trigger: panel,
+            start: 'left 50%', end: 'left 10%', scrub: 1 }
+        }
+      );
+    }
+
+    if(visual) {
+      gsap.fromTo(visual,
+        { opacity: 0, scale: 0.88, y: 30 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.6,
+          scrollTrigger: { containerAnimation: tl, trigger: panel,
+            start: 'left 70%', end: 'left 20%', scrub: 1.4 }
+        }
+      );
+      // Parallax on visual
+      gsap.to(visual, {
+        x: -40,
+        scrollTrigger: { containerAnimation: tl, trigger: panel,
+          start: 'left left', end: 'right left', scrub: 2 }
+      });
+    }
+
+    if(hint) gsap.to(hint, {
+      opacity: 0, duration: 0.2,
+      scrollTrigger: { containerAnimation: tl, trigger: panel,
+        start: 'left 30%', end: 'left 10%', scrub: 1 }
+    });
+  });
+
+  // Count-up numbers when panel 1 enters
+  const countEls = document.querySelectorAll('[data-count]');
+  countEls.forEach(el => {
+    const target = parseInt(el.dataset.count);
+    gsap.fromTo(el, { innerText: 0 }, {
+      innerText: target,
+      duration: 1.5,
+      snap: { innerText: 1 },
+      scrollTrigger: { containerAnimation: tl, trigger: panels[0],
+        start: 'left 60%', end: 'left 20%', scrub: false, once: true,
+        onEnter: () => gsap.fromTo(el, { innerText: 0 }, { innerText: target, duration: 1.2, snap: { innerText: 1 } })
+      }
+    });
+  });
+
+});
+
+// ── GSAP SCROLL REVEALS (rest of page) ──
+// Hero is handled by CSS animation, start GSAP from testimonials down
+gsap.utils.toArray('.reveal').forEach((el, i) => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 36 },
+    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+      delay: (i % 3) * 0.1
+    }
+  );
+});
+
+gsap.utils.toArray('.reveal-left').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, x: -40 },
+    { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    }
+  );
+});
+
+gsap.utils.toArray('.reveal-right').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, x: 40 },
+    { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    }
+  );
+});
+
+// ── GSAP SECTION TITLE PARALLAX ──
+gsap.utils.toArray('.section-title').forEach(el => {
+  gsap.fromTo(el,
+    { y: 20 },
+    { y: -10, ease: 'none',
+      scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 1.5 }
+    }
+  );
+});
+
+// ── PROOF CARDS STAGGER ──
+gsap.fromTo('.proof-card',
+  { opacity: 0, y: 50, scale: 0.97 },
+  { opacity: 1, y: 0, scale: 1, stagger: 0.15, duration: 0.7, ease: 'power2.out',
+    scrollTrigger: { trigger: '.proof-grid', start: 'top 80%', toggleActions: 'play none none none' }
+  }
+);
+
+// ── PRICING CARDS FLIP IN ──
+gsap.fromTo('.pricing-card',
+  { opacity: 0, y: 60, rotateX: 8 },
+  { opacity: 1, y: 0, rotateX: 0, stagger: 0.2, duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: '.pricing-grid', start: 'top 82%', toggleActions: 'play none none none' }
+  }
+);
+
+// ── NAV SCROLL SHRINK (keep existing) ──
+
+// ── DEVICE TOGGLE ──
+function showDevice(device,btn){
+  document.querySelectorAll('.device-toggle button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const laptop=document.getElementById('view-laptop');
+  const mobile=document.getElementById('view-mobile');
+  if(device==='laptop'){laptop.style.display='block';mobile.style.display='none';}
+  else{laptop.style.display='none';mobile.style.display='block';}
+}
+
+// ── HOW IT WORKS STEPPER ──
+function setStep(i,clicked){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.step-vis').forEach(v=>v.classList.remove('active'));
+  clicked.classList.add('active');
+  document.getElementById('vis-'+i).classList.add('active');
+}
+
+// ── VIBE TOGGLE ──
+function toggleVibe(btn){
+  const was=btn.classList.contains('active');
+  document.querySelectorAll('.vibe-btn').forEach(b=>b.classList.remove('active'));
+  if(!was)btn.classList.add('active');
+}
+
+// ── FORM SUBMIT → BREVO ──
+async function submitForm(){
+  const btn = document.querySelector('.form-submit');
+  const inputs = document.querySelectorAll('#form-body input, #form-body textarea');
+
+  // Basic validation
+  const emailEl = document.querySelector('#form-body input[type="email"]');
+  const nameInputEl = document.querySelector('#form-body input[placeholder="Jane Smith"]');
+  const bizEl = document.querySelector('#form-body input[placeholder*="Bloom"]');
+
+  if(!emailEl.value.trim() || !nameInputEl.value.trim()) {
+    [emailEl, nameInputEl].forEach(el => {
+      if(!el.value.trim()) {
+        el.style.borderColor = 'var(--accent)';
+        el.style.animation = 'none';
+        setTimeout(() => el.style.animation = '', 100);
+      }
+    });
+    return;
+  }
+
+  // Loading state
+  btn.querySelector('span').innerText = 'Sending…';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  // Gather all form data
+  const allInputs = document.querySelectorAll('#form-body input, #form-body textarea');
+  const activeVibe = document.querySelector('.vibe-btn.active');
+
+  const formData = {
+    email: emailEl.value.trim(),
+    firstName: nameInputEl.value.trim().split(' ')[0] || '',
+    lastName: nameInputEl.value.trim().split(' ').slice(1).join(' ') || '',
+    bizName: bizEl ? bizEl.value.trim() : '',
+    bizType: allInputs[1] ? allInputs[1].value.trim() : '',
+    tagline: allInputs[2] ? allInputs[2].value.trim() : '',
+    city: allInputs[3] ? allInputs[3].value.trim() : '',
+    phone: allInputs[4] ? allInputs[4].value.trim() : '',
+    vibe: activeVibe ? activeVibe.innerText : '',
+    services: document.querySelector('#form-body textarea') ? document.querySelector('#form-body textarea').value.trim() : '',
+  };
+
+  try {
+    // Calls our Netlify function — API key stays server-side
+    const res = await fetch('/.netlify/functions/submit-contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        bizName: formData.bizName,
+        bizType: formData.bizType,
+        tagline: formData.tagline,
+        city: formData.city,
+        phone: formData.phone,
+        vibe: formData.vibe,
+        services: formData.services,
+      })
+    });
+
+    if(res.ok || res.status === 204 || res.status === 201) {
+      // Success
+      document.getElementById('form-body').style.display = 'none';
+      const s = document.getElementById('form-success');
+      s.style.display = 'block';
+    } else {
+      const err = await res.json();
+      console.error('Brevo error:', err);
+      throw new Error(err.message || 'Submission failed');
+    }
+  } catch(e) {
+    console.error('Form error:', e);
+    btn.querySelector('span').innerText = 'Something went wrong — try again';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.background = 'var(--accent)';
+  }
+}
+
+// ── NAV SCROLL SHRINK ──
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('main-nav');
+  nav.style.height=window.scrollY>60?'52px':'64px';
+});
+
+// ── MARQUEE CLONE ──
+const track=document.getElementById('marquee');
+track.innerHTML+=track.innerHTML;
+</script>
+</body>
+</html>
