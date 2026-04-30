@@ -212,7 +212,7 @@ section{padding:100px 80px;border-top:0.5px solid var(--border);}
 .promise-num{font-family:var(--serif);font-size:20px;color:var(--accent);min-width:28px;font-weight:300;}
 .promise-title{font-size:14px;font-weight:500;margin-bottom:3px;}
 .promise-desc{font-size:13px;color:var(--ink-mid);font-weight:300;line-height:1.6;}
-.form-card{background:var(--cream);border:0.5px solid var(--border-med);border-radius:6px;padding:40px;box-shadow:0 4px 32px rgba(44,26,14,0.06);}
+.form-card{background:var(--cream);border:0.5px solid var(--border-med);border-radius:6px;padding:40px;box-shadow:0 4px 32px rgba(44,26,14,0.06);min-height:400px;}
 .form-group{margin-bottom:20px;}
 .form-group label{display:block;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:7px;}
 .form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(44,26,14,0.03);border:0.5px solid var(--border-med);border-radius:3px;padding:11px 14px;font-family:var(--sans);font-size:14px;color:var(--ink);outline:none;font-weight:300;transition:border-color 0.2s,background 0.2s,transform 0.15s;}
@@ -548,6 +548,66 @@ footer{border-top:0.5px solid var(--border);padding:40px 80px;display:flex;align
   opacity: 0;
 }
 
+
+/* ── HUBSPOT FORM OVERRIDES ── */
+.form-card .hs-form-frame { display: block; }
+.form-card .hs-form iframe { width: 100% !important; }
+.form-card .hs-form input[type="text"],
+.form-card .hs-form input[type="email"],
+.form-card .hs-form textarea,
+.form-card .hs-form select {
+  width: 100% !important;
+  font-family: var(--sans) !important;
+  font-size: 14px !important;
+  font-weight: 300 !important;
+  color: var(--ink) !important;
+  background: rgba(44,26,14,0.03) !important;
+  border: 0.5px solid var(--border-med) !important;
+  border-radius: 3px !important;
+  padding: 11px 14px !important;
+  outline: none !important;
+}
+.form-card .hs-form input[type="submit"],
+.form-card .hs-form .hs-button {
+  background: var(--ink) !important;
+  color: var(--cream) !important;
+  font-family: var(--sans) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  padding: 14px 32px !important;
+  border: none !important;
+  border-radius: 2px !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  margin-top: 8px !important;
+}
+.form-card .hs-form input[type="submit"]:hover,
+.form-card .hs-form .hs-button:hover {
+  background: var(--accent) !important;
+}
+.form-card .hs-form label {
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--ink-mid) !important;
+  font-family: var(--sans) !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+.form-card .hs-form .hs-error-msgs {
+  color: var(--accent) !important;
+  font-size: 12px !important;
+  margin-top: 4px !important;
+  list-style: none !important;
+}
+.form-card .hs-form .hs-richtext {
+  font-size: 12px !important;
+  color: var(--ink-faint) !important;
+  line-height: 1.6 !important;
+  font-family: var(--sans) !important;
+}
+
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
   nav{padding:0 24px;}.nav-links{display:none;}
@@ -641,6 +701,7 @@ body.intro-active{overflow:hidden;}
 #intro.exiting{animation:overlayExit 0.6s cubic-bezier(0.4,0,0.2,1) forwards;}
 @keyframes overlayExit{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-16px);}}
 </style>
+  <script src="https://js-na2.hsforms.net/forms/embed/245959281.js" defer></script>
 </head>
 <body>
 
@@ -1116,41 +1177,9 @@ body.intro-active{overflow:hidden;}
         </div>
       </div>
     </div>
-    <div class="form-right reveal-right">
+    <div class="form-right reveal-right" style="opacity:1;transform:none;">
       <div class="form-card">
-        <div id="form-body">
-          <div class="form-row">
-            <div class="form-group"><label>Business name</label><input type="text" placeholder="e.g. Bloom Hair Studio"/></div>
-            <div class="form-group"><label>Cuisine type</label><input type="text" placeholder="e.g. Hair salon, law firm, gym…"/></div>
-          </div>
-          <div class="form-group"><label>Tagline <span style="color:var(--ink-faint);font-size:10px;">(optional)</span></label><input type="text" placeholder="e.g. Where style meets expertise"/></div>
-          <div class="form-row">
-            <div class="form-group"><label>City & neighborhood</label><input type="text" placeholder="e.g. Austin TX — Downtown"/></div>
-            <div class="form-group"><label>Phone <span style="color:var(--ink-faint);font-size:10px;">(optional)</span></label><input type="text" placeholder="(555) 000-0000"/></div>
-          </div>
-          <div class="form-group">
-            <label>Vibe</label>
-            <div class="vibe-options">
-              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Warm & cozy</button>
-              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Clean & modern</button>
-              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Rustic & earthy</button>
-              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Bold & vibrant</button>
-              <button type="button" class="vibe-btn" onclick="toggleVibe(this)">Upscale & refined</button>
-            </div>
-          </div>
-          <div class="form-group"><label>Key services or products <span style="color:var(--ink-faint);font-size:10px;">(optional)</span></label><textarea placeholder="e.g. Haircut $45, Colour $120, Blowout $55… (or your key services & prices)"></textarea></div>
-          <div class="form-row">
-            <div class="form-group"><label>Your name</label><input type="text" placeholder="Jane Smith"/></div>
-            <div class="form-group"><label>Email address</label><input type="email" placeholder="jane@yourbusiness.com"/></div>
-          </div>
-          <p class="form-note">By submitting you're not committing to anything. We'll email your free preview within 24 hours. Starting at $79/mo if you love it.</p>
-          <button class="form-submit" onclick="submitForm()"><span>Send me my free preview →</span></button>
-        </div>
-        <div class="form-success" id="form-success">
-          <span class="form-success-icon">✦</span>
-          <div class="form-success-title">Preview on its way.</div>
-          <p class="form-success-sub">Your custom website preview will be in your inbox within 24 hours. Keep an eye out for an email from us.</p>
-        </div>
+        <div class="hs-form-frame" data-region="na2" data-form-id="b35333a1-8242-4f9b-af93-f0db48945502" data-portal-id="245959281"></div>
       </div>
     </div>
   </div>
@@ -1770,93 +1799,7 @@ function setStep(i,clicked){
   document.getElementById('vis-'+i).classList.add('active');
 }
 
-// ── VIBE TOGGLE ──
-function toggleVibe(btn){
-  const was=btn.classList.contains('active');
-  document.querySelectorAll('.vibe-btn').forEach(b=>b.classList.remove('active'));
-  if(!was)btn.classList.add('active');
-}
-
-// ── FORM SUBMIT → BREVO ──
-async function submitForm(){
-  const btn = document.querySelector('.form-submit');
-  const inputs = document.querySelectorAll('#form-body input, #form-body textarea');
-
-  // Basic validation
-  const emailEl = document.querySelector('#form-body input[type="email"]');
-  const nameInputEl = document.querySelector('#form-body input[placeholder="Jane Smith"]');
-  const bizEl = document.querySelector('#form-body input[placeholder*="Bloom"]');
-
-  if(!emailEl.value.trim() || !nameInputEl.value.trim()) {
-    [emailEl, nameInputEl].forEach(el => {
-      if(!el.value.trim()) {
-        el.style.borderColor = 'var(--accent)';
-        el.style.animation = 'none';
-        setTimeout(() => el.style.animation = '', 100);
-      }
-    });
-    return;
-  }
-
-  // Loading state
-  btn.querySelector('span').innerText = 'Sending…';
-  btn.disabled = true;
-  btn.style.opacity = '0.7';
-
-  // Gather all form data
-  const allInputs = document.querySelectorAll('#form-body input, #form-body textarea');
-  const activeVibe = document.querySelector('.vibe-btn.active');
-
-  const formData = {
-    email: emailEl.value.trim(),
-    firstName: nameInputEl.value.trim().split(' ')[0] || '',
-    lastName: nameInputEl.value.trim().split(' ').slice(1).join(' ') || '',
-    bizName: bizEl ? bizEl.value.trim() : '',
-    bizType: allInputs[1] ? allInputs[1].value.trim() : '',
-    tagline: allInputs[2] ? allInputs[2].value.trim() : '',
-    city: allInputs[3] ? allInputs[3].value.trim() : '',
-    phone: allInputs[4] ? allInputs[4].value.trim() : '',
-    vibe: activeVibe ? activeVibe.innerText : '',
-    services: document.querySelector('#form-body textarea') ? document.querySelector('#form-body textarea').value.trim() : '',
-  };
-
-  try {
-    // Calls our Netlify function — API key stays server-side
-    const res = await fetch('/.netlify/functions/submit-contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: formData.email,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        bizName: formData.bizName,
-        bizType: formData.bizType,
-        tagline: formData.tagline,
-        city: formData.city,
-        phone: formData.phone,
-        vibe: formData.vibe,
-        services: formData.services,
-      })
-    });
-
-    if(res.ok || res.status === 204 || res.status === 201) {
-      // Success
-      document.getElementById('form-body').style.display = 'none';
-      const s = document.getElementById('form-success');
-      s.style.display = 'block';
-    } else {
-      const err = await res.json();
-      console.error('Brevo error:', err);
-      throw new Error(err.message || 'Submission failed');
-    }
-  } catch(e) {
-    console.error('Form error:', e);
-    btn.querySelector('span').innerText = 'Something went wrong — try again';
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    btn.style.background = 'var(--accent)';
-  }
-}
+// ── FORM handled by HubSpot embed ──
 
 // ── NAV SCROLL SHRINK ──
 window.addEventListener('scroll',()=>{
