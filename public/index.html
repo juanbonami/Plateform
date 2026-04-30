@@ -775,18 +775,7 @@ body.intro-active{overflow:hidden;}
       pointer-events: none;
     }
 
-    /* Shimmer on submit button */
-    @keyframes shimmer {
-      0%{background-position:-200% center;}
-      100%{background-position:200% center;}
-    }
-    .sib-form-block__button.sending {
-      background: linear-gradient(90deg, var(--ink) 25%, var(--accent) 50%, var(--ink) 75%) !important;
-      background-size: 200% auto !important;
-      animation: shimmer 1.2s linear infinite !important;
-      opacity: 0.9 !important;
-      pointer-events: none !important;
-    }
+
   </style>
   <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 </head>
@@ -1965,119 +1954,6 @@ gsap.fromTo('.pricing-card',
 
 
 
-// ── BREVO FORM SUCCESS ANIMATION ──
-(function() {
-  const colours = ['#A85428','#E8A44A','#2C1A0E','#FBF0E2','#C4622D'];
-
-  function spawnParticles() {
-    const wrap = document.getElementById('ps-particles');
-    if (!wrap) return;
-    for (var i = 0; i < 28; i++) {
-      (function(i) {
-        var p = document.createElement('div');
-        p.className = 'ps-particle';
-        p.style.background = colours[i % colours.length];
-        p.style.left = '50%';
-        p.style.top  = '30%';
-        p.style.width  = (Math.random() * 6 + 4) + 'px';
-        p.style.height = (Math.random() * 6 + 4) + 'px';
-        p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-        wrap.appendChild(p);
-        var angle  = Math.random() * Math.PI * 2;
-        var radius = Math.random() * 180 + 60;
-        gsap.fromTo(p,
-          { x: 0, y: 0, opacity: 1, scale: 1 },
-          { x: Math.cos(angle)*radius, y: Math.sin(angle)*radius,
-            opacity: 0, scale: Math.random()*0.5+0.3,
-            duration: Math.random()*0.8+0.6, ease: 'power2.out',
-            delay: Math.random()*0.15,
-            onComplete: function(){ p.remove(); }
-          }
-        );
-      })(i);
-    }
-  }
-
-  function playSuccess() {
-    var success = document.getElementById('plateform-success');
-    var container = document.getElementById('sib-container');
-    var circle  = document.getElementById('ps-circle');
-    var check   = document.getElementById('ps-check');
-    var title   = document.getElementById('ps-title');
-    var sub     = document.getElementById('ps-sub');
-    var tag     = document.getElementById('ps-tag');
-
-    gsap.to(container, {
-      opacity: 0, y: -20, duration: 0.35, ease: 'power2.in',
-      onComplete: function() {
-        container.style.display = 'none';
-        success.style.display = 'block';
-        var tl = gsap.timeline();
-        tl.to(circle, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.8)' });
-        tl.to(check.querySelector('polyline'), { strokeDashoffset: 0, duration: 0.45, ease: 'power2.out' }, '-=0.1');
-        tl.call(spawnParticles, null, '-=0.2');
-        tl.to(title, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1');
-        tl.to(sub,   { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, '-=0.25');
-        tl.to(tag,   { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '-=0.2');
-      }
-    });
-  }
-
-  // Let Brevo handle its own submission & validation
-  // We hook into the button click to show shimmer, then poll for result
-  var form = document.getElementById('sib-form');
-  var btn  = form ? form.querySelector('.sib-form-block__button') : null;
-  if (!form || !btn) return;
-
-  var submitted = false;
-
-  btn.addEventListener('click', function() {
-    // Only shimmer if HTML5 validation passes
-    if (!form.checkValidity()) return;
-    submitted = true;
-    btn.classList.add('sending');
-    btn.textContent = 'Sending…';
-    startPolling();
-  });
-
-  function startPolling() {
-    var attempts = 0;
-    var maxAttempts = 60; // 6 seconds max
-    var poll = setInterval(function() {
-      attempts++;
-      var successEl = document.getElementById('success-message');
-      var errorEl   = document.getElementById('error-message');
-
-      var successVisible = successEl && (
-        successEl.style.display === 'block' ||
-        successEl.style.display === 'flex' ||
-        (getComputedStyle(successEl).display !== 'none' &&
-         successEl.offsetParent !== null)
-      );
-
-      var errorVisible = errorEl && (
-        errorEl.style.display === 'block' ||
-        errorEl.style.display === 'flex' ||
-        (getComputedStyle(errorEl).display !== 'none' &&
-         errorEl.offsetParent !== null)
-      );
-
-      if (successVisible) {
-        clearInterval(poll);
-        playSuccess();
-      } else if (errorVisible) {
-        clearInterval(poll);
-        btn.classList.remove('sending');
-        btn.textContent = 'Try again';
-      } else if (attempts >= maxAttempts) {
-        clearInterval(poll);
-        btn.classList.remove('sending');
-        btn.textContent = 'Send me my free preview →';
-      }
-    }, 100);
-  }
-})();
-
 // ── NAV SCROLL SHRINK (keep existing) ──
 
 // ── DEVICE TOGGLE ──
@@ -2121,5 +1997,93 @@ track.innerHTML+=track.innerHTML;
   var AUTOHIDE = Boolean(0);
 </script>
 <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+
+<script>
+// Wait for Brevo's main.js to fully load and initialize before observing
+window.addEventListener('load', function() {
+  var colours = ['#A85428','#E8A44A','#2C1A0E','#FBF0E2','#C4622D'];
+
+  function spawnParticles() {
+    var wrap = document.getElementById('ps-particles');
+    if (!wrap) return;
+    for (var i = 0; i < 28; i++) {
+      (function() {
+        var p = document.createElement('div');
+        p.className = 'ps-particle';
+        p.style.cssText = [
+          'position:absolute',
+          'background:' + colours[Math.floor(Math.random()*colours.length)],
+          'left:50%', 'top:30%',
+          'width:'  + (Math.random()*6+4) + 'px',
+          'height:' + (Math.random()*6+4) + 'px',
+          'border-radius:' + (Math.random()>.5?'50%':'2px'),
+          'opacity:0', 'pointer-events:none'
+        ].join(';');
+        wrap.appendChild(p);
+        var angle = Math.random() * Math.PI * 2;
+        var r = Math.random() * 160 + 60;
+        gsap.fromTo(p,
+          { x:0, y:0, opacity:1, scale:1 },
+          { x:Math.cos(angle)*r, y:Math.sin(angle)*r,
+            opacity:0, scale:Math.random()*.5+.3,
+            duration:Math.random()*.8+.5, ease:'power2.out',
+            delay:Math.random()*.12,
+            onComplete:function(){ p.remove(); }
+          }
+        );
+      })();
+    }
+  }
+
+  function playSuccess() {
+    var container = document.getElementById('sib-container');
+    var success   = document.getElementById('plateform-success');
+    if (!container || !success) return;
+
+    gsap.to(container, {
+      opacity:0, y:-20, duration:0.35, ease:'power2.in',
+      onComplete: function() {
+        container.style.display = 'none';
+        success.style.display = 'block';
+        var circle = document.getElementById('ps-circle');
+        var poly   = document.querySelector('#ps-check polyline');
+        var title  = document.getElementById('ps-title');
+        var sub    = document.getElementById('ps-sub');
+        var tag    = document.getElementById('ps-tag');
+        var tl = gsap.timeline();
+        tl.to(circle, { scale:1, opacity:1, duration:.5, ease:'back.out(1.8)' });
+        tl.to(poly,   { strokeDashoffset:0, duration:.45, ease:'power2.out' }, '-=.1');
+        tl.call(spawnParticles, null, '-=.2');
+        tl.to(title, { opacity:1, y:0, duration:.5, ease:'power2.out' }, '-=.1');
+        tl.to(sub,   { opacity:1, y:0, duration:.45, ease:'power2.out' }, '-=.25');
+        tl.to(tag,   { opacity:1, y:0, duration:.4,  ease:'power2.out' }, '-=.2');
+      }
+    });
+  }
+
+  // Watch ONLY for Brevo's #success-message becoming visible
+  // Use a MutationObserver on the body so we catch any style/class change
+  var done = false;
+  var observer = new MutationObserver(function() {
+    if (done) return;
+    var el = document.getElementById('success-message');
+    if (!el) return;
+    var style = window.getComputedStyle(el);
+    if (style.display !== 'none' && style.visibility !== 'hidden' && el.offsetHeight > 0) {
+      done = true;
+      observer.disconnect();
+      playSuccess();
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['style', 'class']
+  });
+});
+</script>
+
 </body>
 </html>
