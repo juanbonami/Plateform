@@ -1402,8 +1402,16 @@ window.addEventListener('scroll',()=>{
   const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
   document.getElementById('progress-bar').style.width=pct+'%';
 });
+</script>
 
-// ── GSAP SCROLLTRIGGER + TEXT ANIMATIONS ──
+<script>
+// Wait for deferred GSAP scripts to load before running animations
+window.addEventListener('load', function() {
+  if (typeof gsap === 'undefined') {
+    console.warn('GSAP not loaded');
+    return;
+  }
+  // ── GSAP SCROLLTRIGGER + TEXT ANIMATIONS ──
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 // ─── UTILITY: Manual character splitter ───
@@ -1901,71 +1909,6 @@ function toggleVibe(btn){
   if(!was)btn.classList.add('active');
 }
 
-// ── FORM SUBMIT → BREVO ──
-async function submitForm(){
-  const btn = document.querySelector('.form-submit');
-  const inputs = document.querySelectorAll('#form-body input, #form-body textarea');
-
-  // Basic validation
-  const emailEl = document.querySelector('#form-body input[type="email"]');
-  const nameInputEl = document.querySelector('#form-body input[placeholder="Jane Smith"]');
-  const bizEl = document.querySelector('#form-body input[placeholder*="Bloom"]');
-
-  if(!emailEl.value.trim() || !nameInputEl.value.trim()) {
-    [emailEl, nameInputEl].forEach(el => {
-      if(!el.value.trim()) {
-        el.style.borderColor = 'var(--accent)';
-        el.style.animation = 'none';
-        setTimeout(() => el.style.animation = '', 100);
-      }
-    });
-    return;
-  }
-
-  // Loading state
-  btn.querySelector('span').innerText = 'Sending…';
-  btn.disabled = true;
-  btn.style.opacity = '0.7';
-
-  // Gather all form data
-  const allInputs = document.querySelectorAll('#form-body input, #form-body textarea');
-  const activeVibe = document.querySelector('.vibe-btn.active');
-
-  const formData = {
-    email: emailEl.value.trim(),
-    firstName: nameInputEl.value.trim().split(' ')[0] || '',
-    lastName: nameInputEl.value.trim().split(' ').slice(1).join(' ') || '',
-    bizName: bizEl ? bizEl.value.trim() : '',
-    bizType: allInputs[1] ? allInputs[1].value.trim() : '',
-    tagline: allInputs[2] ? allInputs[2].value.trim() : '',
-    city: allInputs[3] ? allInputs[3].value.trim() : '',
-    phone: allInputs[4] ? allInputs[4].value.trim() : '',
-    vibe: activeVibe ? activeVibe.innerText : '',
-    services: document.querySelector('#form-body textarea') ? document.querySelector('#form-body textarea').value.trim() : '',
-  };
-
-  try {
-    const res = await 
-
-    if(res.ok || res.status === 204 || res.status === 201) {
-      // Success
-      document.getElementById('form-body').style.display = 'none';
-      const s = document.getElementById('form-success');
-      s.style.display = 'block';
-    } else {
-      const err = await res.json();
-      console.error('Brevo error:', err);
-      throw new Error(err.message || 'Submission failed');
-    }
-  } catch(e) {
-    console.error('Form error:', e);
-    btn.querySelector('span').innerText = 'Something went wrong — try again';
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    btn.style.background = 'var(--accent)';
-  }
-}
-
 // ── NAV SCROLL SHRINK ──
 window.addEventListener('scroll',()=>{
   const nav=document.getElementById('main-nav');
@@ -1975,6 +1918,7 @@ window.addEventListener('scroll',()=>{
 // ── MARQUEE CLONE ──
 const track=document.getElementById('marquee');
 track.innerHTML+=track.innerHTML;
+});
 </script>
 
 <script>
