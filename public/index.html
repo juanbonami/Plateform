@@ -1406,21 +1406,21 @@ function splitChars(el) {
 }
 
 function splitWords(el) {
-  const text = el.innerText;
+  var text = el.innerText;
   el.innerHTML = '';
-  const words = [];
-  text.split(' ').forEach((w, i, arr) => {
-    const wrap = document.createElement('span');
+  var words = [];
+  text.split(' ').forEach(function(w, i, arr) {
+    if(!w) return;
+    // Add space BEFORE each word (except first) as a plain text node
+    if(i > 0) el.appendChild(document.createTextNode(' '));
+    var wrap = document.createElement('span');
     wrap.className = 'word';
-    wrap.style.display = 'inline-block';
-    wrap.style.overflow = 'hidden';
-    wrap.style.verticalAlign = 'bottom';
-    const inner = document.createElement('span');
+    wrap.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:bottom;';
+    var inner = document.createElement('span');
     inner.className = 'char';
     inner.style.display = 'inline-block';
-    inner.innerText = w;
+    inner.textContent = w;
     wrap.appendChild(inner);
-    if(i < arr.length - 1) wrap.appendChild(document.createTextNode(' '));
     el.appendChild(wrap);
     words.push(inner);
   });
