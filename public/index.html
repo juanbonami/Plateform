@@ -3,14 +3,47 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.min.css"/>
+<meta name="description" content="Beautiful websites for local businesses. $79/month — we design, host and maintain it. Free preview in 24 hours."/>
+<meta name="theme-color" content="#FDF6ED"/>
+<meta name="color-scheme" content="light"/>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.min.css"/></noscript>
+  <style>
+    #sib-container input::placeholder{font-family:var(--sans);color:var(--ink-faint);}
+    #sib-container{background:transparent !important;border:none !important;max-width:100% !important;text-align:left !important;}
+    .sib-form{background:transparent !important;text-align:left !important;padding:0 !important;}
+    .sib-form-container{background:transparent !important;}
+    .entry__label{font-family:var(--sans) !important;font-size:11px !important;font-weight:400 !important;letter-spacing:0.12em !important;text-transform:uppercase !important;color:var(--ink-mid) !important;margin-bottom:7px !important;display:block !important;}
+    .input{width:100% !important;font-family:var(--sans) !important;font-size:14px !important;font-weight:300 !important;color:var(--ink) !important;background:rgba(44,26,14,0.03) !important;border:0.5px solid var(--border-med) !important;border-radius:3px !important;padding:11px 14px !important;outline:none !important;transition:border-color 0.2s !important;box-sizing:border-box !important;}
+    .input:focus{border-color:var(--accent) !important;}
+    .sib-form-block__button{width:100% !important;background:var(--ink) !important;color:var(--cream) !important;font-family:var(--sans) !important;font-size:12px !important;font-weight:400 !important;letter-spacing:0.14em !important;text-transform:uppercase !important;padding:16px 32px !important;border:none !important;border-radius:2px !important;cursor:pointer !important;transition:background 0.2s !important;margin-top:8px !important;}
+    .sib-form-block__button:hover{background:var(--accent) !important;}
+    #success-message,#error-message{font-family:var(--sans) !important;font-size:13px !important;max-width:100% !important;margin-bottom:16px !important;border-radius:3px !important;padding:12px 16px !important;}
+    #success-message{color:#085229 !important;background:rgba(19,206,102,0.08) !important;border-color:rgba(19,206,102,0.3) !important;}
+    #error-message{color:#661d1d !important;background:rgba(255,73,73,0.08) !important;border-color:rgba(255,73,73,0.3) !important;}
+    .entry__error{font-family:var(--sans) !important;font-size:12px !important;}
+    .form__entry{margin-bottom:16px;}
+    .sib-icon{width:16px;height:16px;vertical-align:middle;margin-right:6px;}
+    .sib-sms-input{display:flex;gap:8px;}
+    .sib-sms-input select.input{max-width:110px !important;}
+    .sib-sms-tooltip{display:none;}
+    .input--hidden{display:none !important;}
+    .progress-indicator__icon{display:none;}
+  </style>
+  <link rel="preload" href="https://sibforms.com/forms/end-form/build/sib-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css"/></noscript>
 <title>Plateform — Websites for Local Businesses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
+<link rel="preconnect" href="https://sibforms.com" crossorigin/>
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com"/>
+<link rel="dns-prefetch" href="https://sibforms.com"/>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Epilogue:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet"/></noscript>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js" defer></script>
 <style>
 :root {
   --cream: #FDF6ED;
@@ -38,10 +71,10 @@ body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:
 
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;display:flex;align-items:center;background:rgba(253,246,237,0.85);backdrop-filter:blur(16px);border-bottom:0.5px solid var(--border);transition:background 0.3s;}
-.nav-logo{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;flex-shrink:0;}
+.nav-logo{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
 .nav-logo span{color:var(--accent);}
 .nav-links{display:flex;gap:28px;list-style:none;white-space:nowrap;margin:0;padding:0;}
-.nav-links a{font-size:11px;letter-spacing:0.1em;white-space:nowrap;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.2s;position:relative;}
 .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:0.5px;background:var(--accent);transition:width 0.3s;}
 .nav-links a:hover{color:var(--ink);}
 .nav-links a:hover::after{width:100%;}
@@ -122,29 +155,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;d
 .preview-footer span{font-size:7px;color:var(--ink-faint);}
 
 
-/* ── WORD WRAP PREVENTION ── */
-.hero-h1, .section-title, .intro-headline, .story-panel-title,
-.proof-quote, .hero-sub, .section-sub, .step-desc, .story-panel-body {
-  word-break: normal;
-  overflow-wrap: break-word;
-  hyphens: none;
+/* ── WORD WRAP ── */
+.hero-h1,.section-title,.intro-headline,.story-panel-title,
+.proof-quote,.hero-sub,.section-sub,.step-desc,.story-panel-body{
+  word-break:normal;overflow-wrap:break-word;hyphens:none;
 }
-.nav-links li, .nav-links a, .nav-cta {
-  white-space: nowrap;
-}
-.hero-eyebrow, .section-eyebrow, .intro-label,
-.story-panel-tag, .intro-tag {
-  white-space: nowrap;
-}
+.nav-links li,.nav-links a,.nav-cta{white-space:nowrap;}
+.hero-eyebrow,.section-eyebrow,.intro-label,.story-panel-tag,.intro-tag{white-space:nowrap;}
 
 /* ── MARQUEE ── */
 
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .marquee-wrap{border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:14px 0;overflow:hidden;background:var(--accent-light);}
-.marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite;will-change:transform;}
+.marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite;}
 .marquee-track:hover{animation-play-state:paused;}
 .marquee-item{font-family:var(--serif);font-size:18px;font-weight:300;font-style:italic;color:var(--ink-mid);padding:0 32px;border-right:0.5px solid var(--border);}
 .marquee-item span{color:var(--accent);margin-right:8px;}
@@ -235,26 +258,26 @@ section{padding:100px 80px;border-top:0.5px solid var(--border);}
 .promise-title{font-size:14px;font-weight:500;margin-bottom:3px;}
 .promise-desc{font-size:13px;color:var(--ink-mid);font-weight:300;line-height:1.6;}
 .form-card{background:var(--cream);border:0.5px solid var(--border-med);border-radius:6px;padding:40px;box-shadow:0 4px 32px rgba(44,26,14,0.06);}
-
+.form-group{margin-bottom:20px;}
 .form-group label{display:block;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:7px;}
 .form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(44,26,14,0.03);border:0.5px solid var(--border-med);border-radius:3px;padding:11px 14px;font-family:var(--sans);font-size:14px;color:var(--ink);outline:none;font-weight:300;transition:border-color 0.2s,background 0.2s,transform 0.15s;}
 .form-group input:focus,.form-group textarea:focus{border-color:var(--accent);background:rgba(168,84,40,0.03);transform:translateY(-1px);}
 .form-group textarea{resize:vertical;min-height:90px;}
-
-
-
-
-
-
-
-
-
-
-
-
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.vibe-options{display:flex;flex-wrap:wrap;gap:8px;}
+.vibe-btn{font-family:var(--sans);font-size:12px;padding:7px 14px;border:0.5px solid var(--border-med);border-radius:20px;background:none;cursor:pointer;color:var(--ink-mid);transition:all 0.2s;letter-spacing:0.04em;}
+.vibe-btn:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-1px);}
+.vibe-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+.form-note{font-size:12px;color:var(--ink-faint);line-height:1.6;margin-top:16px;margin-bottom:20px;font-weight:300;}
+.form-submit{width:100%;background:var(--ink);color:var(--cream);border:none;font-family:var(--sans);font-size:13px;letter-spacing:0.12em;text-transform:uppercase;padding:16px;cursor:pointer;border-radius:2px;transition:background 0.2s,transform 0.15s;position:relative;overflow:hidden;}
+.form-submit::after{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform 0.3s;}
+.form-submit:hover::after{transform:translateX(0);}
+.form-submit span{position:relative;z-index:1;}
+.form-success{display:none;text-align:center;padding:40px 20px;}
+.form-success-icon{font-family:var(--serif);font-size:56px;color:var(--accent);margin-bottom:16px;display:block;animation:pulse 2s ease infinite;}
 @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
-
-
+.form-success-title{font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:10px;}
+.form-success-sub{font-size:14px;color:var(--ink-mid);line-height:1.7;font-weight:300;}
 
 /* ── PROGRESS BAR ── */
 .scroll-progress{position:fixed;top:var(--nav-h,64px);left:0;right:0;height:2px;background:var(--border);z-index:99;transition:top 0.2s;}
@@ -581,6 +604,13 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .story-visual{display:none;}
   .scroll-hint{display:none;}
   .intro-deco{display:none;}
+  footer{padding:24px 16px;}
+  nav{padding:0 24px;}
+  /* Intro tablet */
+  .intro-slide{padding:56px 40px;}
+  .intro-headline{font-size:clamp(32px,5vw,64px) !important;}
+  .intro-logo{left:32px;font-size:18px;}
+  .intro-skip{right:24px;}
 }
 @media(max-width:575px){
   nav{padding:0 16px;height:56px;}
@@ -597,14 +627,29 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .proof-card{padding:24px 20px;}
   .pricing-card{padding:24px 20px;}
   .form-card{padding:20px 16px;}
-  .intro-slide{padding:40px 20px;}
-  .intro-headline{font-size:clamp(26px,9vw,44px);}
-  .intro-sub{font-size:14px;}
   footer{padding:24px 16px;}
   .story-panel{padding:48px 20px;}
-  .intro-cta-row{flex-direction:column;gap:10px;}
+  .scroll-progress{top:56px;}
+  /* Intro mobile */
+  .intro-slide{padding:80px 20px 40px;}
+  .intro-headline{font-size:clamp(26px,8vw,44px) !important;line-height:1.05 !important;letter-spacing:-0.01em !important;}
+  .intro-sub{font-size:13px !important;line-height:1.65 !important;margin-top:14px !important;}
+  .intro-label{font-size:10px !important;letter-spacing:0.18em !important;margin-bottom:14px !important;}
+  .intro-tag{font-size:10px !important;padding:6px 12px !important;margin-top:20px !important;}
+  .intro-logo{left:20px;top:20px;font-size:16px;}
+  .intro-skip{right:16px;top:20px;font-size:10px;padding:6px 12px;}
+  .intro-step-dots{margin-bottom:24px;}
+  .intro-cta-row{flex-direction:column;gap:10px;width:100%;}
+  .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:14px 20px;font-size:12px;}
+  .intro-progress{height:3px;}
   .sib-sms-input{flex-direction:column;gap:6px;}
   .sib-sms-input select.input{max-width:100% !important;}
+}
+@media(max-width:380px){
+  .hero-h1{font-size:26px;}
+  .intro-headline{font-size:24px !important;}
+  .section-title{font-size:22px;}
+  nav{padding:0 12px;}
 }
 
 /* ── INTRO OVERLAY ── */
@@ -683,30 +728,6 @@ body.intro-active{overflow:hidden;}
 #intro.exiting{animation:overlayExit 0.6s cubic-bezier(0.4,0,0.2,1) forwards;}
 @keyframes overlayExit{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-16px);}}
 </style>
-
-  <style>
-    #sib-container input::placeholder { font-family:var(--sans); color:var(--ink-faint); }
-    #sib-container { background:transparent !important; border:none !important; max-width:100% !important; text-align:left !important; }
-    .sib-form { background:transparent !important; text-align:left !important; padding:0 !important; }
-    .sib-form-container { background:transparent !important; }
-    .entry__label { font-family:var(--sans) !important; font-size:11px !important; font-weight:400 !important; letter-spacing:0.12em !important; text-transform:uppercase !important; color:var(--ink-mid) !important; margin-bottom:7px !important; display:block !important; }
-    .input { width:100% !important; font-family:var(--sans) !important; font-size:14px !important; font-weight:300 !important; color:var(--ink) !important; background:rgba(44,26,14,0.03) !important; border:0.5px solid var(--border-med) !important; border-radius:3px !important; padding:11px 14px !important; outline:none !important; transition:border-color 0.2s !important; box-sizing:border-box !important; }
-    .input:focus { border-color:var(--accent) !important; }
-    .sib-form-block__button { width:100% !important; background:var(--ink) !important; color:var(--cream) !important; font-family:var(--sans) !important; font-size:12px !important; font-weight:400 !important; letter-spacing:0.14em !important; text-transform:uppercase !important; padding:16px 32px !important; border:none !important; border-radius:2px !important; cursor:pointer !important; transition:background 0.2s !important; margin-top:8px !important; }
-    .sib-form-block__button:hover { background:var(--accent) !important; }
-    #success-message, #error-message { font-family:var(--sans) !important; font-size:13px !important; max-width:100% !important; margin-bottom:16px !important; border-radius:3px !important; padding:12px 16px !important; }
-    #success-message { color:#085229 !important; background:rgba(19,206,102,0.08) !important; border-color:rgba(19,206,102,0.3) !important; }
-    #error-message { color:#661d1d !important; background:rgba(255,73,73,0.08) !important; border-color:rgba(255,73,73,0.3) !important; }
-    .entry__error { font-family:var(--sans) !important; font-size:12px !important; }
-    .form__entry { margin-bottom:16px; }
-    .sib-icon { width:16px; height:16px; vertical-align:middle; margin-right:6px; }
-    .sib-sms-input { display:flex; gap:8px; }
-    .sib-sms-input select.input { max-width:110px !important; }
-    .sib-sms-tooltip { display:none; }
-    .input--hidden { display:none !important; }
-    .progress-indicator__icon { display:none; }
-  </style>
-  <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 </head>
 <body>
 
@@ -1057,7 +1078,7 @@ body.intro-active{overflow:hidden;}
       <p class="proof-quote">"Clients tell us constantly that they found us because our website looked so professional. New enquiries have gone up since we launched."</p>
       <div class="proof-author"><span class="proof-name">Sophie Lamarque</span><span class="proof-place">Lumière Law, Portland OR</span></div>
     </div>
-  </div><!-- row proof-grid -->
+  </div><!-- row proof -->
 </section>
 
 <!-- HOW IT WORKS -->
@@ -1131,8 +1152,7 @@ body.intro-active{overflow:hidden;}
   <h2 class="section-title reveal">No surprises. <em>Ever.</em></h2>
   <p class="section-sub reveal">One setup fee, one monthly subscription. Works for any type of local business.</p>
   <div class="row g-3 pricing-grid">
-    <div class="col-12 col-md-6 reveal-left">
-    <div class="pricing-card h-100">
+    <div class="col-12 col-md-6 reveal-left"><div class="pricing-card h-100">
       <div class="pricing-tier">Starter</div>
       <div class="pricing-price">$79</div>
       <div class="pricing-period">per month</div>
@@ -1148,8 +1168,7 @@ body.intro-active{overflow:hidden;}
       <a class="pricing-cta" href="#preview"><span>Get my free preview</span></a>
     </div>
     </div></div>
-    <div class="col-12 col-md-6 reveal-right">
-    <div class="pricing-card featured h-100">
+    <div class="col-12 col-md-6 reveal-right"><div class="pricing-card featured h-100">
       <div class="pricing-badge">Most popular</div>
       <div class="pricing-tier">Pro</div>
       <div class="pricing-price">$129</div>
@@ -1252,28 +1271,26 @@ body.intro-active{overflow:hidden;}
 <!-- FOOTER -->
 <footer>
   <div class="container-fluid">
-  <div class="row align-items-center">
-    <div class="col-12 col-md-3 text-center text-md-start mb-3 mb-md-0">
+  <div class="row align-items-center py-2">
+    <div class="col-12 col-md-3 text-center text-md-start mb-2 mb-md-0">
       <div class="footer-logo">Plate<span>form</span></div>
     </div>
-    <div class="col-12 col-md-6 d-flex justify-content-center mb-3 mb-md-0">
-  <div class="footer-links">
-    <a href="#how-it-works">Process</a>
-    <a href="#pricing">Pricing</a>
-    <a href="mailto:hello@plateform.co">hello@plateform.co</a>
-    <a href="#">Instagram</a>
-  </div>
+    <div class="col-12 col-md-6 d-flex justify-content-center mb-2 mb-md-0">
+      <div class="footer-links">
+        <a href="#how-it-works">Process</a>
+        <a href="#pricing">Pricing</a>
+        <a href="mailto:hello@plateform.co">hello@plateform.co</a>
+        <a href="#">Instagram</a>
+      </div>
     </div>
     <div class="col-12 col-md-3 text-center text-md-end">
       <div class="footer-copy">© 2026 Plateform. All rights reserved.</div>
     </div>
-  </div><!-- row -->
-  </div><!-- container -->
+  </div>
+  </div>
 </footer>
 
 <script>
-document.documentElement.style.setProperty('--nav-h','64px');
-
 // ── INTRO ──
 const TOTAL_SLIDES = 5;
 const SLIDE_DURATION = 2800;
@@ -1375,7 +1392,7 @@ let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
 function animateRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateRing);}
 animateRing();
-document.querySelectorAll('a,button,.step,.proof-card,.pricing-card').forEach(el=>{
+document.querySelectorAll('a,button,.step,.proof-card,.pricing-card,.vibe-btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cursor.classList.add('hovering');ring.classList.add('hovering');});
   el.addEventListener('mouseleave',()=>{cursor.classList.remove('hovering');ring.classList.remove('hovering');});
 });
@@ -1406,21 +1423,21 @@ function splitChars(el) {
 }
 
 function splitWords(el) {
-  var text = el.innerText;
+  const text = el.innerText;
   el.innerHTML = '';
-  var words = [];
-  text.split(' ').forEach(function(w, i, arr) {
-    if(!w) return;
-    // Add space BEFORE each word (except first) as a plain text node
-    if(i > 0) el.appendChild(document.createTextNode(' '));
-    var wrap = document.createElement('span');
+  const words = [];
+  text.split(' ').forEach((w, i, arr) => {
+    const wrap = document.createElement('span');
     wrap.className = 'word';
-    wrap.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:bottom;';
-    var inner = document.createElement('span');
+    wrap.style.display = 'inline-block';
+    wrap.style.overflow = 'hidden';
+    wrap.style.verticalAlign = 'bottom';
+    const inner = document.createElement('span');
     inner.className = 'char';
     inner.style.display = 'inline-block';
-    inner.textContent = w;
+    inner.innerText = w;
     wrap.appendChild(inner);
+    if(i < arr.length - 1) wrap.appendChild(document.createTextNode(' '));
     el.appendChild(wrap);
     words.push(inner);
   });
@@ -1675,15 +1692,14 @@ gsap.utils.toArray('.step-title').forEach(el => {
 
 // ── STORYTELLING HORIZONTAL SCROLL ──
 // ── STORYTELLING HORIZONTAL SCROLL (desktop only) ──
+if(window.innerWidth>960){
 const strip = document.getElementById('story-strip');
 const panels = gsap.utils.toArray('.story-panel');
 const totalPanels = panels.length;
 const progressDots = document.querySelectorAll('.story-pdot');
 const storyProgress = document.getElementById('story-progress');
 
-// Only run horizontal scroll on tablet and above
-let ctx;
-if (window.innerWidth > 960) {
+// Pin and horizontal scroll
 let ctx = gsap.context(() => {
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -1800,7 +1816,7 @@ let ctx = gsap.context(() => {
   });
 
 });
-} // end desktop-only horizontal scroll
+} // end desktop only
 
 // ── GSAP SCROLL REVEALS (rest of page) ──
 // Hero is handled by CSS animation, start GSAP from testimonials down
@@ -1878,13 +1894,82 @@ function setStep(i,clicked){
   document.getElementById('vis-'+i).classList.add('active');
 }
 
+// ── VIBE TOGGLE ──
+function toggleVibe(btn){
+  const was=btn.classList.contains('active');
+  document.querySelectorAll('.vibe-btn').forEach(b=>b.classList.remove('active'));
+  if(!was)btn.classList.add('active');
+}
+
+// ── FORM SUBMIT → BREVO ──
+async function submitForm(){
+  const btn = document.querySelector('.form-submit');
+  const inputs = document.querySelectorAll('#form-body input, #form-body textarea');
+
+  // Basic validation
+  const emailEl = document.querySelector('#form-body input[type="email"]');
+  const nameInputEl = document.querySelector('#form-body input[placeholder="Jane Smith"]');
+  const bizEl = document.querySelector('#form-body input[placeholder*="Bloom"]');
+
+  if(!emailEl.value.trim() || !nameInputEl.value.trim()) {
+    [emailEl, nameInputEl].forEach(el => {
+      if(!el.value.trim()) {
+        el.style.borderColor = 'var(--accent)';
+        el.style.animation = 'none';
+        setTimeout(() => el.style.animation = '', 100);
+      }
+    });
+    return;
+  }
+
+  // Loading state
+  btn.querySelector('span').innerText = 'Sending…';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  // Gather all form data
+  const allInputs = document.querySelectorAll('#form-body input, #form-body textarea');
+  const activeVibe = document.querySelector('.vibe-btn.active');
+
+  const formData = {
+    email: emailEl.value.trim(),
+    firstName: nameInputEl.value.trim().split(' ')[0] || '',
+    lastName: nameInputEl.value.trim().split(' ').slice(1).join(' ') || '',
+    bizName: bizEl ? bizEl.value.trim() : '',
+    bizType: allInputs[1] ? allInputs[1].value.trim() : '',
+    tagline: allInputs[2] ? allInputs[2].value.trim() : '',
+    city: allInputs[3] ? allInputs[3].value.trim() : '',
+    phone: allInputs[4] ? allInputs[4].value.trim() : '',
+    vibe: activeVibe ? activeVibe.innerText : '',
+    services: document.querySelector('#form-body textarea') ? document.querySelector('#form-body textarea').value.trim() : '',
+  };
+
+  try {
+    const res = await 
+
+    if(res.ok || res.status === 204 || res.status === 201) {
+      // Success
+      document.getElementById('form-body').style.display = 'none';
+      const s = document.getElementById('form-success');
+      s.style.display = 'block';
+    } else {
+      const err = await res.json();
+      console.error('Brevo error:', err);
+      throw new Error(err.message || 'Submission failed');
+    }
+  } catch(e) {
+    console.error('Form error:', e);
+    btn.querySelector('span').innerText = 'Something went wrong — try again';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.background = 'var(--accent)';
+  }
+}
 
 // ── NAV SCROLL SHRINK ──
 window.addEventListener('scroll',()=>{
   const nav=document.getElementById('main-nav');
-  var nh=window.scrollY>60?'52px':'64px';
-  nav.style.height=nh;
-  document.documentElement.style.setProperty('--nav-h',nh);
+  nav.style.height=window.scrollY>60?'52px':'64px';
 });
 
 // ── MARQUEE CLONE ──
@@ -1893,15 +1978,34 @@ track.innerHTML+=track.innerHTML;
 </script>
 
 <script>
-  window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
-  window.LOCALE = 'en';
-  window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "Please enter a valid value.";
-  window.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank.";
-  window.GENERIC_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
-  window.translation = { common: { selectedList: '{quantity} list selected', selectedLists: '{quantity} lists selected', selectedOption: '{quantity} selected', selectedOptions: '{quantity} selected' } };
-  var AUTOHIDE = Boolean(0);
+  window.REQUIRED_CODE_ERROR_MESSAGE='Please choose a country code';
+  window.LOCALE='en';
+  window.EMAIL_INVALID_MESSAGE=window.SMS_INVALID_MESSAGE="Please enter a valid value.";
+  window.REQUIRED_ERROR_MESSAGE="This field cannot be left blank.";
+  window.GENERIC_INVALID_MESSAGE="The information provided is invalid.";
+  window.translation={common:{selectedList:'{quantity} list selected',selectedLists:'{quantity} lists selected',selectedOption:'{quantity} selected',selectedOptions:'{quantity} selected'}};
+  var AUTOHIDE=Boolean(0);
 </script>
-<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+<script>
+// Load Brevo form script only when user scrolls near the form
+(function(){
+  var loaded = false;
+  function loadBrevo(){
+    if(loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://sibforms.com/forms/end-form/build/main.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+  // Load on scroll past 30% of page or when form section is near viewport
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > window.innerHeight * 0.3) loadBrevo();
+  }, {passive: true, once: true});
+  // Fallback: load after 3s regardless
+  setTimeout(loadBrevo, 3000);
+})();
+</script>
 
 </body>
 </html>
