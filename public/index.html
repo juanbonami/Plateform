@@ -594,8 +594,11 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
 }
 
 /* ── RESPONSIVE ── */
+
+/* ── TABLET 991px ── */
 @media(max-width:991px){
   .cursor,.cursor-ring{display:none;}
+  nav{padding:0 20px;}
   .hero-left{border-right:none !important;border-bottom:0.5px solid var(--border);padding:100px 32px 48px;}
   .hero-right{padding:32px 24px 48px;}
   section{padding:60px 24px;}
@@ -604,52 +607,106 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .story-visual{display:none;}
   .scroll-hint{display:none;}
   .intro-deco{display:none;}
-  footer{padding:24px 16px;}
-  nav{padding:0 24px;}
+  footer{padding:24px 20px;}
   /* Intro tablet */
-  .intro-slide{padding:56px 40px;}
+  .intro-slide{padding:64px 40px;}
   .intro-headline{font-size:clamp(32px,5vw,64px) !important;}
   .intro-logo{left:32px;font-size:18px;}
   .intro-skip{right:24px;}
 }
+
+/* ── MOBILE 575px ── */
 @media(max-width:575px){
+  /* Nav */
   nav{padding:0 16px;height:56px;}
-  .nav-logo{font-size:17px;}
-  .nav-cta{font-size:10px;padding:8px 12px;letter-spacing:0.08em;}
-  .hero-left{padding:96px 20px 40px;}
-  .hero-h1{font-size:clamp(28px,9vw,44px);}
-  .hero-sub{font-size:14px;}
-  .btn-primary,.btn-ghost{width:100%;text-align:center;display:block;}
-  .hero-actions{flex-direction:column;}
-  .hero-stat{flex-wrap:wrap;gap:20px;}
-  section{padding:48px 16px;}
-  .section-title{font-size:clamp(22px,7vw,34px);}
-  .proof-card{padding:24px 20px;}
-  .pricing-card{padding:24px 20px;}
-  .form-card{padding:20px 16px;}
-  footer{padding:24px 16px;}
-  .story-panel{padding:48px 20px;}
   .scroll-progress{top:56px;}
-  /* Intro mobile */
-  .intro-slide{padding:80px 20px 40px;}
-  .intro-headline{font-size:clamp(26px,8vw,44px) !important;line-height:1.05 !important;letter-spacing:-0.01em !important;}
-  .intro-sub{font-size:13px !important;line-height:1.65 !important;margin-top:14px !important;}
-  .intro-label{font-size:10px !important;letter-spacing:0.18em !important;margin-bottom:14px !important;}
-  .intro-tag{font-size:10px !important;padding:6px 12px !important;margin-top:20px !important;}
-  .intro-logo{left:20px;top:20px;font-size:16px;}
-  .intro-skip{right:16px;top:20px;font-size:10px;padding:6px 12px;}
-  .intro-step-dots{margin-bottom:24px;}
-  .intro-cta-row{flex-direction:column;gap:10px;width:100%;}
-  .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:14px 20px;font-size:12px;}
-  .intro-progress{height:3px;}
+  .nav-logo{font-size:16px;}
+  .nav-cta{font-size:10px;padding:7px 12px;letter-spacing:0.06em;white-space:nowrap;}
+
+  /* Hero */
+  .hero-left{padding:88px 16px 40px;}
+  .hero-h1{font-size:clamp(26px,8vw,40px);letter-spacing:-0.02em;}
+  .hero-sub{font-size:13px;line-height:1.65;}
+  .hero-eyebrow{font-size:10px;letter-spacing:0.15em;white-space:normal;}
+  .hero-actions{flex-direction:column;align-items:stretch;}
+  .btn-primary,.btn-ghost{width:100%;text-align:center;display:block;box-sizing:border-box;}
+  .hero-stat{flex-wrap:wrap;gap:16px;margin-top:32px;}
+  .stat-num{font-size:26px;}
+  .hero-right{padding:24px 16px 40px;}
+
+  /* Sections */
+  section{padding:48px 16px;}
+  .section-title{font-size:clamp(22px,7vw,32px);}
+  .section-sub{font-size:13px;}
+  .section-eyebrow{font-size:10px;}
+
+  /* Proof */
+  .proof-card{padding:24px 16px;}
+  .proof-quote{font-size:14px;}
+
+  /* Steps */
+  .step{padding:18px 0;}
+  .step-title{font-size:14px;}
+  .step-desc{font-size:13px;}
+
+  /* Pricing */
+  .pricing-card{padding:24px 20px;}
+  .pricing-price{font-size:40px;}
+  .pricing-features li{font-size:13px;}
+
+  /* Form */
+  .form-card{padding:20px 16px;}
+  .input{font-size:13px !important;padding:9px 12px !important;}
+  .entry__label{font-size:10px !important;}
+  .sib-form-block__button{padding:14px !important;font-size:11px !important;}
   .sib-sms-input{flex-direction:column;gap:6px;}
   .sib-sms-input select.input{max-width:100% !important;}
+
+  /* Story panels */
+  .story-panel{padding:48px 16px;}
+  .story-panel-title{font-size:clamp(26px,7vw,36px);}
+  .story-panel-body{font-size:13px;}
+  .story-stat-val{font-size:36px;}
+  .story-panel-num{font-size:72px;right:16px;}
+
+  /* Marquee */
+  .marquee-item{font-size:14px;padding:0 16px;}
+
+  /* Footer */
+  footer{padding:20px 16px;}
+  .footer-logo{font-size:16px;}
+  .footer-links{gap:12px;}
+  .footer-links a{font-size:10px;}
+  .footer-copy{font-size:10px;}
+
+  /* Intro */
+  .intro-slide{padding:72px 20px 36px;}
+  .intro-headline{font-size:clamp(24px,7.5vw,40px) !important;line-height:1.05 !important;letter-spacing:-0.01em !important;}
+  .intro-sub{font-size:13px !important;line-height:1.6 !important;margin-top:12px !important;max-width:100% !important;}
+  .intro-label{font-size:10px !important;letter-spacing:0.15em !important;margin-bottom:12px !important;}
+  .intro-tag{font-size:10px !important;padding:5px 10px !important;margin-top:16px !important;}
+  .intro-logo{left:16px;top:18px;font-size:15px;}
+  .intro-skip{right:14px;top:18px;font-size:10px;padding:5px 10px;}
+  .intro-step-dots{margin-bottom:20px;gap:6px;}
+  .intro-cta-row{flex-direction:column;gap:8px;width:100%;margin-top:28px !important;}
+  .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:13px 16px;font-size:11px;}
 }
+
+/* ── SMALL MOBILE 380px ── */
 @media(max-width:380px){
-  .hero-h1{font-size:26px;}
-  .intro-headline{font-size:24px !important;}
-  .section-title{font-size:22px;}
-  nav{padding:0 12px;}
+  nav{padding:0 12px;height:52px;}
+  .scroll-progress{top:52px;}
+  .nav-logo{font-size:14px;}
+  .nav-cta{font-size:9px;padding:6px 10px;}
+  .hero-h1{font-size:24px;}
+  .intro-headline{font-size:22px !important;}
+  .section-title{font-size:20px;}
+  .hero-left{padding:80px 12px 32px;}
+  section{padding:40px 12px;}
+  .story-panel{padding:40px 12px;}
+  .intro-slide{padding:68px 16px 32px;}
+  .intro-logo{font-size:14px;left:14px;}
+  .intro-skip{font-size:9px;right:12px;padding:4px 8px;}
 }
 
 /* ── INTRO OVERLAY ── */
@@ -1398,10 +1455,7 @@ document.querySelectorAll('a,button,.step,.proof-card,.pricing-card,.vibe-btn').
 });
 
 // ── SCROLL PROGRESS ──
-window.addEventListener('scroll',()=>{
-  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
-  document.getElementById('progress-bar').style.width=pct+'%';
-});
+
 </script>
 
 <script>
@@ -1431,21 +1485,18 @@ function splitChars(el) {
 }
 
 function splitWords(el) {
-  const text = el.innerText;
+  var text = el.innerText;
   el.innerHTML = '';
-  const words = [];
-  text.split(' ').forEach((w, i, arr) => {
-    const wrap = document.createElement('span');
-    wrap.className = 'word';
-    wrap.style.display = 'inline-block';
-    wrap.style.overflow = 'hidden';
-    wrap.style.verticalAlign = 'bottom';
-    const inner = document.createElement('span');
-    inner.className = 'char';
+  var words = [];
+  text.split(' ').forEach(function(w, i) {
+    if (!w) return;
+    if (i > 0) el.appendChild(document.createTextNode(' '));
+    var wrap = document.createElement('span');
+    wrap.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:bottom;';
+    var inner = document.createElement('span');
     inner.style.display = 'inline-block';
-    inner.innerText = w;
+    inner.textContent = w;
     wrap.appendChild(inner);
-    if(i < arr.length - 1) wrap.appendChild(document.createTextNode(' '));
     el.appendChild(wrap);
     words.push(inner);
   });
@@ -1883,6 +1934,17 @@ gsap.fromTo('.pricing-card',
 );
 
 // ── NAV SCROLL SHRINK (keep existing) ──
+
+// ── NAV SCROLL SHRINK + PROGRESS BAR SYNC ──
+document.documentElement.style.setProperty('--nav-h', '64px');
+window.addEventListener('scroll', function() {
+  var nh = window.scrollY > 60 ? '52px' : '64px';
+  document.getElementById('main-nav').style.height = nh;
+  document.documentElement.style.setProperty('--nav-h', nh);
+  var pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  var bar = document.getElementById('progress-bar');
+  if (bar) bar.style.width = pct + '%';
+}, {passive: true});
 
 // ── DEVICE TOGGLE ──
 function showDevice(device,btn){
