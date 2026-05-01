@@ -549,20 +549,156 @@ footer{border-top:0.5px solid var(--border);padding:40px 80px;display:flex;align
 }
 
 /* ── RESPONSIVE ── */
+
+/* ── TABLET (max 960px) ── */
 @media(max-width:960px){
-  nav{padding:0 24px;}.nav-links{display:none;}
+  /* Nav */
+  nav{padding:0 24px;}
+  .nav-links{display:none;}
+
+  /* Hero */
   .hero{grid-template-columns:1fr;min-height:auto;}
-  .hero-left{padding:60px 32px;border-right:none;border-bottom:0.5px solid var(--border);}
-  .hero-right{padding:40px 24px;}
+  .hero-left{padding:60px 32px 48px;border-right:none;border-bottom:0.5px solid var(--border);}
+  .hero-right{padding:32px 24px;}
+  .hero-stat{gap:24px;margin-top:40px;padding-top:24px;}
+
+  /* Sections */
   section{padding:70px 32px;}
+  .section-title{font-size:clamp(26px,5vw,42px);}
+
+  /* Proof */
   .proof-grid{grid-template-columns:1fr;}
+
+  /* Steps */
   .steps-layout{grid-template-columns:1fr;gap:40px;}
   .steps-visual{display:none;}
-  .pricing-grid{grid-template-columns:1fr;max-width:400px;}
+
+  /* Pricing */
+  .pricing-grid{grid-template-columns:1fr;max-width:540px;}
+
+  /* Form */
   .form-layout{grid-template-columns:1fr;gap:40px;}
+  .form-card{padding:28px 24px;}
+
+  /* Story strip — disable horizontal scroll, stack vertically */
+  #story-container{height:auto !important;}
+  .story-strip{flex-direction:column;width:100%;height:auto;}
+  .story-panel{width:100%;height:auto;min-height:auto;padding:64px 32px;}
+  .story-visual{display:none;}
+  .story-panel-num{font-size:72px;right:24px;bottom:24px;}
+  .story-panel-stat{flex-wrap:wrap;gap:24px;}
+
+  /* Intro */
+  .intro-slide{padding:48px 32px;}
+  .intro-logo{left:32px;}
+  .intro-skip{right:24px;}
+  .intro-deco{display:none;}
+
+  /* Footer */
   footer{flex-direction:column;gap:20px;padding:32px;text-align:center;}
   .footer-links{flex-wrap:wrap;justify-content:center;}
+
+  /* Cursor off */
   .cursor,.cursor-ring{display:none;}
+}
+
+/* ── MOBILE (max 600px) ── */
+@media(max-width:600px){
+  /* Nav */
+  nav{padding:0 20px;height:56px;}
+  .nav-logo{font-size:17px;}
+  .nav-cta{font-size:11px;padding:8px 16px;}
+
+  /* Hero */
+  .hero-left{padding:48px 20px 40px;}
+  .hero-h1{font-size:clamp(32px,9vw,48px);line-height:1.05;}
+  .hero-sub{font-size:14px;}
+  .hero-actions{flex-direction:column;align-items:stretch;}
+  .btn-primary,.btn-ghost{text-align:center;padding:14px 20px;}
+  .hero-stat{gap:20px;flex-wrap:wrap;}
+  .stat-num{font-size:26px;}
+  .hero-right{padding:24px 20px;}
+
+  /* Device toggle */
+  .laptop-wrap{max-width:100%;}
+  .laptop-screen{height:260px;}
+
+  /* Sections */
+  section{padding:56px 20px;}
+  .section-eyebrow{font-size:10px;}
+  .section-title{font-size:clamp(24px,7vw,36px);}
+  .section-sub{font-size:14px;}
+
+  /* Story */
+  .story-panel{padding:48px 20px;}
+  .story-panel-title{font-size:clamp(28px,8vw,40px);}
+  .story-panel-body{font-size:14px;}
+  .story-stat-val{font-size:36px;}
+  .scroll-hint{display:none;}
+
+  /* Proof */
+  .proof-card{padding:24px 20px;}
+  .proof-quote{font-size:15px;}
+
+  /* Steps */
+  .step{padding:20px 0;}
+  .step-title{font-size:15px;}
+  .step-desc{font-size:13px;}
+
+  /* Pricing */
+  .pricing-grid{max-width:100%;}
+  .pricing-card{padding:28px 24px;}
+  .pricing-price{font-size:40px;}
+  .pricing-features li{font-size:13px;}
+
+  /* Form */
+  .form-card{padding:20px 16px;}
+  .input{font-size:13px !important;padding:9px 12px !important;}
+  .entry__label{font-size:10px !important;}
+  .sib-form-block__button{padding:14px 20px !important;font-size:11px !important;}
+  .sib-sms-input{flex-direction:column;gap:6px;}
+  .sib-sms-input select.input{max-width:100% !important;}
+  .form-promise{gap:16px;}
+  .promise-title{font-size:13px;}
+  .promise-desc{font-size:12px;}
+
+  /* Intro */
+  .intro-slide{padding:40px 20px;}
+  .intro-headline{font-size:clamp(28px,9vw,48px);line-height:1.0;}
+  .intro-sub{font-size:14px;margin-top:16px;}
+  .intro-tag{font-size:10px;padding:6px 12px;}
+  .intro-btn-enter{padding:14px 24px;font-size:12px;}
+  .intro-btn-skip-final{padding:14px 20px;font-size:12px;}
+  .intro-cta-row{flex-direction:column;gap:10px;}
+  .intro-logo{font-size:16px;top:20px;left:20px;}
+  .intro-skip{top:20px;right:16px;font-size:10px;padding:6px 12px;}
+
+  /* Marquee */
+  .marquee-item{font-size:14px;padding:0 20px;}
+
+  /* Footer */
+  footer{padding:24px 20px;gap:16px;}
+  .footer-logo{font-size:16px;}
+  .footer-links{gap:16px;}
+  .footer-links a{font-size:11px;}
+  .footer-copy{font-size:11px;}
+
+  /* Scroll progress */
+  .scroll-progress{top:56px;}
+}
+
+/* ── SMALL MOBILE (max 380px) ── */
+@media(max-width:380px){
+  .hero-h1{font-size:28px;}
+  .intro-headline{font-size:26px;}
+  .section-title{font-size:22px;}
+  .pricing-price{font-size:36px;}
+  .story-stat-val{font-size:30px;}
+  nav{padding:0 16px;}
+  section{padding:48px 16px;}
+  .hero-left{padding:40px 16px 32px;}
+  .story-panel{padding:40px 16px;}
+  .form-card{padding:16px 12px;}
 }
 
 /* ── INTRO OVERLAY ── */
@@ -1611,14 +1747,16 @@ gsap.utils.toArray('.step-title').forEach(el => {
 // (handled in horizontal scroll section below)
 
 // ── STORYTELLING HORIZONTAL SCROLL ──
-// ── STORYTELLING HORIZONTAL SCROLL ──
+// ── STORYTELLING HORIZONTAL SCROLL (desktop only) ──
 const strip = document.getElementById('story-strip');
 const panels = gsap.utils.toArray('.story-panel');
 const totalPanels = panels.length;
 const progressDots = document.querySelectorAll('.story-pdot');
 const storyProgress = document.getElementById('story-progress');
 
-// Pin and horizontal scroll
+// Only run horizontal scroll on tablet and above
+let ctx;
+if (window.innerWidth > 960) {
 let ctx = gsap.context(() => {
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -1735,6 +1873,7 @@ let ctx = gsap.context(() => {
   });
 
 });
+} // end desktop-only horizontal scroll
 
 // ── GSAP SCROLL REVEALS (rest of page) ──
 // Hero is handled by CSS animation, start GSAP from testimonials down
