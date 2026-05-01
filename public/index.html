@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.min.css"/>
 <title>Plateform — Websites for Local Businesses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -36,20 +37,20 @@ body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:
 .cursor-ring.hovering{width:50px;height:50px;border-color:var(--accent-gold);}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(253,246,237,0.85);backdrop-filter:blur(16px);border-bottom:0.5px solid var(--border);transition:background 0.3s;}
-.nav-logo{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;display:flex;align-items:center;background:rgba(253,246,237,0.85);backdrop-filter:blur(16px);border-bottom:0.5px solid var(--border);transition:background 0.3s;}
+.nav-logo{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;flex-shrink:0;}
 .nav-logo span{color:var(--accent);}
-.nav-links{display:flex;gap:36px;list-style:none;}
-.nav-links a{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links{display:flex;gap:28px;list-style:none;white-space:nowrap;margin:0;padding:0;}
+.nav-links a{font-size:11px;letter-spacing:0.1em;white-space:nowrap;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.2s;position:relative;}
 .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:0.5px;background:var(--accent);transition:width 0.3s;}
 .nav-links a:hover{color:var(--ink);}
 .nav-links a:hover::after{width:100%;}
-.nav-cta{background:var(--ink);color:var(--cream);font-family:var(--sans);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 24px;border:none;cursor:pointer;text-decoration:none;border-radius:2px;transition:background 0.2s,transform 0.15s;}
+.nav-cta{background:var(--ink);color:var(--cream);font-family:var(--sans);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 20px;border:none;cursor:pointer;text-decoration:none;border-radius:2px;transition:background 0.2s,transform 0.15s;white-space:nowrap;flex-shrink:0;}
 .nav-cta:hover{background:var(--accent);transform:translateY(-1px);}
 
 /* ── HERO ── */
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:64px;}
-.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 80px;border-right:0.5px solid var(--border);}
+.hero{min-height:100vh;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:140px 64px 80px 80px;border-right:0.5px solid var(--border);border-bottom:none;}
 .hero-eyebrow{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:28px;display:flex;align-items:center;gap:10px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
 .hero-eyebrow::before{content:'';display:block;width:0;height:0.5px;background:var(--accent);animation:lineGrow 0.6s 0.5s forwards;}
 @keyframes lineGrow{to{width:28px;}}
@@ -69,7 +70,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .stat-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);}
 
 /* ── HERO RIGHT / DEVICE ── */
-.hero-right{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px;background:rgba(44,26,14,0.02);opacity:0;animation:fadeIn 1s 0.6s forwards;}
+.hero-right{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:140px 40px 80px;background:rgba(44,26,14,0.02);opacity:0;animation:fadeIn 1s 0.6s forwards;}
 @keyframes fadeIn{to{opacity:1;}}
 @keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
 .hero-h1,.hero-sub,.hero-eyebrow,.hero-actions,.hero-stat{transform:translateY(20px);}
@@ -120,9 +121,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .preview-footer{padding:10px 12px;display:flex;justify-content:space-between;border-top:0.5px solid var(--border);}
 .preview-footer span{font-size:7px;color:var(--ink-faint);}
 
+
+/* ── WORD WRAP PREVENTION ── */
+.hero-h1, .section-title, .intro-headline, .story-panel-title,
+.proof-quote, .hero-sub, .section-sub, .step-desc, .story-panel-body {
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+.nav-links li, .nav-links a, .nav-cta {
+  white-space: nowrap;
+}
+.hero-eyebrow, .section-eyebrow, .intro-label,
+.story-panel-tag, .intro-tag {
+  white-space: nowrap;
+}
+
 /* ── MARQUEE ── */
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 .marquee-wrap{border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:14px 0;overflow:hidden;background:var(--accent-light);}
-.marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite;}
+.marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite;will-change:transform;}
 .marquee-track:hover{animation-play-state:paused;}
 .marquee-item{font-family:var(--serif);font-size:18px;font-weight:300;font-style:italic;color:var(--ink-mid);padding:0 32px;border-right:0.5px solid var(--border);}
 .marquee-item span{color:var(--accent);margin-right:8px;}
@@ -144,7 +166,7 @@ section{padding:100px 80px;border-top:0.5px solid var(--border);}
 .reveal-right.visible{opacity:1;transform:translateX(0);}
 
 /* ── SOCIAL PROOF ── */
-.proof-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);margin-top:60px;}
+.proof-grid{gap:0;background:var(--border);border:0.5px solid var(--border);margin-top:60px;}
 .proof-card{background:var(--cream);padding:36px 32px;transition:background 0.3s,transform 0.3s;cursor:default;position:relative;overflow:hidden;}
 .proof-card::before{content:'';position:absolute;inset:0;background:var(--accent-light);transform:translateY(101%);transition:transform 0.4s;}
 .proof-card:hover::before{transform:translateY(0);}
@@ -155,7 +177,7 @@ section{padding:100px 80px;border-top:0.5px solid var(--border);}
 .proof-place{font-size:11px;letter-spacing:0.08em;color:var(--ink-mid);text-transform:uppercase;}
 
 /* ── HOW IT WORKS ── */
-.steps-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;align-items:start;}
+.steps-layout{margin-top:60px;align-items:start;}
 .steps-list{display:flex;flex-direction:column;}
 .step{display:flex;gap:24px;padding:28px 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:padding-left 0.3s;}
 .step:first-child{border-top:0.5px solid var(--border);}
@@ -176,7 +198,7 @@ section{padding:100px 80px;border-top:0.5px solid var(--border);}
 .step-timeline{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-top:20px;}
 
 /* ── PRICING ── */
-.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px;max-width:760px;}
+.pricing-grid{margin-top:60px;}
 .pricing-card{border:0.5px solid var(--border-med);padding:40px 36px;border-radius:4px;position:relative;transition:transform 0.3s,box-shadow 0.3s;}
 .pricing-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(44,26,14,0.1);}
 .pricing-card.featured{border-color:var(--accent);background:var(--ink);color:var(--cream);}
@@ -205,7 +227,7 @@ section{padding:100px 80px;border-top:0.5px solid var(--border);}
 
 /* ── FORM SECTION ── */
 #preview{background:rgba(44,26,14,0.02);}
-.form-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;}
+.form-layout{margin-top:60px;}
 .form-promise{margin-top:40px;display:flex;flex-direction:column;gap:20px;}
 .promise-item{display:flex;gap:16px;align-items:flex-start;transition:transform 0.2s;}
 .promise-item:hover{transform:translateX(4px);}
@@ -235,15 +257,15 @@ section{padding:100px 80px;border-top:0.5px solid var(--border);}
 
 
 /* ── PROGRESS BAR ── */
-.scroll-progress{position:fixed;top:64px;left:0;right:0;height:2px;background:var(--border);z-index:99;}
+.scroll-progress{position:fixed;top:var(--nav-h,64px);left:0;right:0;height:2px;background:var(--border);z-index:99;transition:top 0.2s;}
 .scroll-progress-bar{height:100%;background:var(--accent);width:0%;transition:width 0.1s;}
 
 /* ── FOOTER ── */
-footer{border-top:0.5px solid var(--border);padding:40px 80px;display:flex;align-items:center;justify-content:space-between;}
+footer{border-top:0.5px solid var(--border);padding:32px 48px;}
 .footer-logo{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);}
 .footer-logo span{color:var(--accent);}
-.footer-links{display:flex;gap:28px;}
-.footer-links a{font-size:12px;letter-spacing:0.08em;color:var(--ink-mid);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+.footer-links a{font-size:11px;letter-spacing:0.06em;color:var(--ink-mid);text-decoration:none;text-transform:uppercase;transition:color 0.2s;white-space:nowrap;}
 .footer-links a:hover{color:var(--accent);}
 .footer-copy{font-size:12px;color:var(--ink-faint);}
 
@@ -549,156 +571,40 @@ footer{border-top:0.5px solid var(--border);padding:40px 80px;display:flex;align
 }
 
 /* ── RESPONSIVE ── */
-
-/* ── TABLET (max 960px) ── */
-@media(max-width:960px){
-  /* Nav */
-  nav{padding:0 24px;}
-  .nav-links{display:none;}
-
-  /* Hero */
-  .hero{grid-template-columns:1fr;min-height:auto;}
-  .hero-left{padding:60px 32px 48px;border-right:none;border-bottom:0.5px solid var(--border);}
-  .hero-right{padding:32px 24px;}
-  .hero-stat{gap:24px;margin-top:40px;padding-top:24px;}
-
-  /* Sections */
-  section{padding:70px 32px;}
-  .section-title{font-size:clamp(26px,5vw,42px);}
-
-  /* Proof */
-  .proof-grid{grid-template-columns:1fr;}
-
-  /* Steps */
-  .steps-layout{grid-template-columns:1fr;gap:40px;}
-  .steps-visual{display:none;}
-
-  /* Pricing */
-  .pricing-grid{grid-template-columns:1fr;max-width:540px;}
-
-  /* Form */
-  .form-layout{grid-template-columns:1fr;gap:40px;}
-  .form-card{padding:28px 24px;}
-
-  /* Story strip — disable horizontal scroll, stack vertically */
-  #story-container{height:auto !important;}
-  .story-strip{flex-direction:column;width:100%;height:auto;}
-  .story-panel{width:100%;height:auto;min-height:auto;padding:64px 32px;}
-  .story-visual{display:none;}
-  .story-panel-num{font-size:72px;right:24px;bottom:24px;}
-  .story-panel-stat{flex-wrap:wrap;gap:24px;}
-
-  /* Intro */
-  .intro-slide{padding:48px 32px;}
-  .intro-logo{left:32px;}
-  .intro-skip{right:24px;}
-  .intro-deco{display:none;}
-
-  /* Footer */
-  footer{flex-direction:column;gap:20px;padding:32px;text-align:center;}
-  .footer-links{flex-wrap:wrap;justify-content:center;}
-
-  /* Cursor off */
+@media(max-width:991px){
   .cursor,.cursor-ring{display:none;}
-}
-
-/* ── MOBILE (max 600px) ── */
-@media(max-width:600px){
-  /* Nav */
-  nav{padding:0 20px;height:56px;}
-  .nav-logo{font-size:17px;}
-  .nav-cta{font-size:11px;padding:8px 16px;}
-
-  /* Hero */
-  .hero-left{padding:48px 20px 40px;}
-  .hero-h1{font-size:clamp(32px,9vw,48px);line-height:1.05;}
-  .hero-sub{font-size:14px;}
-  .hero-actions{flex-direction:column;align-items:stretch;}
-  .btn-primary,.btn-ghost{text-align:center;padding:14px 20px;}
-  .hero-stat{gap:20px;flex-wrap:wrap;}
-  .stat-num{font-size:26px;}
-  .hero-right{padding:24px 20px;}
-
-  /* Device toggle */
-  .laptop-wrap{max-width:100%;}
-  .laptop-screen{height:260px;}
-
-  /* Sections */
-  section{padding:56px 20px;}
-  .section-eyebrow{font-size:10px;}
-  .section-title{font-size:clamp(24px,7vw,36px);}
-  .section-sub{font-size:14px;}
-
-  /* Story */
-  .story-panel{padding:48px 20px;}
-  .story-panel-title{font-size:clamp(28px,8vw,40px);}
-  .story-panel-body{font-size:14px;}
-  .story-stat-val{font-size:36px;}
+  .hero-left{border-right:none !important;border-bottom:0.5px solid var(--border);padding:100px 32px 48px;}
+  .hero-right{padding:32px 24px 48px;}
+  section{padding:60px 24px;}
+  .steps-visual{display:none;}
+  #story-container{height:auto !important;}
+  .story-visual{display:none;}
   .scroll-hint{display:none;}
-
-  /* Proof */
+  .intro-deco{display:none;}
+}
+@media(max-width:575px){
+  nav{padding:0 16px;height:56px;}
+  .nav-logo{font-size:17px;}
+  .nav-cta{font-size:10px;padding:8px 12px;letter-spacing:0.08em;}
+  .hero-left{padding:96px 20px 40px;}
+  .hero-h1{font-size:clamp(28px,9vw,44px);}
+  .hero-sub{font-size:14px;}
+  .btn-primary,.btn-ghost{width:100%;text-align:center;display:block;}
+  .hero-actions{flex-direction:column;}
+  .hero-stat{flex-wrap:wrap;gap:20px;}
+  section{padding:48px 16px;}
+  .section-title{font-size:clamp(22px,7vw,34px);}
   .proof-card{padding:24px 20px;}
-  .proof-quote{font-size:15px;}
-
-  /* Steps */
-  .step{padding:20px 0;}
-  .step-title{font-size:15px;}
-  .step-desc{font-size:13px;}
-
-  /* Pricing */
-  .pricing-grid{max-width:100%;}
-  .pricing-card{padding:28px 24px;}
-  .pricing-price{font-size:40px;}
-  .pricing-features li{font-size:13px;}
-
-  /* Form */
+  .pricing-card{padding:24px 20px;}
   .form-card{padding:20px 16px;}
-  .input{font-size:13px !important;padding:9px 12px !important;}
-  .entry__label{font-size:10px !important;}
-  .sib-form-block__button{padding:14px 20px !important;font-size:11px !important;}
+  .intro-slide{padding:40px 20px;}
+  .intro-headline{font-size:clamp(26px,9vw,44px);}
+  .intro-sub{font-size:14px;}
+  footer{padding:24px 16px;}
+  .story-panel{padding:48px 20px;}
+  .intro-cta-row{flex-direction:column;gap:10px;}
   .sib-sms-input{flex-direction:column;gap:6px;}
   .sib-sms-input select.input{max-width:100% !important;}
-  .form-promise{gap:16px;}
-  .promise-title{font-size:13px;}
-  .promise-desc{font-size:12px;}
-
-  /* Intro */
-  .intro-slide{padding:40px 20px;}
-  .intro-headline{font-size:clamp(28px,9vw,48px);line-height:1.0;}
-  .intro-sub{font-size:14px;margin-top:16px;}
-  .intro-tag{font-size:10px;padding:6px 12px;}
-  .intro-btn-enter{padding:14px 24px;font-size:12px;}
-  .intro-btn-skip-final{padding:14px 20px;font-size:12px;}
-  .intro-cta-row{flex-direction:column;gap:10px;}
-  .intro-logo{font-size:16px;top:20px;left:20px;}
-  .intro-skip{top:20px;right:16px;font-size:10px;padding:6px 12px;}
-
-  /* Marquee */
-  .marquee-item{font-size:14px;padding:0 20px;}
-
-  /* Footer */
-  footer{padding:24px 20px;gap:16px;}
-  .footer-logo{font-size:16px;}
-  .footer-links{gap:16px;}
-  .footer-links a{font-size:11px;}
-  .footer-copy{font-size:11px;}
-
-  /* Scroll progress */
-  .scroll-progress{top:56px;}
-}
-
-/* ── SMALL MOBILE (max 380px) ── */
-@media(max-width:380px){
-  .hero-h1{font-size:28px;}
-  .intro-headline{font-size:26px;}
-  .section-title{font-size:22px;}
-  .pricing-price{font-size:36px;}
-  .story-stat-val{font-size:30px;}
-  nav{padding:0 16px;}
-  section{padding:48px 16px;}
-  .hero-left{padding:40px 16px 32px;}
-  .story-panel{padding:40px 16px;}
-  .form-card{padding:16px 12px;}
 }
 
 /* ── INTRO OVERLAY ── */
@@ -869,18 +775,22 @@ body.intro-active{overflow:hidden;}
 
 <!-- NAV -->
 <nav id="main-nav">
-  <a class="nav-logo" href="#">Plate<span>form</span></a>
-  <ul class="nav-links">
-    <li><a href="#testimonials">Work</a></li>
-    <li><a href="#how-it-works">Process</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-  </ul>
-  <a class="nav-cta" href="#preview">Get free preview</a>
+  <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+    <a class="nav-logo" href="#">Plate<span>form</span></a>
+    <ul class="nav-links d-none d-lg-flex">
+      <li><a href="#testimonials">Work</a></li>
+      <li><a href="#how-it-works">Process</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a class="nav-cta" href="#preview">Get free preview</a>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" style="padding:0;border:none;">
-  <div class="hero-left">
+  <div class="container-fluid g-0">
+  <div class="row g-0 align-items-stretch">
+  <div class="col-12 col-lg-6 hero-left">
     <div class="hero-eyebrow">Beautiful websites for local businesses</div>
     <h1 class="hero-h1">Your business deserves a website as good as <em>your work</em></h1>
     <p class="hero-sub">We design, host, and maintain a beautiful website for your business — so you never have to think about it. See exactly what yours will look like, free, before committing to anything.</p>
@@ -903,7 +813,7 @@ body.intro-active{overflow:hidden;}
       </div>
     </div>
   </div>
-  <div class="hero-right">
+  <div class="col-12 col-lg-6 hero-right">
     <div class="device-toggle">
       <button class="active" onclick="showDevice('laptop',this)">Laptop</button>
       <button onclick="showDevice('mobile',this)">Mobile</button>
@@ -979,6 +889,8 @@ body.intro-active{overflow:hidden;}
       </div>
     </div>
   </div>
+  </div><!-- row -->
+  </div><!-- container -->
 </section>
 
 <!-- MARQUEE -->
@@ -1132,20 +1044,20 @@ body.intro-active{overflow:hidden;}
 <section id="testimonials">
   <div class="section-eyebrow reveal">What business owners say</div>
   <h2 class="section-title reveal">Our clients <em>speak for us</em></h2>
-  <div class="proof-grid reveal">
-    <div class="proof-card">
+  <div class="row g-0 proof-grid reveal">
+    <div class="col-12 col-md-4 proof-card">
       <p class="proof-quote">"We'd been meaning to get a website for three years. Plateform had us live in two weeks — and it looks better than competitors with ten times our budget."</p>
       <div class="proof-author"><span class="proof-name">Maria Conti</span><span class="proof-place">Hair Studio Conti, Austin TX</span></div>
     </div>
-    <div class="proof-card">
+    <div class="col-12 col-md-4 proof-card">
       <p class="proof-quote">"I was skeptical about paying monthly, but I haven't thought about the website since they launched it. It just works — like having a full-time web team for less than a daily coffee."</p>
       <div class="proof-author"><span class="proof-name">James Okafor</span><span class="proof-place">Heron Fitness, Nashville TN</span></div>
     </div>
-    <div class="proof-card">
+    <div class="col-12 col-md-4 proof-card">
       <p class="proof-quote">"Clients tell us constantly that they found us because our website looked so professional. New enquiries have gone up since we launched."</p>
       <div class="proof-author"><span class="proof-name">Sophie Lamarque</span><span class="proof-place">Lumière Law, Portland OR</span></div>
     </div>
-  </div>
+  </div><!-- row proof-grid -->
 </section>
 
 <!-- HOW IT WORKS -->
@@ -1153,8 +1065,8 @@ body.intro-active{overflow:hidden;}
   <div class="section-eyebrow reveal">The process</div>
   <h2 class="section-title reveal">From conversation to <em>live in two weeks</em></h2>
   <p class="section-sub reveal">No tech knowledge needed. No big upfront cost. Three straightforward steps.</p>
-  <div class="steps-layout">
-    <div class="steps-list reveal-left">
+  <div class="row g-0 steps-layout">
+    <div class="col-12 col-lg-6 steps-list reveal-left">
       <div class="step active" onclick="setStep(0,this)">
         <span class="step-num">01</span>
         <div class="step-content">
@@ -1184,7 +1096,7 @@ body.intro-active{overflow:hidden;}
         </div>
       </div>
     </div>
-    <div class="steps-visual reveal-right">
+    <div class="col-12 col-lg-6 steps-visual reveal-right">
       <div class="step-vis active" id="vis-0">
         <div class="step-vis-icon">✦</div>
         <div class="step-vis-title">Just five minutes of your time</div>
@@ -1210,7 +1122,7 @@ body.intro-active{overflow:hidden;}
         <div class="step-timeline">Every month, ongoing</div>
       </div>
     </div>
-  </div>
+  </div><!-- row steps -->
 </section>
 
 <!-- PRICING -->
@@ -1218,8 +1130,9 @@ body.intro-active{overflow:hidden;}
   <div class="section-eyebrow reveal">Simple pricing</div>
   <h2 class="section-title reveal">No surprises. <em>Ever.</em></h2>
   <p class="section-sub reveal">One setup fee, one monthly subscription. Works for any type of local business.</p>
-  <div class="pricing-grid">
-    <div class="pricing-card reveal-left">
+  <div class="row g-3 pricing-grid">
+    <div class="col-12 col-md-6 reveal-left">
+    <div class="pricing-card h-100">
       <div class="pricing-tier">Starter</div>
       <div class="pricing-price">$79</div>
       <div class="pricing-period">per month</div>
@@ -1234,7 +1147,9 @@ body.intro-active{overflow:hidden;}
       </ul>
       <a class="pricing-cta" href="#preview"><span>Get my free preview</span></a>
     </div>
-    <div class="pricing-card featured reveal-right">
+    </div></div>
+    <div class="col-12 col-md-6 reveal-right">
+    <div class="pricing-card featured h-100">
       <div class="pricing-badge">Most popular</div>
       <div class="pricing-tier">Pro</div>
       <div class="pricing-price">$129</div>
@@ -1249,15 +1164,15 @@ body.intro-active{overflow:hidden;}
         <li>Priority support</li>
       </ul>
       <a class="pricing-cta" href="#preview"><span>Get my free preview</span></a>
-    </div>
-  </div>
+    </div></div>
+  </div><!-- row pricing -->
   <p class="pricing-note reveal">Both plans require a 3-month minimum commitment, then month-to-month. Additional content changes billed at $50/hr.</p>
 </section>
 
 <!-- FORM -->
 <section id="preview">
-  <div class="form-layout">
-    <div class="form-left">
+  <div class="row g-5 form-layout">
+    <div class="col-12 col-lg-6 form-left">
       <div class="section-eyebrow reveal">Free preview</div>
       <h2 class="section-title reveal">See your business website <em>before you commit</em></h2>
       <p class="section-sub reveal">Fill in a short form and we'll send you a live, scrollable preview within 24 hours. No payment, no obligation.</p>
@@ -1276,7 +1191,7 @@ body.intro-active{overflow:hidden;}
         </div>
       </div>
     </div>
-    <div class="form-right reveal-right">
+    <div class="col-12 col-lg-6 form-right reveal-right">
       <div class="form-card">
         <div id="sib-form-container" class="sib-form-container">
           <div id="error-message" class="sib-form-message-panel">
@@ -1331,22 +1246,34 @@ body.intro-active{overflow:hidden;}
         </div>
       </div>
     </div>
-  </div>
+  </div><!-- row form -->
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Plate<span>form</span></div>
+  <div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-12 col-md-3 text-center text-md-start mb-3 mb-md-0">
+      <div class="footer-logo">Plate<span>form</span></div>
+    </div>
+    <div class="col-12 col-md-6 d-flex justify-content-center mb-3 mb-md-0">
   <div class="footer-links">
     <a href="#how-it-works">Process</a>
     <a href="#pricing">Pricing</a>
     <a href="mailto:hello@plateform.co">hello@plateform.co</a>
     <a href="#">Instagram</a>
   </div>
-  <div class="footer-copy">© 2026 Plateform. All rights reserved.</div>
+    </div>
+    <div class="col-12 col-md-3 text-center text-md-end">
+      <div class="footer-copy">© 2026 Plateform. All rights reserved.</div>
+    </div>
+  </div><!-- row -->
+  </div><!-- container -->
 </footer>
 
 <script>
+document.documentElement.style.setProperty('--nav-h','64px');
+
 // ── INTRO ──
 const TOTAL_SLIDES = 5;
 const SLIDE_DURATION = 2800;
@@ -1955,7 +1882,9 @@ function setStep(i,clicked){
 // ── NAV SCROLL SHRINK ──
 window.addEventListener('scroll',()=>{
   const nav=document.getElementById('main-nav');
-  nav.style.height=window.scrollY>60?'52px':'64px';
+  var nh=window.scrollY>60?'52px':'64px';
+  nav.style.height=nh;
+  document.documentElement.style.setProperty('--nav-h',nh);
 });
 
 // ── MARQUEE CLONE ──
