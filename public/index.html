@@ -603,16 +603,23 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .hero-right{padding:32px 24px 48px;}
   section{padding:60px 24px;}
   .steps-visual{display:none;}
+  /* Story strip — vertical on mobile */
   #story-container{height:auto !important;}
+  #story-sticky{position:relative !important;}
+  .story-strip{flex-direction:column !important;width:100% !important;height:auto !important;}
+  .story-panel{width:100% !important;height:auto !important;min-height:auto !important;padding:64px 32px !important;}
+  .story-progress{display:none;}
   .story-visual{display:none;}
   .scroll-hint{display:none;}
   .intro-deco{display:none;}
   footer{padding:24px 20px;}
   /* Intro tablet */
-  .intro-slide{padding:64px 40px;}
+  
   .intro-headline{font-size:clamp(32px,5vw,64px) !important;}
   .intro-logo{left:32px;font-size:18px;}
   .intro-skip{right:24px;}
+
+  .intro-slide{padding:80px 40px !important;}
 }
 
 /* ── MOBILE 575px ── */
@@ -680,7 +687,7 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .footer-copy{font-size:10px;}
 
   /* Intro */
-  .intro-slide{padding:72px 20px 36px;}
+  
   .intro-headline{font-size:clamp(24px,7.5vw,40px) !important;line-height:1.05 !important;letter-spacing:-0.01em !important;}
   .intro-sub{font-size:13px !important;line-height:1.6 !important;margin-top:12px !important;max-width:100% !important;}
   .intro-label{font-size:10px !important;letter-spacing:0.15em !important;margin-bottom:12px !important;}
@@ -688,6 +695,18 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .intro-logo{left:16px;top:18px;font-size:15px;}
   .intro-skip{right:14px;top:18px;font-size:10px;padding:5px 10px;}
   .intro-step-dots{margin-bottom:20px;gap:6px;}
+  .intro-cta-row{flex-direction:column;gap:8px;width:100%;margin-top:28px !important;}
+  .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:13px 16px;font-size:11px;}
+
+  /* Intro mobile */
+  .intro-slide{padding:72px 20px 36px !important;}
+  .intro-headline{font-size:clamp(24px,7.5vw,40px) !important;line-height:1.05 !important;}
+  .intro-sub{font-size:13px !important;margin-top:12px !important;}
+  .intro-label{font-size:10px !important;margin-bottom:12px !important;}
+  .intro-tag{font-size:10px !important;padding:5px 10px !important;margin-top:16px !important;}
+  .intro-logo{left:16px;top:18px;font-size:15px;}
+  .intro-skip{right:14px;top:18px;font-size:10px;padding:5px 10px;}
+  .intro-step-dots{margin-bottom:20px;}
   .intro-cta-row{flex-direction:column;gap:8px;width:100%;margin-top:28px !important;}
   .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:13px 16px;font-size:11px;}
 }
@@ -704,9 +723,14 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .hero-left{padding:80px 12px 32px;}
   section{padding:40px 12px;}
   .story-panel{padding:40px 12px;}
-  .intro-slide{padding:68px 16px 32px;}
+  
   .intro-logo{font-size:14px;left:14px;}
   .intro-skip{font-size:9px;right:12px;padding:4px 8px;}
+
+  .intro-slide{padding:64px 12px 28px !important;}
+  .intro-headline{font-size:22px !important;}
+  .intro-logo{font-size:13px;left:12px;}
+  .intro-skip{font-size:9px;right:10px;padding:4px 8px;}
 }
 
 /* ── INTRO OVERLAY ── */
@@ -1749,8 +1773,10 @@ gsap.utils.toArray('.step-title').forEach(el => {
 // ─── 10. STORY STRIP SPLIT LINES — Override with GSAP ───
 // (handled in horizontal scroll section below)
 
-// ── STORYTELLING HORIZONTAL SCROLL ──
-// ── STORYTELLING HORIZONTAL SCROLL (desktop only) ──
+// ── STORYTELLING HORIZONTAL SCROLL (desktop only)
+if(window.innerWidth > 960) {
+// ── STORYTELLING HORIZONTAL SCROLL (desktop only)
+if(window.innerWidth > 960) {
 if(window.innerWidth>960){
 const strip = document.getElementById('story-strip');
 const panels = gsap.utils.toArray('.story-panel');
@@ -1877,6 +1903,8 @@ let ctx = gsap.context(() => {
 });
 } // end desktop only
 
+} // end story desktop
+
 // ── GSAP SCROLL REVEALS (rest of page) ──
 // Hero is handled by CSS animation, start GSAP from testimonials down
 gsap.utils.toArray('.reveal').forEach((el, i) => {
@@ -1980,7 +2008,8 @@ window.addEventListener('scroll',()=>{
 // ── MARQUEE CLONE ──
 const track=document.getElementById('marquee');
 track.innerHTML+=track.innerHTML;
-});
+} // end window.innerWidth > 960
+}); // end window.addEventListener('load')
 </script>
 
 <script>
