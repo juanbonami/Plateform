@@ -1470,7 +1470,15 @@ function exitIntro(){
   const overlay = document.getElementById('intro');
   overlay.classList.add('exiting');
   document.body.classList.remove('intro-active');
-  setTimeout(()=>{ overlay.style.display='none'; },620);
+  // Reset scroll to top so GSAP triggers are correct
+  window.scrollTo(0, 0);
+  setTimeout(function(){
+    overlay.style.display = 'none';
+    // Refresh ScrollTrigger after intro is gone and overflow is restored
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+  }, 650);
 }
 
 function exitIntroToForm(){
@@ -1511,6 +1519,8 @@ document.querySelectorAll('a,button,.step,.proof-card,.pricing-card,.vibe-btn').
 
 <script>window.addEventListener('load', function() {
   if (typeof gsap === 'undefined') { console.warn('GSAP not loaded'); return; }
+  // Small delay ensures intro overlay doesn't interfere with scroll calculations
+  setTimeout(function() { if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 100);
 // ── GSAP SCROLLTRIGGER + TEXT ANIMATIONS ──
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
