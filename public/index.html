@@ -1509,35 +1509,30 @@ document.querySelectorAll('a,button,.step,.proof-card,.pricing-card,.vibe-btn').
 
 </script>
 
-<script>
-// Wait for deferred GSAP scripts to load before running animations
-window.addEventListener('load', function() {
+<script>window.addEventListener('load', function() {
   if (typeof gsap === 'undefined') { console.warn('GSAP not loaded'); return; }
-
-  if (typeof gsap === 'undefined') {
-    console.warn('GSAP not loaded');
-    return;
-  }
-  // ── GSAP SCROLLTRIGGER + TEXT ANIMATIONS ──
+// ── GSAP SCROLLTRIGGER + TEXT ANIMATIONS ──
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-// ─── UTILITY: Manual character splitter ───
-function splitChars(el) {
-  const text = el.innerText;
+if (typeof gsap === 'undefined') { console.warn('GSAP not loaded'); }
+
+// ─── UTILITY: Character splitter ───
+var splitChars = function(el) {
+  var text = el.innerText;
   el.innerHTML = '';
-  const chars = [];
-  text.split('').forEach(ch => {
-    const span = document.createElement('span');
+  var chars = [];
+  text.split('').forEach(function(ch) {
+    var span = document.createElement('span');
     span.className = 'char';
     span.style.display = 'inline-block';
-    span.innerHTML = ch === ' ' ? '\u00A0' : ch;
+    span.innerHTML = ch === ' ' ? '&nbsp;' : ch;
     el.appendChild(span);
     chars.push(span);
   });
   return chars;
-}
+};
 
-function splitWords(el) {
+var splitWords = function(el) {
   var text = el.innerText;
   el.innerHTML = '';
   var words = [];
@@ -1554,25 +1549,12 @@ function splitWords(el) {
     words.push(inner);
   });
   return words;
-}
+};
 
-function splitLines(el) {
-  // Wrap each em/text node line
-  const html = el.innerHTML;
-  const lines = html.split('<br>');
-  if(lines.length > 1) {
-    el.innerHTML = lines.map(l =>
-      `<span class="line" style="display:block;overflow:hidden"><span class="char" style="display:block">${l}</span></span>`
-    ).join('');
-    return el.querySelectorAll('.line .char');
-  }
-  return splitWords(el);
-}
-
-// ─── 1. HERO HEADLINE — Character stagger with wave ───
+// ─── 1. HERO HEADLINE — char stagger ───
 (function() {
   var h1 = document.querySelector('.hero-h1');
-  if(!h1) return;
+  if (!h1) return;
   var rawHTML = h1.innerHTML;
   var tempDiv = document.createElement('div');
   tempDiv.innerHTML = rawHTML;
@@ -1583,11 +1565,10 @@ function splitLines(el) {
   var allChars = [];
   var NL = String.fromCharCode(10);
   tempDiv.childNodes.forEach(function(node) {
-    if(node.nodeType === 3) {
+    if (node.nodeType === 3) {
       node.textContent.split('').forEach(function(ch) {
-        if(ch === NL || ch === String.fromCharCode(13)) {
-          h1.appendChild(document.createElement('br'));
-          return;
+        if (ch === NL || ch === String.fromCharCode(13)) {
+          h1.appendChild(document.createElement('br')); return;
         }
         var span = document.createElement('span');
         span.className = 'char';
@@ -1596,95 +1577,98 @@ function splitLines(el) {
         h1.appendChild(span);
         allChars.push(span);
       });
-    } else if(node.nodeName === 'EM') {
+    } else if (node.nodeName === 'EM') {
       node.textContent.split('').forEach(function(ch) {
         var span = document.createElement('span');
         span.className = 'char';
-        span.style.fontStyle = 'italic';
-        span.style.color = 'var(--accent)';
-        span.style.display = 'inline-block';
+        span.style.cssText = 'font-style:italic;color:var(--accent);display:inline-block;';
         span.textContent = (ch === ' ') ? String.fromCharCode(160) : ch;
         h1.appendChild(span);
         allChars.push(span);
       });
-    } else if(node.nodeName === 'BR') {
+    } else if (node.nodeName === 'BR') {
       h1.appendChild(document.createElement('br'));
     }
   });
+  // Simple fade+rise — no rotateX (avoids 3D repaint cost)
   gsap.fromTo(allChars,
-    { opacity: 0, y: 60, rotateX: -90 },
-    {
-      opacity: 1, y: 0, rotateX: 0,
-      duration: 0.6,
-      stagger: { each: 0.025, from: 'start' },
-      ease: 'back.out(1.4)',
-      delay: 0.5,
-      transformOrigin: '50% 100%',
-    }
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.5, stagger: 0.018, ease: 'power2.out', delay: 0.4 }
   );
 })();
 
-// ─── 2. HERO SUBTEXT — Word by word rise ───
+// ─── 2. HERO SUBTEXT — word rise ───
 (function() {
-  const sub = document.querySelector('.hero-sub');
-  if(!sub) return;
+  var sub = document.querySelector('.hero-sub');
+  if (!sub) return;
   sub.style.opacity = '1';
   sub.style.transform = 'none';
   sub.style.animation = 'none';
-  const words = splitWords(sub);
+  var words = splitWords(sub);
   gsap.fromTo(words,
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.5, stagger: 0.04, ease: 'power2.out', delay: 1.2 }
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.45, stagger: 0.03, ease: 'power2.out', delay: 1.0 }
   );
 })();
 
-// ─── 3. HERO STATS — Number count-up odometer ───
+// ─── 3. HERO STATS — count up ───
 (function() {
-  const stats = [
-    { el: document.querySelectorAll('.stat-num')[0], from: 0, to: 79, prefix: '$', suffix: '' },
-    { el: document.querySelectorAll('.stat-num')[1], from: 0, to: 2, prefix: '', suffix: 'wk' },
-    { el: document.querySelectorAll('.stat-num')[2], from: 0, to: 24, prefix: '', suffix: 'h' },
+  var stats = [
+    { el: document.querySelectorAll('.stat-num')[0], to: 79, pre: '$', suf: '' },
+    { el: document.querySelectorAll('.stat-num')[1], to: 2,  pre: '', suf: 'wk' },
+    { el: document.querySelectorAll('.stat-num')[2], to: 24, pre: '', suf: 'h' },
   ];
-  stats.forEach(({ el, from, to, prefix, suffix }, i) => {
-    if(!el) return;
-    gsap.fromTo({ val: from }, { val: to },
-      {
-        duration: 1.4, ease: 'power2.out', delay: 1.4 + i * 0.15,
-        onUpdate: function() { el.innerText = prefix + Math.round(this.targets()[0].val) + suffix; }
+  stats.forEach(function(s, i) {
+    if (!s.el) return;
+    gsap.fromTo({ val: 0 }, { val: s.to },
+      { duration: 1.2, ease: 'power2.out', delay: 1.2 + i * 0.12,
+        onUpdate: function() { s.el.innerText = s.pre + Math.round(this.targets()[0].val) + s.suf; }
       }
     );
   });
 })();
 
-// ─── 4. SECTION TITLES — Line reveal on scroll ───
-gsap.utils.toArray('.section-title').forEach(el => {
-  const lines = el.querySelectorAll('.split-line');
-  const targets = lines.length ? lines : [el];
+// ─── 4. NAV TYPEWRITER ───
+(function() {
+  var logo = document.querySelector('.nav-logo');
+  if (!logo) return;
+  logo.innerHTML = '';
+  logo.style.minWidth = '100px';
+  var textNode = document.createTextNode('');
+  logo.appendChild(textNode);
+  var spanEl = document.createElement('span');
+  spanEl.style.color = 'var(--accent)';
+  logo.appendChild(spanEl);
+  var cursor = document.createElement('span');
+  cursor.className = 'typewriter-cursor';
+  logo.appendChild(cursor);
+  var w1 = 'Plate', w2 = 'form', i = 0;
+  function typeNext() {
+    if (i < w1.length) { textNode.textContent += w1[i]; i++; setTimeout(typeNext, 80); }
+    else if (i < w1.length + w2.length) { spanEl.innerText += w2[i - w1.length]; i++; setTimeout(typeNext, 80); }
+    else { setTimeout(function(){ cursor.style.display = 'none'; }, 1200); }
+  }
+  setTimeout(typeNext, 400);
+})();
 
-  // If no split-lines, wrap content
-  if(!lines.length) {
-    const inner = document.createElement('span');
-    inner.className = 'char';
-    inner.style.display = 'block';
-    inner.innerHTML = el.innerHTML;
-    el.innerHTML = '';
-    const wrapper = document.createElement('span');
-    wrapper.className = 'line';
-    wrapper.style.display = 'block';
-    wrapper.style.overflow = 'hidden';
-    wrapper.appendChild(inner);
-    el.appendChild(wrapper);
+// ─── 5. SECTION EYEBROWS — letter stagger ───
+gsap.utils.toArray('.section-eyebrow').forEach(function(el) {
+  var chars = splitChars(el);
+  gsap.fromTo(chars,
+    { opacity: 0, x: -8 },
+    { opacity: 1, x: 0, duration: 0.25, stagger: 0.025, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
+    }
+  );
+});
 
-    gsap.fromTo(inner,
-      { y: '100%', opacity: 0 },
-      { y: '0%', opacity: 1, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
-      }
-    );
-  } else {
-    const innerChars = [];
-    lines.forEach(line => {
-      const span = document.createElement('span');
+// ─── 6. SECTION TITLES — line reveal (no parallax conflict) ───
+gsap.utils.toArray('.section-title').forEach(function(el) {
+  var lines = el.querySelectorAll('.split-line');
+  if (lines.length) {
+    var innerChars = [];
+    lines.forEach(function(line) {
+      var span = document.createElement('span');
       span.style.display = 'block';
       span.innerHTML = line.innerHTML;
       line.innerHTML = '';
@@ -1692,339 +1676,166 @@ gsap.utils.toArray('.section-title').forEach(el => {
       innerChars.push(span);
     });
     gsap.fromTo(innerChars,
-      { y: '105%', opacity: 0, skewY: 4 },
-      { y: '0%', opacity: 1, skewY: 0, duration: 0.75, stagger: 0.1, ease: 'power3.out',
+      { y: '105%', opacity: 0 },
+      { y: '0%', opacity: 1, duration: 0.65, stagger: 0.09, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+      }
+    );
+  } else {
+    gsap.fromTo(el,
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out',
         scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
       }
     );
   }
 });
 
-// ─── 5. TESTIMONIAL QUOTES — Word scramble reveal ───
-// ── PROOF CARDS — simple fade (no word split for perf) ──
-gsap.utils.toArray('.proof-card').forEach((el, i) => {
-  gsap.fromTo(el,
-    { opacity: 0, y: 24 },
-    {
-      opacity: 1, y: 0,
-      duration: 0.6, ease: 'power2.out',
-      delay: i * 0.1,
-      scrollTrigger: {
-        trigger: el, start: 'top 88%', toggleActions: 'play none none none'
-      }
-    }
-  );
-});
-
-// ─── 6. EYEBROW LABELS — Letter stagger left to right ───
-gsap.utils.toArray('.section-eyebrow').forEach(el => {
-  const chars = splitChars(el);
-  gsap.fromTo(chars,
-    { opacity: 0, x: -10 },
-    {
-      opacity: 1, x: 0,
-      duration: 0.3, stagger: 0.03, ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
-    }
-  );
-});
-
-// ─── 7. PRICING PRICE — Big number roll up ───
-gsap.utils.toArray('.pricing-price').forEach(el => {
-  const raw = el.innerText; // e.g. "$79"
-  const match = raw.match(/\d+/);
-  if(!match) return;
-  const num = parseInt(match[0]);
-  const prefix = raw.indexOf('$') > -1 ? '$' : '';
-
+// ─── 7. PRICING PRICE ROLL ───
+gsap.utils.toArray('.pricing-price').forEach(function(el) {
+  var raw = el.innerText;
+  var match = raw.match(/[0-9]+/);
+  if (!match) return;
+  var num = parseInt(match[0]);
+  var prefix = raw.indexOf('$') > -1 ? '$' : '';
   gsap.fromTo({ n: 0 }, { n: num },
-    {
-      duration: 1.2, ease: 'power2.out',
+    { duration: 1.1, ease: 'power2.out',
       onUpdate: function() { el.innerText = prefix + Math.round(this.targets()[0].n); },
       scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
     }
   );
 });
 
-// ─── 8. STEP TITLES — Hover character wave ───
-gsap.utils.toArray('.step-title').forEach(el => {
-  const chars = splitChars(el);
-  el.addEventListener('mouseenter', () => {
-    gsap.fromTo(chars,
-      { y: 0 },
-      { y: -4, duration: 0.25, stagger: 0.03, ease: 'power2.out',
-        yoyo: true, repeat: 1 }
-    );
+// ─── 8. STEP TITLE HOVER WAVE ───
+gsap.utils.toArray('.step-title').forEach(function(el) {
+  var chars = splitChars(el);
+  el.addEventListener('mouseenter', function() {
+    gsap.fromTo(chars, { y: 0 }, { y: -4, duration: 0.2, stagger: 0.025, ease: 'power2.out', yoyo: true, repeat: 1 });
   });
 });
 
-// ─── 9. NAV LOGO — Typewriter on load ───
-(function() {
-  const logo = document.querySelector('.nav-logo');
-  if(!logo) return;
-  const full = logo.innerHTML; // "Plate<span>form</span>"
-  logo.innerHTML = '';
-  logo.style.minWidth = '100px';
-
-  const textNode = document.createTextNode('');
-  logo.appendChild(textNode);
-
-  const spanEl = document.createElement('span');
-  spanEl.style.color = 'var(--accent)';
-  spanEl.innerText = '';
-  logo.appendChild(spanEl);
-
-  const cursor = document.createElement('span');
-  cursor.className = 'typewriter-cursor';
-  logo.appendChild(cursor);
-
-  const word1 = 'Plate';
-  const word2 = 'form';
-  let i = 0;
-
-  function typeNext() {
-    if(i < word1.length) {
-      textNode.textContent += word1[i];
-      i++; setTimeout(typeNext, 80);
-    } else if(i < word1.length + word2.length) {
-      spanEl.innerText += word2[i - word1.length];
-      i++; setTimeout(typeNext, 80);
-    } else {
-      setTimeout(() => cursor.style.animation = 'none', 1000);
-      setTimeout(() => cursor.style.display = 'none', 1500);
-    }
+// ─── 9. PROOF CARDS — simple stagger fade ───
+gsap.fromTo('.proof-card',
+  { opacity: 0, y: 32 },
+  { opacity: 1, y: 0, stagger: 0.12, duration: 0.65, ease: 'power2.out',
+    scrollTrigger: { trigger: '.proof-grid', start: 'top 82%', toggleActions: 'play none none none' }
   }
-  setTimeout(typeNext, 300);
-})();
+);
 
-// ─── 10. STORY STRIP SPLIT LINES — Override with GSAP ───
-// (handled in horizontal scroll section below)
+// ─── 10. PRICING CARDS ───
+gsap.utils.toArray('.pricing-card').forEach(function(el, i) {
+  gsap.fromTo(el,
+    { opacity: 0, y: 48 },
+    { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out', delay: i * 0.15,
+      scrollTrigger: { trigger: '.pricing-grid', start: 'top 82%', toggleActions: 'play none none none' }
+    }
+  );
+});
 
-// ── STORYTELLING HORIZONTAL SCROLL (desktop only)
-if(window.innerWidth > 960) {
-const strip = document.getElementById('story-strip');
-const panels = gsap.utils.toArray('.story-panel');
-const totalPanels = panels.length;
-const progressDots = document.querySelectorAll('.story-pdot');
-const storyProgress = document.getElementById('story-progress');
+// ─── 11. STANDARD SCROLL REVEALS ───
+gsap.utils.toArray('.reveal').forEach(function(el, i) {
+  gsap.fromTo(el,
+    { opacity: 0, y: 32 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+      delay: (i % 3) * 0.08
+    }
+  );
+});
+gsap.utils.toArray('.reveal-left').forEach(function(el) {
+  gsap.fromTo(el,
+    { opacity: 0, x: -32 },
+    { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    }
+  );
+});
+gsap.utils.toArray('.reveal-right').forEach(function(el) {
+  gsap.fromTo(el,
+    { opacity: 0, x: 32 },
+    { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    }
+  );
+});
 
-// Pin and horizontal scroll
-let ctx = gsap.context(() => {
-  const tl = gsap.timeline({
+// ─── 12. STORYTELLING HORIZONTAL SCROLL (desktop only) ───
+if (window.innerWidth > 960) {
+  var strip = document.getElementById('story-strip');
+  var panels = gsap.utils.toArray('.story-panel');
+  var totalPanels = panels.length;
+  var progressDots = document.querySelectorAll('.story-pdot');
+  var storyProgress = document.getElementById('story-progress');
+
+  var storyTl = gsap.timeline({
     scrollTrigger: {
       trigger: '#story-container',
       start: 'top top',
-      end: () => '+=' + (strip.scrollWidth - window.innerWidth),
-      scrub: 1.2,
+      end: function() { return '+=' + (strip.scrollWidth - window.innerWidth); },
+      scrub: 1,
       pin: true,
       anticipatePin: 1,
-      onUpdate: (self) => {
-        const idx = Math.round(self.progress * (totalPanels - 1));
-        progressDots.forEach((d,i) => d.classList.toggle('active', i === idx));
-        storyProgress.classList.add('visible');
+      invalidateOnRefresh: true,
+      onUpdate: function(self) {
+        var idx = Math.round(self.progress * (totalPanels - 1));
+        progressDots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+        if (storyProgress) storyProgress.classList.add('visible');
       },
-      onLeave: () => storyProgress.classList.remove('visible'),
-      onEnterBack: () => storyProgress.classList.add('visible'),
-      onLeaveBack: () => storyProgress.classList.remove('visible'),
+      onLeave: function() { if (storyProgress) storyProgress.classList.remove('visible'); },
+      onEnterBack: function() { if (storyProgress) storyProgress.classList.add('visible'); },
+      onLeaveBack: function() { if (storyProgress) storyProgress.classList.remove('visible'); },
     }
   });
 
-  tl.to(strip, {
-    x: () => -(strip.scrollWidth - window.innerWidth),
-    ease: 'none',
+  storyTl.to(strip, { x: function() { return -(strip.scrollWidth - window.innerWidth); }, ease: 'none' });
+
+  // Animate panel content as it scrolls into view
+  panels.forEach(function(panel, i) {
+    var tag   = panel.querySelector('.story-panel-tag');
+    var lines = panel.querySelectorAll('.split-line');
+    var body  = panel.querySelector('.story-panel-body');
+    var stats = panel.querySelectorAll('.story-panel-stat > div');
+    var visual = panel.querySelector('.story-visual');
+
+    var stConfig = { containerAnimation: storyTl, trigger: panel, scrub: 0.8 };
+
+    if (tag) gsap.fromTo(tag, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3,
+      scrollTrigger: Object.assign({}, stConfig, { start: 'left 80%', end: 'left 40%' }) });
+
+    if (lines.length) gsap.fromTo(lines, { opacity: 0, y: 32 }, { opacity: 1, y: 0, stagger: 0.1,
+      scrollTrigger: Object.assign({}, stConfig, { start: 'left 75%', end: 'left 30%' }) });
+
+    if (body) gsap.fromTo(body, { opacity: 0, y: 20 }, { opacity: 1, y: 0,
+      scrollTrigger: Object.assign({}, stConfig, { start: 'left 65%', end: 'left 20%' }) });
+
+    if (stats.length) gsap.fromTo(stats, { opacity: 0, y: 16 }, { opacity: 1, y: 0, stagger: 0.12,
+      scrollTrigger: Object.assign({}, stConfig, { start: 'left 55%', end: 'left 15%' }) });
+
+    if (visual) gsap.fromTo(visual, { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1,
+      scrollTrigger: Object.assign({}, stConfig, { start: 'left 70%', end: 'left 25%' }) });
   });
 
-  // Animate each panel's content as it enters
-  panels.forEach((panel, i) => {
-    const tag = panel.querySelector('.story-panel-tag');
-    const lines = panel.querySelectorAll('.split-line');
-    const body = panel.querySelector('.story-panel-body');
-    const stats = panel.querySelectorAll('.story-panel-stat > div');
-    const visual = panel.querySelector('.story-visual');
-    const hint = panel.querySelector('.scroll-hint');
-
-    // Stagger lines in from below as panel scrolls into view
-    const panelStart = i / totalPanels;
-    const panelEnd = (i + 0.6) / totalPanels;
-
-    if(tag) gsap.fromTo(tag,
-      { opacity: 0, x: -20 },
-      { opacity: 1, x: 0, duration: 0.4,
-        scrollTrigger: { trigger: '#story-container', start: 'top top',
-          end: () => '+=' + (strip.scrollWidth - window.innerWidth),
-          scrub: 1.5, containerAnimation: tl,
-          trigger: panel, start: 'left 80%', end: 'left 20%',
-        }
-      }
-    );
-
-    if(lines.length) {
-      gsap.fromTo(lines,
-        { opacity: 0, y: 40, skewY: 3 },
-        { opacity: 1, y: 0, skewY: 0, duration: 0.5, stagger: 0.12,
-          scrollTrigger: { containerAnimation: tl, trigger: panel,
-            start: 'left 75%', end: 'left 30%', scrub: 1.2 }
-        }
-      );
-    }
-
-    if(body) gsap.fromTo(body,
-      { opacity: 0, y: 24 },
-      { opacity: 1, y: 0, duration: 0.5,
-        scrollTrigger: { containerAnimation: tl, trigger: panel,
-          start: 'left 60%', end: 'left 15%', scrub: 1.2 }
-      }
-    );
-
-    if(stats.length) {
-      gsap.fromTo(stats,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, stagger: 0.15, duration: 0.4,
-          scrollTrigger: { containerAnimation: tl, trigger: panel,
-            start: 'left 50%', end: 'left 10%', scrub: 1 }
-        }
-      );
-    }
-
-    if(visual) {
-      gsap.fromTo(visual,
-        { opacity: 0, scale: 0.88, y: 30 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.6,
-          scrollTrigger: { containerAnimation: tl, trigger: panel,
-            start: 'left 70%', end: 'left 20%', scrub: 1.4 }
-        }
-      );
-      // Parallax on visual
-      gsap.to(visual, {
-        x: -40,
-        scrollTrigger: { containerAnimation: tl, trigger: panel,
-          start: 'left left', end: 'right left', scrub: 2 }
-      });
-    }
-
-    if(hint) gsap.to(hint, {
-      opacity: 0, duration: 0.2,
-      scrollTrigger: { containerAnimation: tl, trigger: panel,
-        start: 'left 30%', end: 'left 10%', scrub: 1 }
-    });
-  });
-
-  // Count-up numbers when panel 1 enters
-  const countEls = document.querySelectorAll('[data-count]');
-  countEls.forEach(el => {
-    const target = parseInt(el.dataset.count);
-    gsap.fromTo(el, { innerText: 0 }, {
-      innerText: target,
-      duration: 1.5,
-      snap: { innerText: 1 },
-      scrollTrigger: { containerAnimation: tl, trigger: panels[0],
-        start: 'left 60%', end: 'left 20%', scrub: false, once: true,
-        onEnter: () => gsap.fromTo(el, { innerText: 0 }, { innerText: target, duration: 1.2, snap: { innerText: 1 } })
+  // Count-up on first panel
+  document.querySelectorAll('[data-count]').forEach(function(el) {
+    var target = parseInt(el.dataset.count);
+    ScrollTrigger.create({
+      containerAnimation: storyTl, trigger: panels[0],
+      start: 'left 60%', once: true,
+      onEnter: function() {
+        gsap.fromTo({ val: 0 }, { val: target },
+          { duration: 1.2, ease: 'power2.out', snap: { val: 1 },
+            onUpdate: function() { el.innerText = Math.round(this.targets()[0].val); }
+          }
+        );
       }
     });
   });
-
-});
-
 } // end story desktop
 
-// ── GSAP SCROLL REVEALS (rest of page) ──
-// Hero is handled by CSS animation, start GSAP from testimonials down
-gsap.utils.toArray('.reveal').forEach((el, i) => {
-  gsap.fromTo(el,
-    { opacity: 0, y: 36 },
-    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-      delay: (i % 3) * 0.1
-    }
-  );
-});
-
-gsap.utils.toArray('.reveal-left').forEach(el => {
-  gsap.fromTo(el,
-    { opacity: 0, x: -40 },
-    { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
-    }
-  );
-});
-
-gsap.utils.toArray('.reveal-right').forEach(el => {
-  gsap.fromTo(el,
-    { opacity: 0, x: 40 },
-    { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
-    }
-  );
-});
-
-// ── GSAP SECTION TITLE PARALLAX ──
-gsap.utils.toArray('.section-title').forEach(el => {
-  gsap.fromTo(el,
-    { y: 20 },
-    { y: -10, ease: 'none',
-      scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 1.5 }
-    }
-  );
-});
-
-// ── PROOF CARDS STAGGER ──
-gsap.fromTo('.proof-card',
-  { opacity: 0, y: 50, scale: 0.97 },
-  { opacity: 1, y: 0, scale: 1, stagger: 0.15, duration: 0.7, ease: 'power2.out',
-    scrollTrigger: { trigger: '.proof-grid', start: 'top 80%', toggleActions: 'play none none none' }
-  }
-);
-
-// ── PRICING CARDS FLIP IN ──
-gsap.fromTo('.pricing-card',
-  { opacity: 0, y: 60, rotateX: 8 },
-  { opacity: 1, y: 0, rotateX: 0, stagger: 0.2, duration: 0.9, ease: 'power3.out',
-    scrollTrigger: { trigger: '.pricing-grid', start: 'top 82%', toggleActions: 'play none none none' }
-  }
-);
-
-
-// ── NAV SCROLL SHRINK + PROGRESS BAR SYNC ──
-document.documentElement.style.setProperty('--nav-h', '64px');
-window.addEventListener('scroll', function() {
-  var nh = window.scrollY > 60 ? '52px' : '64px';
-  document.getElementById('main-nav').style.height = nh;
-  document.documentElement.style.setProperty('--nav-h', nh);
-  var pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-  var bar = document.getElementById('progress-bar');
-  if (bar) bar.style.width = pct + '%';
-}, {passive: true});
-
-// ── DEVICE TOGGLE ──
-function showDevice(device,btn){
-  document.querySelectorAll('.device-toggle button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const laptop=document.getElementById('view-laptop');
-  const mobile=document.getElementById('view-mobile');
-  if(device==='laptop'){laptop.style.display='block';mobile.style.display='none';}
-  else{laptop.style.display='none';mobile.style.display='block';}
-}
-
-// ── HOW IT WORKS STEPPER ──
-function setStep(i,clicked){
-  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.step-vis').forEach(v=>v.classList.remove('active'));
-  clicked.classList.add('active');
-  document.getElementById('vis-'+i).classList.add('active');
-}
-
-// ── VIBE TOGGLE ──
-function toggleVibe(btn){
-  const was=btn.classList.contains('active');
-  document.querySelectorAll('.vibe-btn').forEach(b=>b.classList.remove('active'));
-  if(!was)btn.classList.add('active');
-}
-
-
-
-}); // end window.addEventListener('load')
-</script>
+// ── MARQUEE CLONE ──
+var track = document.getElementById('marquee');
+if (track) track.innerHTML += track.innerHTML;
+}); // end load</script>
 
 <script>
   window.REQUIRED_CODE_ERROR_MESSAGE='Please choose a country code';
