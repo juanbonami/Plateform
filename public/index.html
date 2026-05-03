@@ -210,19 +210,10 @@ nav::before {
 }
 
 /* ── MARQUEE ── */
-.marquee-wrap{border-top:2px solid #0A0A0A;border-bottom:2px solid #0A0A0A;overflow:hidden;max-width:100%;background:#0A0A0A;position:relative;height:64px;}
-.marquee-track{display:flex;gap:0;white-space:nowrap;position:absolute;top:0;left:0;will-change:transform;}
-.marquee-item{font-family:var(--serif);font-size:18px;font-weight:400;color:#FFFFFF;padding:0 32px;border-right:1px solid rgba(255,255,255,0.2);display:inline-flex;align-items:center;height:64px;position:relative;}
-.marquee-item span{color:#FFFFFF;margin-right:8px;opacity:0.5;}
-@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-
-
-100%{transform:translateX(-50%);}}
-
-
-.marquee-track:hover{animation-play-state:paused;}
-
-
+.marquee-wrap{overflow:hidden;width:100%;height:80px;border-top:2px solid #0A0A0A;border-bottom:2px solid #0A0A0A;background:#0A0A0A;position:relative;}
+.marquee-track{display:flex;position:absolute;top:0;left:0;height:80px;animation:marquee-scroll 20s linear infinite;will-change:transform;}
+.marquee-track img{height:80px;width:auto;display:block;flex-shrink:0;}
+@keyframes marquee-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
 /* ── SECTIONS ── */
 section{padding:100px 80px;border-top:0.5px solid var(--border);overflow-x:hidden;}
@@ -1089,19 +1080,9 @@ body.intro-active{overflow:hidden;}
 
 <!-- MARQUEE -->
 <div class="marquee-wrap">
-  <div class="marquee-track" id="marquee">
-    <div class="marquee-item"><span>✦</span> Beautiful websites for any business</div>
-    <div class="marquee-item"><span>✦</span> $79 per month, all included</div>
-    <div class="marquee-item"><span>✦</span> Live in two weeks</div>
-    <div class="marquee-item"><span>✦</span> Free preview in 24 hours</div>
-    <div class="marquee-item"><span>✦</span> Mobile-optimized design</div>
-    <div class="marquee-item"><span>✦</span> Hosting & maintenance included</div>
-    <div class="marquee-item"><span>✦</span> Beautiful websites for any business</div>
-    <div class="marquee-item"><span>✦</span> $79 per month, all included</div>
-    <div class="marquee-item"><span>✦</span> Live in two weeks</div>
-    <div class="marquee-item"><span>✦</span> Free preview in 24 hours</div>
-    <div class="marquee-item"><span>✦</span> Mobile-optimized design</div>
-    <div class="marquee-item"><span>✦</span> Hosting & maintenance included</div>
+  <div class="marquee-track">
+    <img src="marquee-wave.svg" alt="" aria-hidden="true">
+    <img src="marquee-wave.svg" alt="" aria-hidden="true">
   </div>
 </div>
 
@@ -1618,40 +1599,6 @@ window.addEventListener('scroll', function() {
 }, { passive: true });
 
 
-// ── SINE WAVE MARQUEE ──
-(function() {
-  var track = document.getElementById('marquee');
-  if (!track) return;
-  // Clone for seamless loop
-  track.innerHTML += track.innerHTML;
-  
-  var items = track.querySelectorAll('.marquee-item');
-  var totalItems = items.length;
-  var x = 0;
-  var speed = 0.6;
-  var amp = 14;      // wave height in px
-  var freq = 0.012;  // wave frequency
-  var phase = 0;
-  
-  function animate() {
-    x -= speed;
-    phase += 0.018;
-    var trackWidth = track.scrollWidth / 2;
-    if (Math.abs(x) >= trackWidth) x = 0;
-    
-    // Apply horizontal scroll
-    track.style.transform = 'translateX(' + x + 'px)';
-    
-    // Apply sine wave vertical offset to each item
-    items.forEach(function(item, i) {
-      var offset = Math.sin(phase + i * freq * 60) * amp;
-      item.style.transform = 'translateY(' + offset + 'px)';
-    });
-    
-    requestAnimationFrame(animate);
-  }
-  animate();
-})();
 
 </script>
 
