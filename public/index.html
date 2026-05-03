@@ -58,6 +58,14 @@
   --border-med: rgba(0,0,0,0.25);
   --serif: 'Bebas Neue', sans-serif;
   --sans: 'Space Mono', monospace;
+
+  /* ── LETTER ACCENT COLORS — edit these to change all colored letters ── */
+  --ac-white-1: #C0145A;  /* Raspberry — white bg sections, color 1 */
+  --ac-white-2: #007A7A;  /* Teal      — white bg sections, color 2 */
+  --ac-white-3: #CC7A00;  /* Amber     — white bg sections, color 3 */
+  --ac-black-1: #FF2878;  /* Hot Pink  — black bg sections, color 1 */
+  --ac-black-2: #00CCCC;  /* Cyan      — black bg sections, color 2 */
+  --ac-black-3: #FFBB00;  /* Gold      — black bg sections, color 3 */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -71,7 +79,7 @@ html{overflow-x:hidden;max-width:100%;}
 .cursor-ring.hovering{width:50px;height:50px;border-color:var(--accent-gold);}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;display:flex;align-items:center;background:rgba(253,246,237,0.85);backdrop-filter:blur(16px);border-bottom:0.5px solid var(--border);transition:background 0.3s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;overflow:visible;padding:0 40px;height:64px;display:flex;align-items:center;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:none;transition:background 0.3s;}
 .nav-logo{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
 .nav-logo span{color:var(--ink);}
 .nav-links{display:flex;gap:28px;list-style:none;white-space:nowrap;margin:0;padding:0;}
@@ -164,10 +172,33 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;d
 .nav-links li,.nav-links a,.nav-cta{white-space:nowrap;}
 .hero-eyebrow,.section-eyebrow,.intro-label,.story-panel-tag,.intro-tag{white-space:nowrap;}
 
+
+/* ── SCROLL PROGRESS AS NAV BORDER ── */
+nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: var(--scroll-pct, 0%);
+  background: #0A0A0A;
+  z-index: 101;
+}
+nav::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(0,0,0,0.12);
+  z-index: 100;
+}
+
 /* ── MARQUEE ── */
 
 @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-.marquee-wrap{border-top:2px solid #0A0A0A;border-bottom:2px solid #0A0A0A;padding:14px 0;overflow:hidden;max-width:100%;background:#0A0A0A;}
+.marquee-wrap{border-top:2px solid #0A0A0A;border-bottom:none;padding:14px 0;overflow:hidden;max-width:100%;background:#0A0A0A;}
 .marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite;}
 .marquee-track:hover{animation-play-state:paused;}
 .marquee-item{font-family:var(--serif);font-size:18px;font-weight:400;font-style:normal;color:#FFFFFF;padding:0 32px;border-right:1px solid rgba(255,255,255,0.2);letter-spacing:0.06em;}
@@ -281,8 +312,8 @@ section{padding:100px 80px;border-top:0.5px solid var(--border);overflow-x:hidde
 .form-success-sub{font-size:14px;color:var(--ink-mid);line-height:1.7;font-weight:300;}
 
 /* ── PROGRESS BAR ── */
-.scroll-progress{position:fixed;top:var(--nav-h,64px);left:0;right:0;height:2px;background:var(--border);z-index:99;transition:top 0.2s;}
-.scroll-progress-bar{height:100%;background:var(--accent);width:0%;transition:width 0.1s;}
+.scroll-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:transparent;z-index:101;}
+.scroll-progress-bar{height:100%;background:#0A0A0A;width:0%;transition:width 0.1s;}
 
 /* ── FOOTER ── */
 footer{border-top:0.5px solid var(--border);padding:32px 48px;}
@@ -605,10 +636,10 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   section{padding:60px 24px;}
   .steps-visual{display:none;}
   /* Story strip — vertical on mobile */
-  #story-container{height:auto !important;overflow:hidden;max-width:100%;}
-  #story-sticky{position:relative !important;}
-  .story-strip{flex-direction:column !important;width:100% !important;height:auto !important;}
-  .story-panel{width:100% !important;height:auto !important;min-height:auto !important;padding:64px 32px !important;}
+  #story-container{height:auto !important;overflow:visible !important;max-width:100%;}
+  #story-sticky{position:relative !important;height:auto !important;overflow:visible !important;}
+  .story-strip{flex-direction:column !important;width:100% !important;height:auto !important;overflow:visible !important;}
+  .story-panel{width:100% !important;height:auto !important;min-height:0 !important;max-height:none !important;padding:64px 32px !important;overflow:visible !important;display:block !important;}
   .story-progress{display:none;}
   .story-visual{display:none;}
   .scroll-hint{display:none;}
@@ -698,7 +729,7 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .intro-skip{right:14px;top:18px;font-size:10px;padding:5px 10px;}
   .intro-step-dots{top:20px;gap:5px;}
   .intro-cta-row{flex-direction:column;gap:8px;width:100%;margin-top:28px !important;}
-  .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:13px 16px;font-size:11px;}
+  .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:13px 16px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;background:none;color:#FFFFFF;border:2px solid #FFFFFF;cursor:pointer;font-family:var(--sans);border-radius:0;transition:opacity 0.15s;}
 
   /* Intro mobile */
   .intro-slide{padding:72px 20px 36px !important;}
@@ -710,7 +741,7 @@ footer{border-top:0.5px solid var(--border);padding:32px 48px;}
   .intro-skip{right:14px;top:18px;font-size:10px;padding:5px 10px;}
   .intro-step-dots{margin-bottom:20px;}
   .intro-cta-row{flex-direction:column;gap:8px;width:100%;margin-top:28px !important;}
-  .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:13px 16px;font-size:11px;}
+  .intro-btn-enter,.intro-btn-skip-final{width:100%;text-align:center;padding:13px 16px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;background:none;color:#FFFFFF;border:2px solid #FFFFFF;cursor:pointer;font-family:var(--sans);border-radius:0;transition:opacity 0.15s;}
 
   .intro-deco{bottom:16px;font-size:9px;gap:8px;}
   .intro-deco-line{width:16px;}
@@ -854,7 +885,7 @@ body.intro-active{overflow:hidden;}
   <div class="intro-slide active entering" id="slide-0">
     <div class="intro-step-dots" id="dots-0"></div>
     <div class="intro-label">The problem</div>
-    <h1 class="intro-headline">Most local businesses have <em>no website.</em><br>Or one that hurts more than helps.</h1>
+    <h1 class="intro-headline">Most local <span style="color:var(--ac-black-1);">b</span><span style="color:var(--ac-black-2);">u</span><span style="color:var(--ac-black-3);">s</span><span style="color:var(--ac-black-1);">i</span><span style="color:var(--ac-black-2);">n</span><span style="color:var(--ac-black-3);">e</span><span style="color:var(--ac-black-1);">s</span><span style="color:var(--ac-black-2);">s</span><span style="color:var(--ac-black-3);">e</span><span style="color:var(--ac-black-1);">s</span> have <em>no <span style="color:var(--ac-white-3);">w</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">b</span><span style="color:var(--ac-white-3);">s</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">t</span><span style="color:var(--ac-white-3);">e</span>.</em><br>Or one that hurts more than helps.</h1>
     <p class="intro-sub">97% of consumers search online before visiting a local business. A bad website — or none at all — costs you tables every single night.</p>
     <div class="intro-tag"><span class="intro-tag-dot"></span>Your competitors are already online</div>
     <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">01 / 05</div><div class="intro-deco-line"></div></div>
@@ -863,7 +894,7 @@ body.intro-active{overflow:hidden;}
   <div class="intro-slide" id="slide-1">
     <div class="intro-step-dots" id="dots-1"></div>
     <div class="intro-label">The old way</div>
-    <h2 class="intro-headline">Hiring a developer<br>meant <em>$5,000 upfront</em><br>and months of waiting.</h2>
+    <h2 class="intro-headline">Hiring a <span style="color:var(--ac-black-3);">d</span><span style="color:var(--ac-black-1);">e</span><span style="color:var(--ac-black-2);">v</span><span style="color:var(--ac-black-3);">e</span><span style="color:var(--ac-black-1);">l</span><span style="color:var(--ac-black-2);">o</span><span style="color:var(--ac-black-3);">p</span><span style="color:var(--ac-black-1);">e</span><span style="color:var(--ac-black-2);">r</span><br>meant <em>$5,000 <span style="color:var(--ac-white-2);">u</span><span style="color:var(--ac-white-3);">p</span><span style="color:var(--ac-white-1);">f</span><span style="color:var(--ac-white-2);">r</span><span style="color:var(--ac-white-3);">o</span><span style="color:var(--ac-white-1);">n</span><span style="color:var(--ac-white-2);">t</span></em><br>and months of waiting.</h2>
     <p class="intro-sub">Then maintenance fees, hosting bills, and endless back-and-forth every time you needed to update your hours or swap a photo.</p>
     <div class="intro-tag"><span class="intro-tag-dot"></span>Expensive, slow, frustrating</div>
     <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">02 / 05</div><div class="intro-deco-line"></div></div>
@@ -872,7 +903,7 @@ body.intro-active{overflow:hidden;}
   <div class="intro-slide" id="slide-2">
     <div class="intro-step-dots" id="dots-2"></div>
     <div class="intro-label">The solution</div>
-    <h2 class="intro-headline">Plateform.<br>A beautiful website,<br><em>$79 a month.</em></h2>
+    <h2 class="intro-headline"><span style="color:var(--ac-black-1);">P</span><span style="color:var(--ac-black-2);">l</span><span style="color:var(--ac-black-3);">a</span><span style="color:var(--ac-black-1);">t</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">f</span><span style="color:var(--ac-black-1);">o</span><span style="color:var(--ac-black-2);">r</span><span style="color:var(--ac-black-3);">m</span>.<br>A beautiful <span style="color:var(--ac-black-3);">w</span><span style="color:var(--ac-black-1);">e</span><span style="color:var(--ac-black-2);">b</span><span style="color:var(--ac-black-3);">s</span><span style="color:var(--ac-black-1);">i</span><span style="color:var(--ac-black-2);">t</span><span style="color:var(--ac-black-3);">e</span>,<br><em>$79 a <span style="color:var(--ac-white-2);">m</span><span style="color:var(--ac-white-3);">o</span><span style="color:var(--ac-white-1);">n</span><span style="color:var(--ac-white-2);">t</span><span style="color:var(--ac-white-3);">h</span>.</em></h2>
     <p class="intro-sub">We build it, host it, maintain it. You never touch a line of code or think about servers. It just works — like having a full web team on retainer.</p>
     <div class="intro-tag"><span class="intro-tag-dot"></span>No setup stress. No surprise bills.</div>
     <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">03 / 05</div><div class="intro-deco-line"></div></div>
@@ -881,7 +912,7 @@ body.intro-active{overflow:hidden;}
   <div class="intro-slide" id="slide-3">
     <div class="intro-step-dots" id="dots-3"></div>
     <div class="intro-label">How it works</div>
-    <h2 class="intro-headline">Submit → Preview<br>→ <em>Go live.</em><br>In two weeks.</h2>
+    <h2 class="intro-headline"><span style="color:var(--ac-black-1);">S</span><span style="color:var(--ac-black-2);">u</span><span style="color:var(--ac-black-3);">b</span><span style="color:var(--ac-black-1);">m</span><span style="color:var(--ac-black-2);">i</span><span style="color:var(--ac-black-3);">t</span> → <span style="color:var(--ac-black-3);">P</span><span style="color:var(--ac-black-1);">r</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">v</span><span style="color:var(--ac-black-1);">i</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">w</span><br>→ <em>Go <span style="color:var(--ac-white-2);">l</span><span style="color:var(--ac-white-3);">i</span><span style="color:var(--ac-white-1);">v</span><span style="color:var(--ac-white-2);">e</span>.</em><br>In two weeks.</h2>
     <p class="intro-sub">Tell us about your business. We send you a free preview in 24 hours. You approve it, we launch it. Done.</p>
     <div class="intro-tag"><span class="intro-tag-dot"></span>Free preview. No commitment required.</div>
     <div class="intro-deco"><div class="intro-deco-line"></div><div class="intro-deco-num">04 / 05</div><div class="intro-deco-line"></div></div>
@@ -890,7 +921,7 @@ body.intro-active{overflow:hidden;}
   <div class="intro-slide" id="slide-4">
     <div class="intro-step-dots" id="dots-4"></div>
     <div class="intro-label">Ready?</div>
-    <h2 class="intro-headline">Your business<br>deserves a website<br>as good as <em>your work.</em></h2>
+    <h2 class="intro-headline">Your <span style="color:var(--ac-black-1);">b</span><span style="color:var(--ac-black-2);">u</span><span style="color:var(--ac-black-3);">s</span><span style="color:var(--ac-black-1);">i</span><span style="color:var(--ac-black-2);">n</span><span style="color:var(--ac-black-3);">e</span><span style="color:var(--ac-black-1);">s</span><span style="color:var(--ac-black-2);">s</span><br>deserves a <span style="color:var(--ac-black-3);">w</span><span style="color:var(--ac-black-1);">e</span><span style="color:var(--ac-black-2);">b</span><span style="color:var(--ac-black-3);">s</span><span style="color:var(--ac-black-1);">i</span><span style="color:var(--ac-black-2);">t</span><span style="color:var(--ac-black-3);">e</span><br>as good as <em>your <span style="color:var(--ac-black-2);">w</span><span style="color:var(--ac-black-3);">o</span><span style="color:var(--ac-black-1);">r</span><span style="color:var(--ac-black-2);">k</span>.</em></h2>
     <p class="intro-sub">See what your business site could look like — completely free, in 24 hours, no strings attached.</p>
     <div class="intro-cta-row">
       <button class="intro-btn-enter" onclick="exitIntro()">Enter the site →</button>
@@ -905,7 +936,7 @@ body.intro-active{overflow:hidden;}
 <div class="cursor-ring" id="cursor-ring"></div>
 
 <!-- Scroll progress -->
-<div class="scroll-progress"><div class="scroll-progress-bar" id="progress-bar"></div></div>
+
 
 <!-- NAV -->
 <nav id="main-nav">
@@ -926,7 +957,7 @@ body.intro-active{overflow:hidden;}
   <div class="row g-0 align-items-stretch">
   <div class="col-12 col-lg-6 hero-left">
     <div class="hero-eyebrow">Beautiful websites for local businesses</div>
-    <h1 class="hero-h1">Your business deserves a website as good as <em>your work</em></h1>
+    <h1 class="hero-h1">Your <span style="color:var(--ac-white-1);">b</span><span style="color:var(--ac-white-2);">u</span><span style="color:var(--ac-white-3);">s</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">n</span><span style="color:var(--ac-white-3);">e</span><span style="color:var(--ac-white-1);">s</span><span style="color:var(--ac-white-2);">s</span> deserves a <span style="color:var(--ac-white-3);">w</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">b</span><span style="color:var(--ac-white-3);">s</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">t</span><span style="color:var(--ac-white-3);">e</span> as good as <em>your <span style="color:var(--ac-black-2);">w</span><span style="color:var(--ac-black-3);">o</span><span style="color:var(--ac-black-1);">r</span><span style="color:var(--ac-black-2);">k</span></em></h1>
     <p class="hero-sub">We design, host, and maintain a beautiful website for your business — so you never have to think about it. See exactly what yours will look like, free, before committing to anything.</p>
     <div class="hero-actions">
       <a class="btn-primary" href="#preview"><span>See my free preview →</span></a>
@@ -1055,9 +1086,9 @@ body.intro-active{overflow:hidden;}
       <div class="story-panel">
         <div class="story-panel-tag">The reality</div>
         <h2 class="story-panel-title">
-          <span class="split-line">97% of people</span>
-          <span class="split-line">search online before</span>
-          <span class="split-line"><em>before they visit.</em></span>
+          <span class="split-line">97% of <span style="color:var(--ac-white-3);">p</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">o</span><span style="color:var(--ac-white-3);">p</span><span style="color:var(--ac-white-1);">l</span><span style="color:var(--ac-white-2);">e</span></span>
+          <span class="split-line"><span style="color:var(--ac-white-1);">s</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">a</span><span style="color:var(--ac-white-1);">r</span><span style="color:var(--ac-white-2);">c</span><span style="color:var(--ac-white-3);">h</span> online before</span>
+          <span class="split-line"><em>before they <span style="color:var(--ac-black-2);">v</span><span style="color:var(--ac-black-3);">i</span><span style="color:var(--ac-black-1);">s</span><span style="color:var(--ac-black-2);">i</span><span style="color:var(--ac-black-3);">t</span>.</em></span>
         </h2>
         <p class="story-panel-body">If they can't find you — or worse, find something outdated and broken — they go somewhere else. Every day without a great website is revenue walking out the door.</p>
         <div class="story-panel-stat">
@@ -1079,9 +1110,9 @@ body.intro-active{overflow:hidden;}
       <div class="story-panel">
         <div class="story-panel-tag">The old way</div>
         <h2 class="story-panel-title">
-          <span class="split-line">Hiring a developer</span>
-          <span class="split-line">used to mean</span>
-          <span class="split-line"><em>$5,000 upfront.</em></span>
+          <span class="split-line">Hiring a <span style="color:var(--ac-white-2);">d</span><span style="color:var(--ac-white-3);">e</span><span style="color:var(--ac-white-1);">v</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">l</span><span style="color:var(--ac-white-1);">o</span><span style="color:var(--ac-white-2);">p</span><span style="color:var(--ac-white-3);">e</span><span style="color:var(--ac-white-1);">r</span></span>
+          <span class="split-line">used to <span style="color:var(--ac-white-1);">m</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">a</span><span style="color:var(--ac-white-1);">n</span></span>
+          <span class="split-line"><em>$5,000 <span style="color:var(--ac-black-3);">u</span><span style="color:var(--ac-black-1);">p</span><span style="color:var(--ac-black-2);">f</span><span style="color:var(--ac-black-3);">r</span><span style="color:var(--ac-black-1);">o</span><span style="color:var(--ac-black-2);">n</span><span style="color:var(--ac-black-3);">t</span>.</em></span>
         </h2>
         <p class="story-panel-body">Then months of waiting, ongoing maintenance fees, and a back-and-forth every time you needed a small update. Most small business owners gave up before they even started.</p>
         <div class="story-panel-stat">
@@ -1102,9 +1133,9 @@ body.intro-active{overflow:hidden;}
       <div class="story-panel">
         <div class="story-panel-tag">The new way</div>
         <h2 class="story-panel-title">
-          <span class="split-line">Plateform.</span>
-          <span class="split-line">Beautiful. Maintained.</span>
-          <span class="split-line"><em>$79 a month.</em></span>
+          <span class="split-line"><span style="color:var(--ac-black-1);">P</span><span style="color:var(--ac-black-2);">l</span><span style="color:var(--ac-black-3);">a</span><span style="color:var(--ac-black-1);">t</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">f</span><span style="color:var(--ac-black-1);">o</span><span style="color:var(--ac-black-2);">r</span><span style="color:var(--ac-black-3);">m</span>.</span>
+          <span class="split-line"><span style="color:var(--ac-black-3);">B</span><span style="color:var(--ac-black-1);">e</span><span style="color:var(--ac-black-2);">a</span><span style="color:var(--ac-black-3);">u</span><span style="color:var(--ac-black-1);">t</span><span style="color:var(--ac-black-2);">i</span><span style="color:var(--ac-black-3);">f</span><span style="color:var(--ac-black-1);">u</span><span style="color:var(--ac-black-2);">l</span>. <span style="color:var(--ac-black-2);">M</span><span style="color:var(--ac-black-3);">a</span><span style="color:var(--ac-black-1);">i</span><span style="color:var(--ac-black-2);">n</span><span style="color:var(--ac-black-3);">t</span><span style="color:var(--ac-black-1);">a</span><span style="color:var(--ac-black-2);">i</span><span style="color:var(--ac-black-3);">n</span><span style="color:var(--ac-black-1);">e</span><span style="color:var(--ac-black-2);">d</span>.</span>
+          <span class="split-line"><em>$79 a <span style="color:var(--ac-white-1);">m</span><span style="color:var(--ac-white-2);">o</span><span style="color:var(--ac-white-3);">n</span><span style="color:var(--ac-white-1);">t</span><span style="color:var(--ac-white-2);">h</span>.</em></span>
         </h2>
         <p class="story-panel-body">We design it, host it, maintain it. You get a professional website without touching a line of code or worrying about servers — ever.</p>
         <div class="story-panel-stat">
@@ -1123,11 +1154,11 @@ body.intro-active{overflow:hidden;}
 
       <!-- Panel 4: Process -->
       <div class="story-panel">
-        <div class="story-panel-tag">The process</div>
+        <div class="story-panel-tag">The <span style="color:var(--ac-white-3);">p</span><span style="color:var(--ac-white-1);">r</span><span style="color:var(--ac-white-2);">o</span><span style="color:var(--ac-white-3);">c</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">s</span><span style="color:var(--ac-white-3);">s</span></div>
         <h2 class="story-panel-title">
-          <span class="split-line">Submit. Preview.</span>
-          <span class="split-line"><em>Go live.</em></span>
-          <span class="split-line">In two weeks.</span>
+          <span class="split-line"><span style="color:var(--ac-white-1);">S</span><span style="color:var(--ac-white-2);">u</span><span style="color:var(--ac-white-3);">b</span><span style="color:var(--ac-white-1);">m</span><span style="color:var(--ac-white-2);">i</span><span style="color:var(--ac-white-3);">t</span>. <span style="color:var(--ac-white-3);">P</span><span style="color:var(--ac-white-1);">r</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">v</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">w</span>.</span>
+          <span class="split-line"><em>Go <span style="color:var(--ac-black-2);">l</span><span style="color:var(--ac-black-3);">i</span><span style="color:var(--ac-black-1);">v</span><span style="color:var(--ac-black-2);">e</span>.</em></span>
+          <span class="split-line">In two <span style="color:var(--ac-white-1);">w</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">e</span><span style="color:var(--ac-white-1);">k</span><span style="color:var(--ac-white-2);">s</span>.</span>
         </h2>
         <p class="story-panel-body">Tell us about your business in five minutes. We send you a free live preview in 24 hours. You approve it, we launch it. From there, we handle everything.</p>
         <div class="story-panel-stat">
@@ -1148,9 +1179,9 @@ body.intro-active{overflow:hidden;}
       <div class="story-panel">
         <div class="story-panel-tag">Your turn</div>
         <h2 class="story-panel-title">
-          <span class="split-line">Ready to see</span>
-          <span class="split-line">what your business</span>
-          <span class="split-line">could <em>look like?</em></span>
+          <span class="split-line"><span style="color:var(--ac-black-1);">R</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">a</span><span style="color:var(--ac-black-1);">d</span><span style="color:var(--ac-black-2);">y</span> to see</span>
+          <span class="split-line">what your <span style="color:var(--ac-black-3);">b</span><span style="color:var(--ac-black-1);">u</span><span style="color:var(--ac-black-2);">s</span><span style="color:var(--ac-black-3);">i</span><span style="color:var(--ac-black-1);">n</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">s</span><span style="color:var(--ac-black-1);">s</span></span>
+          <span class="split-line">could <em><span style="color:var(--ac-white-2);">l</span><span style="color:var(--ac-white-3);">o</span><span style="color:var(--ac-white-1);">o</span><span style="color:var(--ac-white-2);">k</span> like?</em></span>
         </h2>
         <p class="story-panel-body">We'll build you a free, live preview using your business name, colors, and services — no payment, no commitment. Just see it first.</p>
         <div style="margin-top:40px;display:flex;gap:16px;flex-wrap:wrap;">
@@ -1176,56 +1207,56 @@ body.intro-active{overflow:hidden;}
 
 <!-- SOCIAL PROOF -->
 <section id="testimonials">
-  <div class="section-eyebrow reveal">What business owners say</div>
-  <h2 class="section-title reveal">Our clients <em>speak for us</em></h2>
+  <div class="section-eyebrow reveal">What <span style="color:var(--ac-white-2);">b</span><span style="color:var(--ac-white-3);">u</span><span style="color:var(--ac-white-1);">s</span><span style="color:var(--ac-white-2);">i</span><span style="color:var(--ac-white-3);">n</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">s</span><span style="color:var(--ac-white-3);">s</span> owners say</div>
+  <h2 class="section-title reveal">Our <span style="color:var(--ac-white-1);">c</span><span style="color:var(--ac-white-2);">l</span><span style="color:var(--ac-white-3);">i</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">n</span><span style="color:var(--ac-white-3);">t</span><span style="color:var(--ac-white-1);">s</span> <em><span style="color:var(--ac-black-3);">s</span><span style="color:var(--ac-black-1);">p</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">a</span><span style="color:var(--ac-black-1);">k</span> for us</em></h2>
   <div class="row g-0 proof-grid reveal">
     <div class="col-12 col-md-4 proof-card">
       <p class="proof-quote">"We'd been meaning to get a website for three years. Plateform had us live in two weeks — and it looks better than competitors with ten times our budget."</p>
-      <div class="proof-author"><span class="proof-name">Maria Conti</span><span class="proof-place">Hair Studio Conti, Austin TX</span></div>
+      <div class="proof-author"><span class="proof-name">Maria <span style="color:var(--ac-white-3);">C</span><span style="color:var(--ac-white-1);">o</span><span style="color:var(--ac-white-2);">n</span><span style="color:var(--ac-white-3);">t</span><span style="color:var(--ac-white-1);">i</span></span><span class="proof-place">Hair Studio Conti, Austin TX</span></div>
     </div>
     <div class="col-12 col-md-4 proof-card">
       <p class="proof-quote">"I was skeptical about paying monthly, but I haven't thought about the website since they launched it. It just works — like having a full-time web team for less than a daily coffee."</p>
-      <div class="proof-author"><span class="proof-name">James Okafor</span><span class="proof-place">Heron Fitness, Nashville TN</span></div>
+      <div class="proof-author"><span class="proof-name">James <span style="color:var(--ac-white-1);">O</span><span style="color:var(--ac-white-2);">k</span><span style="color:var(--ac-white-3);">a</span><span style="color:var(--ac-white-1);">f</span><span style="color:var(--ac-white-2);">o</span><span style="color:var(--ac-white-3);">r</span></span><span class="proof-place">Heron Fitness, Nashville TN</span></div>
     </div>
     <div class="col-12 col-md-4 proof-card">
       <p class="proof-quote">"Clients tell us constantly that they found us because our website looked so professional. New enquiries have gone up since we launched."</p>
-      <div class="proof-author"><span class="proof-name">Sophie Lamarque</span><span class="proof-place">Lumière Law, Portland OR</span></div>
+      <div class="proof-author"><span class="proof-name">Sophie <span style="color:var(--ac-white-2);">L</span><span style="color:var(--ac-white-3);">a</span><span style="color:var(--ac-white-1);">m</span><span style="color:var(--ac-white-2);">a</span><span style="color:var(--ac-white-3);">r</span><span style="color:var(--ac-white-1);">q</span><span style="color:var(--ac-white-2);">u</span><span style="color:var(--ac-white-3);">e</span></span><span class="proof-place">Lumière Law, Portland OR</span></div>
     </div>
   </div><!-- row proof -->
 </section>
 
 <!-- HOW IT WORKS -->
 <section id="how-it-works">
-  <div class="section-eyebrow reveal">The process</div>
-  <h2 class="section-title reveal">From conversation to <em>live in two weeks</em></h2>
+  <div class="section-eyebrow reveal">The <span style="color:var(--ac-white-3);">p</span><span style="color:var(--ac-white-1);">r</span><span style="color:var(--ac-white-2);">o</span><span style="color:var(--ac-white-3);">c</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">s</span><span style="color:var(--ac-white-3);">s</span></div>
+  <h2 class="section-title reveal">From <span style="color:var(--ac-white-1);">c</span><span style="color:var(--ac-white-2);">o</span><span style="color:var(--ac-white-3);">n</span><span style="color:var(--ac-white-1);">v</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">r</span><span style="color:var(--ac-white-1);">s</span><span style="color:var(--ac-white-2);">a</span><span style="color:var(--ac-white-3);">t</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">o</span><span style="color:var(--ac-white-3);">n</span> to <em>live in two <span style="color:var(--ac-black-3);">w</span><span style="color:var(--ac-black-1);">e</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">k</span><span style="color:var(--ac-black-1);">s</span></em></h2>
   <p class="section-sub reveal">No tech knowledge needed. No big upfront cost. Three straightforward steps.</p>
   <div class="row g-0 steps-layout">
     <div class="col-12 col-lg-6 steps-list reveal-left">
       <div class="step active" onclick="setStep(0,this)">
         <span class="step-num">01</span>
         <div class="step-content">
-          <div class="step-title">Submit your details</div>
+          <div class="step-title"><span style="color:var(--ac-white-1);">S</span><span style="color:var(--ac-white-2);">u</span><span style="color:var(--ac-white-3);">b</span><span style="color:var(--ac-white-1);">m</span><span style="color:var(--ac-white-2);">i</span><span style="color:var(--ac-white-3);">t</span> your <span style="color:var(--ac-white-3);">d</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">t</span><span style="color:var(--ac-white-3);">a</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">l</span><span style="color:var(--ac-white-3);">s</span></div>
           <div class="step-desc">Fill out a short form with your business name, colors, logo, and key services. Takes about five minutes.</div>
         </div>
       </div>
       <div class="step" onclick="setStep(1,this)">
         <span class="step-num">02</span>
         <div class="step-content">
-          <div class="step-title">Receive your free preview</div>
+          <div class="step-title"><span style="color:var(--ac-white-1);">R</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">c</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">i</span><span style="color:var(--ac-white-3);">v</span><span style="color:var(--ac-white-1);">e</span> your free <span style="color:var(--ac-white-3);">p</span><span style="color:var(--ac-white-1);">r</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">v</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">w</span></div>
           <div class="step-desc">Within 24 hours we send you a live link showing exactly what your website will look like — on desktop and mobile.</div>
         </div>
       </div>
       <div class="step" onclick="setStep(2,this)">
         <span class="step-num">03</span>
         <div class="step-content">
-          <div class="step-title">Approve and go live</div>
+          <div class="step-title"><span style="color:var(--ac-white-2);">A</span><span style="color:var(--ac-white-3);">p</span><span style="color:var(--ac-white-1);">p</span><span style="color:var(--ac-white-2);">r</span><span style="color:var(--ac-white-3);">o</span><span style="color:var(--ac-white-1);">v</span><span style="color:var(--ac-white-2);">e</span> and go <span style="color:var(--ac-white-1);">l</span><span style="color:var(--ac-white-2);">i</span><span style="color:var(--ac-white-3);">v</span><span style="color:var(--ac-white-1);">e</span></div>
           <div class="step-desc">Love it? We connect your domain and launch. Your site is live within two weeks, and we handle everything from there.</div>
         </div>
       </div>
       <div class="step" onclick="setStep(3,this)">
         <span class="step-num">04</span>
         <div class="step-content">
-          <div class="step-title">We maintain it forever</div>
+          <div class="step-title">We <span style="color:var(--ac-white-3);">m</span><span style="color:var(--ac-white-1);">a</span><span style="color:var(--ac-white-2);">i</span><span style="color:var(--ac-white-3);">n</span><span style="color:var(--ac-white-1);">t</span><span style="color:var(--ac-white-2);">a</span><span style="color:var(--ac-white-3);">i</span><span style="color:var(--ac-white-1);">n</span> it <span style="color:var(--ac-white-2);">f</span><span style="color:var(--ac-white-3);">o</span><span style="color:var(--ac-white-1);">r</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">v</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">r</span></div>
           <div class="step-desc">Hosting, backups, security updates, and small content changes — all included in your monthly subscription.</div>
         </div>
       </div>
@@ -1261,12 +1292,12 @@ body.intro-active{overflow:hidden;}
 
 <!-- PRICING -->
 <section id="pricing">
-  <div class="section-eyebrow reveal">Simple pricing</div>
-  <h2 class="section-title reveal">No surprises. <em>Ever.</em></h2>
+  <div class="section-eyebrow reveal">Simple <span style="color:var(--ac-white-1);">p</span><span style="color:var(--ac-white-2);">r</span><span style="color:var(--ac-white-3);">i</span><span style="color:var(--ac-white-1);">c</span><span style="color:var(--ac-white-2);">i</span><span style="color:var(--ac-white-3);">n</span><span style="color:var(--ac-white-1);">g</span></div>
+  <h2 class="section-title reveal">No <span style="color:var(--ac-white-1);">s</span><span style="color:var(--ac-white-2);">u</span><span style="color:var(--ac-white-3);">r</span><span style="color:var(--ac-white-1);">p</span><span style="color:var(--ac-white-2);">r</span><span style="color:var(--ac-white-3);">i</span><span style="color:var(--ac-white-1);">s</span><span style="color:var(--ac-white-2);">e</span><span style="color:var(--ac-white-3);">s</span>. <em><span style="color:var(--ac-black-3);">E</span><span style="color:var(--ac-black-1);">v</span><span style="color:var(--ac-black-2);">e</span><span style="color:var(--ac-black-3);">r</span>.</em></h2>
   <p class="section-sub reveal">One setup fee, one monthly subscription. Works for any type of local business.</p>
   <div class="row g-3 pricing-grid">
     <div class="col-12 col-md-6 reveal-left"><div class="pricing-card h-100">
-      <div class="pricing-tier">Starter</div>
+      <div class="pricing-tier"><span style="color:var(--ac-white-1);">S</span><span style="color:var(--ac-white-2);">t</span><span style="color:var(--ac-white-3);">a</span><span style="color:var(--ac-white-1);">r</span><span style="color:var(--ac-white-2);">t</span><span style="color:var(--ac-white-3);">e</span><span style="color:var(--ac-white-1);">r</span></div>
       <div class="pricing-price">$79</div>
       <div class="pricing-period">per month</div>
       <div class="pricing-setup">+ $249 one-time setup fee</div>
@@ -1283,7 +1314,7 @@ body.intro-active{overflow:hidden;}
     </div></div>
     <div class="col-12 col-md-6 reveal-right"><div class="pricing-card featured h-100">
       <div class="pricing-badge">Most popular</div>
-      <div class="pricing-tier">Pro</div>
+      <div class="pricing-tier"><span style="color:var(--ac-white-3);">P</span><span style="color:var(--ac-white-1);">r</span><span style="color:var(--ac-white-2);">o</span></div>
       <div class="pricing-price">$129</div>
       <div class="pricing-period">per month</div>
       <div class="pricing-setup">+ $299 one-time setup fee</div>
@@ -1297,7 +1328,7 @@ body.intro-active{overflow:hidden;}
       </ul>
       <a class="pricing-cta" href="#preview"><span>Get my free preview</span></a>
     </div></div>
-  </div><!-- row pricing -->
+  <!-- row pricing -->
   <p class="pricing-note reveal">Both plans require a 3-month minimum commitment, then month-to-month. Additional content changes billed at $50/hr.</p>
 </section>
 
@@ -1305,8 +1336,8 @@ body.intro-active{overflow:hidden;}
 <section id="preview">
   <div class="row g-5 form-layout">
     <div class="col-12 col-lg-6 form-left">
-      <div class="section-eyebrow reveal">Free preview</div>
-      <h2 class="section-title reveal">See your business website <em>before you commit</em></h2>
+      <div class="section-eyebrow reveal">Free <span style="color:var(--ac-white-2);">p</span><span style="color:var(--ac-white-3);">r</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">v</span><span style="color:var(--ac-white-3);">i</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">w</span></div>
+      <h2 class="section-title reveal">See your <span style="color:var(--ac-white-1);">b</span><span style="color:var(--ac-white-2);">u</span><span style="color:var(--ac-white-3);">s</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">n</span><span style="color:var(--ac-white-3);">e</span><span style="color:var(--ac-white-1);">s</span><span style="color:var(--ac-white-2);">s</span> <span style="color:var(--ac-white-3);">w</span><span style="color:var(--ac-white-1);">e</span><span style="color:var(--ac-white-2);">b</span><span style="color:var(--ac-white-3);">s</span><span style="color:var(--ac-white-1);">i</span><span style="color:var(--ac-white-2);">t</span><span style="color:var(--ac-white-3);">e</span> <em>before you <span style="color:var(--ac-black-2);">c</span><span style="color:var(--ac-black-3);">o</span><span style="color:var(--ac-black-1);">m</span><span style="color:var(--ac-black-2);">m</span><span style="color:var(--ac-black-3);">i</span><span style="color:var(--ac-black-1);">t</span></em></h2>
       <p class="section-sub reveal">Fill in a short form and we'll send you a live, scrollable preview within 24 hours. No payment, no obligation.</p>
       <div class="form-promise reveal">
         <div class="promise-item">
@@ -1544,6 +1575,19 @@ function setStep(i, clicked) {
   var vis = document.getElementById('vis-' + i);
   if (vis) vis.classList.add('active');
 }
+
+// ── NAV SCROLL SHRINK + PROGRESS BAR ──
+document.documentElement.style.setProperty('--nav-h', '66px');
+document.documentElement.style.setProperty('--scroll-pct', '0%');
+window.addEventListener('scroll', function() {
+  var nav = document.getElementById('main-nav');
+  var nh = window.scrollY > 60 ? '54px' : '66px';
+  if (nav) nav.style.height = nh;
+  document.documentElement.style.setProperty('--nav-h', nh);
+  var pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.documentElement.style.setProperty('--scroll-pct', Math.min(pct, 100) + '%');
+}, { passive: true });
+
 </script>
 
 <script>window.addEventListener('load', function() {
@@ -1616,14 +1660,35 @@ var splitWords = function(el) {
         h1.appendChild(span);
         allChars.push(span);
       });
+    } else if (node.nodeName === 'SPAN' && node.style && node.style.color) {
+      // Colored letter span — preserve the color
+      var span = document.createElement('span');
+      span.className = 'char';
+      span.style.display = 'inline-block';
+      span.style.color = node.style.color;
+      span.textContent = node.textContent;
+      h1.appendChild(span);
+      allChars.push(span);
     } else if (node.nodeName === 'EM') {
-      node.textContent.split('').forEach(function(ch) {
-        var span = document.createElement('span');
-        span.className = 'char';
-        span.style.cssText = 'font-style:italic;color:var(--accent);display:inline-block;';
-        span.textContent = (ch === ' ') ? String.fromCharCode(160) : ch;
-        h1.appendChild(span);
-        allChars.push(span);
+      // Process em children to preserve colored spans inside em
+      node.childNodes.forEach(function(child) {
+        if (child.nodeType === 3) {
+          child.textContent.split('').forEach(function(ch) {
+            var span = document.createElement('span');
+            span.className = 'char';
+            span.style.cssText = 'font-style:italic;display:inline-block;';
+            span.textContent = (ch === ' ') ? String.fromCharCode(160) : ch;
+            h1.appendChild(span);
+            allChars.push(span);
+          });
+        } else if (child.nodeName === 'SPAN' && child.style && child.style.color) {
+          var span = document.createElement('span');
+          span.className = 'char';
+          span.style.cssText = 'font-style:italic;display:inline-block;color:' + child.style.color + ';';
+          span.textContent = child.textContent;
+          h1.appendChild(span);
+          allChars.push(span);
+        }
       });
     } else if (node.nodeName === 'BR') {
       h1.appendChild(document.createElement('br'));
