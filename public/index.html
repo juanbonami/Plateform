@@ -179,10 +179,24 @@ nav::after {
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 2px;
+  height: 3px;
   width: var(--scroll-pct, 0%);
-  background: #0A0A0A;
+  background: linear-gradient(
+    90deg,
+    var(--ac-white-1) 0%,
+    var(--ac-black-2) 25%,
+    var(--ac-white-3) 50%,
+    var(--ac-black-1) 75%,
+    var(--ac-white-2) 100%
+  );
+  background-size: 200% 100%;
+  animation: bar-shift 3s linear infinite;
   z-index: 101;
+  transition: width 0.1s linear;
+}
+@keyframes bar-shift {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
 }
 nav::before {
   content: '';
@@ -190,19 +204,25 @@ nav::before {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: rgba(0,0,0,0.12);
+  height: 3px;
+  background: rgba(0,0,0,0.08);
   z-index: 100;
 }
 
 /* ── MARQUEE ── */
-
-@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-.marquee-wrap{border-top:2px solid #0A0A0A;border-bottom:none;padding:14px 0;overflow:hidden;max-width:100%;background:#0A0A0A;}
-.marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite;}
-.marquee-track:hover{animation-play-state:paused;}
-.marquee-item{font-family:var(--serif);font-size:18px;font-weight:400;font-style:normal;color:#FFFFFF;padding:0 32px;border-right:1px solid rgba(255,255,255,0.2);letter-spacing:0.06em;}
+.marquee-wrap{border-top:2px solid #0A0A0A;border-bottom:2px solid #0A0A0A;overflow:hidden;max-width:100%;background:#0A0A0A;position:relative;height:64px;}
+.marquee-track{display:flex;gap:0;white-space:nowrap;position:absolute;top:0;left:0;will-change:transform;}
+.marquee-item{font-family:var(--serif);font-size:18px;font-weight:400;color:#FFFFFF;padding:0 32px;border-right:1px solid rgba(255,255,255,0.2);display:inline-flex;align-items:center;height:64px;position:relative;}
 .marquee-item span{color:#FFFFFF;margin-right:8px;opacity:0.5;}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+
+100%{transform:translateX(-50%);}}
+
+
+.marquee-track:hover{animation-play-state:paused;}
+
+
 
 /* ── SECTIONS ── */
 section{padding:100px 80px;border-top:0.5px solid var(--border);overflow-x:hidden;}
@@ -1588,6 +1608,42 @@ window.addEventListener('scroll', function() {
   document.documentElement.style.setProperty('--scroll-pct', Math.min(pct, 100) + '%');
 }, { passive: true });
 
+
+// ── SINE WAVE MARQUEE ──
+(function() {
+  var track = document.getElementById('marquee');
+  if (!track) return;
+  // Clone for seamless loop
+  track.innerHTML += track.innerHTML;
+  
+  var items = track.querySelectorAll('.marquee-item');
+  var totalItems = items.length;
+  var x = 0;
+  var speed = 0.6;
+  var amp = 14;      // wave height in px
+  var freq = 0.012;  // wave frequency
+  var phase = 0;
+  
+  function animate() {
+    x -= speed;
+    phase += 0.018;
+    var trackWidth = track.scrollWidth / 2;
+    if (Math.abs(x) >= trackWidth) x = 0;
+    
+    // Apply horizontal scroll
+    track.style.transform = 'translateX(' + x + 'px)';
+    
+    // Apply sine wave vertical offset to each item
+    items.forEach(function(item, i) {
+      var offset = Math.sin(phase + i * freq * 60) * amp;
+      item.style.transform = 'translateY(' + offset + 'px)';
+    });
+    
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
 </script>
 
 <script>window.addEventListener('load', function() {
@@ -1936,9 +1992,7 @@ if (window.innerWidth > 960) {
   });
 } // end story desktop
 
-// ── MARQUEE CLONE ──
-var track = document.getElementById('marquee');
-if (track) track.innerHTML += track.innerHTML;
+// marquee handled in intro block
 }); // end load</script>
 
 <script>
